@@ -17,7 +17,7 @@ banyo_sayisi: 1
 balkon: Var
 opark: açık otopark
 aidat: "250"
-image: /images/whatsapp-image-2026-07-24-at-13.03.37.jpeg
+image: /images/whatsapp-image-2026-07-24-at-13.03.37-2-.jpeg
 ---
 
 **ALA GAYRİMENKULDEN**
