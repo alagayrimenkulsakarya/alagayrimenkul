@@ -1,30 +1,57 @@
 backend:
-  name: github
-  repo: alagayrimenkul/alagayrimenkul.com.tr  # Kendi repository adın
+  name: git-gateway
   branch: main
 
-media_folder: "images"
-public_folder: "/images"
+media_folder: "site/images"
+public_folder: "images"
 
 collections:
   - name: "ilanlar"
     label: "Portföy / İlanlar"
-    folder: "_ilanlar"
+    folder: "content/ilanlar"
     create: true
     slug: "{{slug}}"
     fields:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
-      - {label: "Kategori", name: "kategori", widget: "select", options: ["Konut - Daire", "Konut - Müstakil Ev", "Konut - Villa", "Konut - Apartman", "Arsa", "Tarla", "Ticari - Dükkan / Ofis", "Sanayi Arsası"]}
-      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık", "Günlük Kiralık"]}
-      - {label: "Fiyat (Örn: 2.250.000 TL)", name: "fiyat", widget: "string"}
-      - {label: "İlan Numarası (İsteğe bağlı)", name: "ilanno", widget: "string", required: false}
       - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
-      - {label: "Tanıtım Videosu (İsteğe bağlı)", name: "video", widget: "file", required: false}
-      - {label: "Adapazarı / İlçe / Mahalle", name: "konum", widget: "string"}
-      - {label: "Oda Sayısı (Örn: 3+1)", name: "odasayisi", widget: "string", required: false}
+      - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
+      
+      # Ana Durum ve Kategori Seçimleri
+      - label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]
+      - label: "Kategori", name: "kategori", widget: "select", options: [
+          "Daire", 
+          "Müstakil Ev", 
+          "Apartman", 
+          "Villa", 
+          "Arsa", 
+          "Tarla", 
+          "Sanayi Arsası", 
+          "Ticari Arsa", 
+          "Büro / Ofis"
+        ]
+      
+      - {label: "Fiyat", name: "fiyat", widget: "string"}
+      - {label: "Para Birimi", name: "parabirimi", widget: "select", options: ["TL", "USD", "EUR", "GBP"]}
+      
+      # Genel / Konut & Ofis Alanları
       - {label: "Brüt m²", name: "brut", widget: "string", required: false}
       - {label: "Net m²", name: "net", widget: "string", required: false}
-      - {label: "Bina Yaşı", name: "binayasi", widget: "string", required: false}
+      - {label: "Oda Sayısı (Daire, Villa, Ofis için)", name: "odasayisi", widget: "select", options: ["Seçiniz", "1+0", "1+1", "2+1", "3+1", "4+1", "4+2", "5+1", "5+2", "6+1 ve üzeri"], required: false}
+      - {label: "Bina Yaşı", name: "binayasi", widget: "select", options: ["Seçiniz", "0 (Yeni)", "1", "2", "3", "4", "5-10 arası", "11-15 arası", "16-20 arası", "21 ve üzeri"], required: false}
       - {label: "Bulunduğu Kat", name: "kat", widget: "string", required: false}
-      - {label: "Isıtma", name: "isitma", widget: "string", required: false}
+      - {label: "Kat Sayısı", name: "katsayisi", widget: "string", required: false}
+      - {label: "Isıtma", name: "string", name: "isitma", widget: "string", required: false}
+      
+      # Arsa & Tarla Alanları
+      - {label: "İmar Durumu (Arsa/Tarla için)", name: "imardurumu", widget: "string", required: false}
+      - {label: "Parsel No", name: "parsel", widget: "string", required: false}
+      - {label: "Ada No", name: "ada", widget: "string", required: false}
+      
+      # Konum ve Adres Bilgileri
+      - {label: "İl", name: "il", widget: "string", default: "Sakarya"}
+      - {label: "İlçe (Adapazarı, Serdivan, Erenler, Arifiye vb.)", name: "ilce", widget: "string"}
+      - {label: "Mahalle", name: "mahalle", widget: "string", required: false}
+      - {label: "İlan No", name: "ilanno", widget: "string", required: false}
+      
+      # Detaylı Açıklama
       - {label: "Geniş İlan Açıklaması", name: "body", widget: "markdown"}
