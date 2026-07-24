@@ -18,6 +18,7 @@
 </head>
 <body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
+    <!-- HEADER / MENÜ -->
     <header class="bg-[#0b0f19]/90 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
@@ -50,6 +51,7 @@
         </div>
     </header>
 
+    <!-- SAYFA BAŞLIĞI -->
     <section class="page-hero py-12 border-b border-slate-800">
         <div class="max-w-4xl mx-auto px-4 text-center">
             <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
@@ -61,6 +63,7 @@
         </div>
     </section>
 
+    <!-- KATEGORİ FİLTRELEME BUTONLARI -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <div class="flex flex-wrap gap-2 justify-center">
             <button onclick="filterPortfoy('hepsi')" class="filter-btn active bg-amber-500 text-slate-950 font-extrabold px-5 py-2.5 rounded-xl text-xs transition shadow-md">Tümü</button>
@@ -70,147 +73,62 @@
         </div>
     </div>
 
+    <!-- İÇERİK / İLANLAR LİSTESİ -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-grow">
         
-        <div id="loadingText" class="text-center py-20 text-slate-400 text-sm">
-            <i class="fa-solid fa-spinner fa-spin text-amber-500 text-2xl mb-3"></i>
-            <p>Portföyler yükleniyor, lütfen bekleyin...</p>
-        </div>
-
+        <!-- İlanların Dizileceği Grid Alanı (Şu anki gerçek ilanımız elle eklenmiştir, panelden eklendikçe otomatik çoğalacaktır) -->
         <div id="portfoyGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- SAKARYA CADDESİ 3+1 DAİRE İLANI -->
+            <div class="portfoy-item konut bg-[#131b2e] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between group hover:border-amber-500/50 transition">
+                <div>
+                    <div class="relative h-52 overflow-hidden bg-slate-900">
+                        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop" alt="Sakarya Caddesinde Satılık 3+1 Daire" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-3 left-3 bg-blue-500 text-white font-black text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">Satılık Daire</span>
+                        <span class="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur-md text-amber-400 font-black text-xs px-3 py-1.5 rounded-xl">2.250.000 TL</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center justify-between text-slate-400 text-xs">
+                            <span class="flex items-center space-x-1.5">
+                                <i class="fa-solid fa-location-dot text-amber-500"></i>
+                                <span>Adapazarı / Sakarya</span>
+                            </span>
+                            <span class="bg-slate-900 px-2.5 py-1 rounded-md text-slate-300 font-medium border border-slate-800">
+                                <i class="fa-solid fa-user-tie text-amber-500 mr-1"></i> Yusuf İşçi
+                            </span>
+                        </div>
+                        <h3 class="text-white font-extrabold text-base leading-snug group-hover:text-amber-400 transition">
+                            Sakarya Caddesinde Satılık 3+1 Daire
+                        </h3>
+                        <p class="text-slate-400 text-xs line-clamp-2 leading-relaxed">
+                            Tepekum mahallesinde, 130 m² brüt, 110 m² net kullanım alanına sahip 3+1 daire fırsatı.
+                        </p>
+                    </div>
+                </div>
+                <div class="p-6 pt-0 space-y-2">
+                    <a href="https://wa.me/905324075338?text=Merhaba,%20Sakarya%20Caddesinde%20Sat%C4%B1l%C4%B1k%203+1%20Daire%20ilan%C4%B1n%C4%B1z%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" class="w-full bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 font-extrabold py-3 rounded-xl transition text-xs flex items-center justify-center space-x-2 border border-emerald-500/20">
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span>WhatsApp ile Bilgi Al</span>
+                    </a>
+                    <a href="tel:+905324075338" class="w-full bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white font-extrabold py-3 rounded-xl transition text-xs flex items-center justify-center space-x-2 border border-blue-600/20">
+                        <i class="fa-solid fa-phone-alt"></i>
+                        <span>Hemen Ara (Yusuf İşçi)</span>
+                    </a>
+                </div>
             </div>
+
+        </div>
 
     </main>
 
+    <!-- FOOTER -->
     <footer class="bg-[#070a11] text-slate-500 py-6 border-t border-slate-800 text-center text-xs mt-12">
         <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
     </footer>
 
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/netlify-cms@^2.10.19/dist/netlify-cms.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-
+    <!-- KATEGORİ FİLTRELEME SCRİPTİ -->
     <script>
-        let aktifKategori = 'hepsi';
-
-        // İlanları GitHub'daki content/ilanlar klasöründen otomatik çeken fonksiyon
-        async function loadPortfoyler() {
-            const grid = document.getElementById('portfoyGrid');
-            const loadingText = document.getElementById('loadingText');
-
-            try {
-                // Netlify / GitHub repo içeriğinden ilan dosyalarını listeleyelim
-                // Not: Statik site derleyicileri için verileri doğrudan okuyacak modern yöntem
-                const response = await fetch('https://api.github.com/repos/ALA-GAYRIMENKUL/aligayrimenkul/contents/content/ilanlar');
-                
-                if (!response.ok) {
-                    throw new Error('İlanlar yüklenemedi.');
-                }
-
-                const files = await response.json();
-                const mdFiles = files.filter(file => file.name.endsWith('.md'));
-
-                if (mdFiles.length === 0) {
-                    loadingText.innerHTML = '<p class="text-slate-400">Henüz eklenmiş bir ilan bulunmuyor. Yönetim panelinden ilk ilanınızı ekleyebilirsiniz.</p>';
-                    return;
-                }
-
-                loadingText.style.display = 'none';
-                grid.innerHTML = '';
-
-                for (let file of mdFiles) {
-                    const fileRes = await fetch(file.download_url);
-                    const markdownText = await fileRes.text();
-                    
-                    // Markdown içindeki Frontmatter (YAML) verilerini ayıralım
-                    const parts = markdownText.split('---');
-                    if (parts.length >= 3) {
-                        const yamlHeader = parts[1];
-                        // Basit YAML parse işlemi
-                        const data = parseYAML(yamlHeader);
-                        
-                        // Kategoriye göre sınıf belirleme
-                        let katClass = 'konut';
-                        let katEtiket = data.kategori || 'Konut / Daire';
-                        let badgeColor = 'bg-blue-500 text-white';
-                        
-                        if (data.kategori && data.kategori.toLowerCase().includes('arsa')) {
-                            katClass = 'arsa';
-                            badgeColor = 'bg-amber-500 text-slate-950';
-                        } else if (data.kategori && data.kategori.toLowerCase().includes('ticari')) {
-                            katClass = 'ticari';
-                            badgeColor = 'bg-purple-500 text-white';
-                        }
-
-                        // Kart HTML yapısı
-                        const cardHTML = `
-                            <div class="portfoy-item ${katClass} bg-[#131b2e] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between group hover:border-amber-500/50 transition" data-kategori="${katClass}">
-                                <div>
-                                    <div class="relative h-52 overflow-hidden bg-slate-900">
-                                        <img src="${data.gorsel || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&auto=format&fit=crop'}" alt="${data.baslik || 'İlan'}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                                        <span class="absolute top-3 left-3 ${badgeColor} font-black text-[10px] px-3 py-1 rounded-lg uppercase tracking-wider">${katEtiket}</span>
-                                        <span class="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur-md text-amber-400 font-black text-xs px-3 py-1.5 rounded-xl">${data.fiyat || ''}</span>
-                                    </div>
-                                    <div class="p-6 space-y-3">
-                                        <div class="flex items-center justify-between text-slate-400 text-xs">
-                                            <span class="flex items-center space-x-1.5">
-                                                <i class="fa-solid fa-location-dot text-amber-500"></i>
-                                                <span>${data.konum || 'Sakarya'}</span>
-                                            </span>
-                                            <span class="bg-slate-900 px-2.5 py-1 rounded-md text-slate-300 font-medium border border-slate-800">
-                                                <i class="fa-solid fa-user-tie text-amber-500 mr-1"></i> ${data.danisman || 'Yusuf Ala'}
-                                            </span>
-                                        </div>
-                                        <h3 class="text-white font-extrabold text-base leading-snug group-hover:text-amber-400 transition">
-                                            ${data.baslik || 'Başlıksız İlan'}
-                                        </h3>
-                                        <p class="text-slate-400 text-xs line-clamp-2 leading-relaxed">
-                                            ${data.aciklama || ''}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="p-6 pt-0 space-y-2">
-                                    <a href="https://wa.me/905324075338?text=Merhaba,%20${encodeURIComponent(data.judul || data.baslik || 'ilan')}i%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" class="w-full bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 font-extrabold py-3 rounded-xl transition text-xs flex items-center justify-center space-x-2 border border-emerald-500/20">
-                                        <i class="fa-brands fa-whatsapp text-base"></i>
-                                        <span>WhatsApp ile Bilgi Al</span>
-                                    </a>
-                                    <a href="tel:+905324075338" class="w-full bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white font-extrabold py-3 rounded-xl transition text-xs flex items-center justify-center space-x-2 border border-blue-600/20">
-                                        <i class="fa-solid fa-phone-alt"></i>
-                                        <span>Hemen Ara (${data.danisman || 'Yusuf Ala'})</span>
-                                    </a>
-                                </div>
-                            </div>
-                        `;
-                        grid.innerHTML += cardHTML;
-                    }
-                }
-                filterPortfoy(aktifKategori);
-            } catch (error) {
-                console.error("İlanlar yüklenirken hata oluştu:", error);
-                loadingText.innerHTML = '<p class="text-amber-500">İlanlar yüklenirken bir bağlantı sorunu oluştu. Lütfen sayfayı yenileyin.</p>';
-            }
-        }
-
-        // Basit YAML alan okuyucu
-        function parseYAML(yamlStr) {
-            const result = {};
-            const lines = yamlStr.split('\n');
-            lines.forEach(line => {
-                const colonIndex = line.indexOf(':');
-                if (colonIndex !== -1) {
-                    const key = line.substring(0, colonIndex).trim();
-                    let value = line.substring(colonIndex + 1).trim();
-                    // Tırnak işaretlerini temizle
-                    value = value.replace(/^["'](.+(?=["']$))["']$/, '$1');
-                    result[key] = value;
-                }
-            });
-            return result;
-        }
-
-        // Kategori Filtreleme Fonksiyonu
         function filterPortfoy(kategori) {
-            aktifKategori = kategori;
             const items = document.querySelectorAll('.portfoy-item');
             const buttons = document.querySelectorAll('.filter-btn');
 
@@ -218,10 +136,8 @@
                 btn.classList.remove('bg-amber-500', 'text-slate-950', 'font-extrabold');
                 btn.classList.add('bg-[#131b2e]', 'text-slate-300', 'border', 'border-slate-800');
             });
-            
-            // Tıklanan butonu aktif yap
-            event && event.target && event.target.classList.remove('bg-[#131b2e]', 'text-slate-300', 'border', 'border-slate-800');
-            event && event.target && event.target.classList.add('bg-amber-500', 'text-slate-950', 'font-extrabold');
+            event.target.classList.remove('bg-[#131b2e]', 'text-slate-300', 'border', 'border-slate-800');
+            event.target.classList.add('bg-amber-500', 'text-slate-950', 'font-extrabold');
 
             items.forEach(item => {
                 if (kategori === 'hepsi' || item.classList.contains(kategori)) {
@@ -231,12 +147,6 @@
                 }
             });
         }
-
-        // Sayfa açıldığında ilanları yükle
-        window.addEventListener('DOMContentLoaded', loadPortfoyler);
     </script>
 </body>
 </html>
-             
-               
-                      
