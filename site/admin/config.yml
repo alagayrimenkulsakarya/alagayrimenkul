@@ -1,0 +1,54 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "ilanlar"
+    label: "Portföy / İlanlar"
+    folder: "content/ilanlar"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "İlan Başlığı", name: "title", widget: "string"}
+      - {label: "Fiyat (TL)", name: "price", widget: "number"}
+      - label: "Emlak Tipi"
+        name: "emlak_tipi"
+        widget: "select"
+        options: ["Satılık Daire", "Satılık Müstakil Ev", "Satılık Arsa", "Satılık Tarla"]
+      - {label: "İl", name: "il", widget: "string", default: "Sakarya"}
+      - {label: "İlçe", name: "ilce", widget: "string"}
+      - {label: "Mahalle", name: "mahalle", widget: "string"}
+      - {label: "İlan No", name: "ilan_no", widget: "string"}
+      - {label: "İlan Tarihi", name: "ilan_tarihi", widget: "date"}
+      
+      # Daire ve Müstakil Ev Alanları
+      - {label: "m² (Brüt)", name: "m2_brut", widget: "number", required: false}
+      - {label: "m² (Net)", name: "m2_net", widget: "number", required: false}
+      - {label: "Oda Sayısı", name: "oda_sayisi", widget: "string", required: false, hint: "Örn: 2+1, 3+1"}
+      - {label: "Bina Yaşı", name: "bina_yasi", widget: "string", required: false, hint: "Örn: 0, 5-10 arası"}
+      - {label: "Bulunduğu Kat", name: "bulundugu_kat", widget: "string", required: false}
+      - {label: "Kat Sayısı", name: "kat_sayisi", widget: "string", required: false}
+      - {label: "Isıtma", name: "isitma", widget: "string", required: false}
+      - {label: "Banyo Sayısı", name: "banyo_sayisi", widget: "number", required: false}
+      - {label: "Balkon", name: "balkon", widget: "select", options: ["Var", "Yok"], required: false}
+      - {label: "Otopark", name: "opark", widget: "string", required: false}
+      - {label: "Aidat (TL)", name: "aidat", widget: "string", required: false}
+      
+      # Arsa ve Tarla Alanları
+      - {label: "m² Fiyatı (TL)", name: "m2_fiyati", widget: "string", required: false}
+      - {label: "İmar Durumu", name: "imar_durumu", widget: "string", required: false, hint: "Tarla, Arsa vb."}
+      - {label: "Toplam m²", name: "toplam_m2", widget: "number", required: false}
+      - {label: "Ada No", name: "ada_no", widget: "string", required: false}
+      - {label: "Parsel No", name: "parsel_no", widget: "string", required: false}
+      - {label: "Pafta No", name: "pafta_no", widget: "string", required: false}
+      - {label: "Kaks (Emsal)", name: "kaks", widget: "string", required: false}
+      - {label: "Gabari", name: "gabari", widget: "string", required: false}
+      - {label: "Krediye Uygunluk", name: "kredi", widget: "select", options: ["Evet", "Hayır", "Belirtilmemiş"], required: false}
+      - {label: "Tapu Durumu", name: "tapu", widget: "string", required: false}
+
+      # Ortak Alanlar
+      - {label: "Ana Fotoğraf", name: "image", widget: "image"}
+      - {label: "Açıklama", name: "body", widget: "markdown"}

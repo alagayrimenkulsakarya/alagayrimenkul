@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endeksa Destekli Değerleme | Ala Gayrimenkul</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-hero {
+            background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), 
+                        url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        .option-btn.active {
+            background-color: #f59e0b !important;
+            color: #030712 !important;
+            border-color: #f59e0b !important;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <header class="bg-[#0b0f19]/90 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold text-xl tracking-wider">ALA</div>
+                    <div>
+                        <span class="block font-extrabold text-xl text-white tracking-tight">ALA GAYRİMENKUL</span>
+                        <span class="text-[10px] text-amber-500/80 font-medium tracking-widest uppercase">DANIŞMANLIK HİZMETLERİ</span>
+                    </div>
+                </a>
+                <nav class="hidden md:flex space-x-6 font-semibold text-slate-300 text-sm">
+                    <a href="index.html" class="hover:text-amber-400 transition">Ana Sayfa</a>
+                    <a href="hakkimizda.html" class="hover:text-amber-400 transition">Hakkımızda</a>
+                    <a href="neden-biz.html" class="hover:text-amber-400 transition">Neden Biz?</a>
+                    <a href="portfoy.html" class="hover:text-amber-400 transition">Portföylerimiz</a>
+                    <a href="degerleme.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Değerleme Alın</a>
+                    <a href="iletisim.html" class="hover:text-amber-400 transition">İletişim & Konum</a>
+                </nav>
+                <div class="flex items-center space-x-3">
+                    <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center space-x-2 transition shadow-lg">
+                        <i class="fa-solid fa-phone-alt"></i>
+                        <span>Bizi Arayın</span>
+                    </a>
+                    <a href="https://wa.me/905324075338" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center space-x-2 transition shadow-lg">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-hero py-12 border-b border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight">
+                Gayrimenkul Değerleme Formu
+            </h1>
+            <p class="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto mt-2">
+                Endeksa parametrelerine göre mülkünüzün detaylarını girin, ücretsiz analiz raporunuzu hazırlayalım.
+            </p>
+        </div>
+    </section>
+
+    <main class="max-w-4xl mx-auto px-4 py-12 w-full">
+        <form onsubmit="sendToWhatsApp(event)" class="bg-[#131b2e] border border-slate-800 rounded-2xl p-6 sm:p-10 shadow-2xl space-y-10">
+            
+            <div class="space-y-4">
+                <h3 class="text-amber-500 font-extrabold text-sm flex items-center space-x-2 border-b border-slate-800 pb-2">
+                    <i class="fa-solid fa-user"></i>
+                    <span>1. İletişim & Konum Bilgileri</span>
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Ad Soyad *</label>
+                        <input type="text" id="formAdSoyad" required placeholder="Adınız Soyadınız" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Telefon *</label>
+                        <input type="tel" id="formTelefon" required placeholder="05XX XXX XX XX" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Konum (İlçe/Mahalle) *</label>
+                        <input type="text" id="formKonum" required placeholder="Örn: Serdivan / Arabacıalanı" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-amber-500 font-extrabold text-sm flex items-center space-x-2 border-b border-slate-800 pb-2">
+                    <i class="fa-solid fa-building"></i>
+                    <span>2. Mülk Sınıfı Seçimi *</span>
+                </h3>
+                <div class="flex flex-wrap gap-3" id="mainCategoryGroup">
+                    <button type="button" onclick="switchCategory('konut')" class="option-btn active px-6 py-2.5 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Konut</button>
+                    <button type="button" onclick="switchCategory('arsa')" class="option-btn px-6 py-2.5 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Arsa</button>
+                    <button type="button" onclick="switchCategory('tarla')" class="option-btn px-6 py-2.5 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Tarla, Bağ, Bahçe</button>
+                </div>
+            </div>
+
+            <div id="konutSection" class="space-y-8">
+                <div class="space-y-3">
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">Konut Alt Tipi *</label>
+                    <div class="flex flex-wrap gap-3" id="subCategoryGroup">
+                        <button type="button" onclick="setKonutSub('apartman')" class="option-btn active px-5 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Apartman</button>
+                        <button type="button" onclick="setKonutSub('mustakil')" class="option-btn px-5 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Müstakil Ev</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">Kullanım Durumu *</label>
+                    <div class="flex flex-wrap gap-3 single-select-group" data-group="kullanimDurumu">
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-5 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Mülk Sahibi</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-5 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Kiracı</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn active px-5 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Boş</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">Yapı Durumu *</label>
+                    <div class="flex flex-wrap gap-3 single-select-group" data-group="yapiDurumu">
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Bakımlı/Yenilenmiş</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn active px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Standart</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Tadilat İhtiyacı Var</button>
+                    </div>
+                </div>
+
+                <div id="apartmanFields" class="space-y-6">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">Apartman Tipi *</label>
+                        <div class="flex flex-wrap gap-2.5 single-select-group" data-group="apartmanTipi">
+                            <button type="button" onclick="selectSingle(this)" class="option-btn active px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Daire</button>
+                            <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Teras Dubleks</button>
+                            <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Ara Kat Dubleks</button>
+                            <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Bahçe Dubleks</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="mustakilFields" class="hidden p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-400 text-xs font-medium">
+                    <i class="fa-solid fa-house-chimney mr-1"></i> Müstakil ev konsepti aktif.
+                </div>
+
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Oda Sayısı</label>
+                            <div class="flex items-center bg-[#0b0f19] border border-slate-700 rounded-xl px-3 py-2">
+                                <button type="button" onclick="adjustValue('odaSayisi', -1)" class="text-amber-500 px-2 font-bold">-</button>
+                                <input type="text" id="odaSayisi" value="3" class="w-full bg-transparent text-center text-white text-xs focus:outline-none">
+                                <button type="button" onclick="adjustValue('odaSayisi', 1)" class="text-amber-500 px-2 font-bold">+</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Salon Sayısı</label>
+                            <div class="flex items-center bg-[#0b0f19] border border-slate-700 rounded-xl px-3 py-2">
+                                <button type="button" onclick="adjustValue('salonSayisi', -1)" class="text-amber-500 px-2 font-bold">-</button>
+                                <input type="text" id="salonSayisi" value="1" class="w-full bg-transparent text-center text-white text-xs focus:outline-none">
+                                <button type="button" onclick="adjustValue('salonSayisi', 1)" class="text-amber-500 px-2 font-bold">+</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Banyo Sayısı</label>
+                            <div class="flex items-center bg-[#0b0f19] border border-slate-700 rounded-xl px-3 py-2">
+                                <button type="button" onclick="adjustValue('banyoSayisi', -1)" class="text-amber-500 px-2 font-bold">-</button>
+                                <input type="text" id="banyoSayisi" value="1" class="w-full bg-transparent text-center text-white text-xs focus:outline-none">
+                                <button type="button" onclick="adjustValue('banyoSayisi', 1)" class="text-amber-500 px-2 font-bold">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Brüt Alan (m²) *</label>
+                            <input type="number" id="konutBrutAlan" placeholder="130" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div id="bahceFieldWrapper" class="hidden">
+                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Bahçe Alanı (m²)</label>
+                            <input type="number" id="konutBahceAlan" placeholder="0" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-amber-500">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="arsaSection" class="space-y-6 hidden">
+                <div class="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-400 text-xs">
+                    <i class="fa-solid fa-circle-info mr-1"></i> Bağ, bahçe tipinde imar bilgisi olmayan araziler için üstteki <b>Tarla, Bağ, Bahçe</b> sekmesini kullanabilirsiniz.
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">İmar Tipi *</label>
+                    <div class="flex flex-wrap gap-2.5 single-select-group" data-group="imarTipi">
+                        <button type="button" onclick="selectSingle(this)" class="option-btn active px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Konut</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Konut + Ticari</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Villa Parseli</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Köyiçi</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Ticari İmarlı</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">Hisseli Tapu *</label>
+                    <div class="flex gap-3 single-select-group" data-group="arsaHisseli">
+                        <button type="button" onclick="selectSingle(this)" class="option-btn active px-6 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Hayır</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-6 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Evet</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Alanı (m²) *</label>
+                        <input type="number" id="arsaAlan" placeholder="2456" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Maksimum Kat İzni</label>
+                        <input type="number" id="arsaKatIzni" placeholder="3" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">Yapılaşma Durumu *</label>
+                    <div class="flex flex-wrap gap-2.5 single-select-group" data-group="yapilasmaDurumu">
+                        <button type="button" onclick="selectSingle(this)" class="option-btn active px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Boş</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Üzerinde Kullanılan Yapı Var</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-4 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Üzerinde Metruk Yapı Var</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tarlaSection" class="space-y-6 hidden">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">Arazi Tipi *</label>
+                    <div class="flex flex-wrap gap-2.5 single-select-group" data-group="araziTipi">
+                        <button type="button" onclick="selectSingle(this)" class="option-btn active px-5 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Tarla</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-5 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Bağ, Bahçe</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-5 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Zeytinlik</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-2">Hisseli Tapu *</label>
+                    <div class="flex gap-3 single-select-group" data-group="tarlaHisseli">
+                        <button type="button" onclick="selectSingle(this)" class="option-btn active px-6 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Hayır</button>
+                        <button type="button" onclick="selectSingle(this)" class="option-btn px-6 py-2 rounded-xl text-xs font-bold bg-[#0b0f19] border border-slate-700 text-slate-300 transition">Evet</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Alanı (m²) *</label>
+                        <input type="number" id="tarlaAlan" placeholder="3830" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4">
+                <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black py-4 rounded-xl transition shadow-xl text-sm flex items-center justify-center space-x-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Ücretsiz Ekspertiz Talebi Gönder</span>
+                </button>
+            </div>
+
+        </form>
+    </main>
+
+    <footer class="bg-[#070a11] text-slate-500 py-6 border-t border-slate-800 text-center text-xs">
+        <p>© 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <script>
+        let currentMainCategory = 'konut';
+        let currentKonutSub = 'apartman';
+
+        function selectSingle(btn) {
+            const group = btn.parentElement;
+            group.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function switchCategory(category) {
+            currentMainCategory = category;
+            const mainGroup = document.getElementById('mainCategoryGroup');
+            mainGroup.querySelectorAll('button').forEach(b => {
+                b.classList.remove('active');
+                if((category === 'konut' && b.innerText.includes('Konut')) ||
+                   (category === 'arsa' && b.innerText.includes('Arsa')) ||
+                   (category === 'tarla' && b.innerText.includes('Tarla'))) {
+                    b.classList.add('active');
+                }
+            });
+
+            document.getElementById('konutSection').classList.add('hidden');
+            document.getElementById('arsaSection').classList.add('hidden');
+            document.getElementById('tarlaSection').classList.add('hidden');
+
+            if (category === 'konut') {
+                document.getElementById('konutSection').classList.remove('hidden');
+            } else if (category === 'arsa') {
+                document.getElementById('arsaSection').classList.remove('hidden');
+            } else if (category === 'tarla') {
+                document.getElementById('tarlaSection').classList.remove('hidden');
+            }
+        }
+
+        function setKonutSub(subType) {
+            currentKonutSub = subType;
+            const subGroup = document.getElementById('subCategoryGroup');
+            subGroup.querySelectorAll('button').forEach(b => {
+                b.classList.remove('active');
+                if((subType === 'apartman' && b.innerText.includes('Apartman')) ||
+                   (subType === 'mustakil' && b.innerText.includes('Müstakil'))) {
+                    b.classList.add('active');
+                }
+            });
+
+            if (subType === 'apartman') {
+                document.getElementById('apartmanFields').classList.remove('hidden');
+                document.getElementById('mustakilFields').classList.add('hidden');
+                document.getElementById('bahceFieldWrapper').classList.add('hidden');
+            } else {
+                document.getElementById('apartmanFields').classList.add('hidden');
+                document.getElementById('mustakilFields').classList.remove('hidden');
+                document.getElementById('bahceFieldWrapper').classList.remove('hidden');
+            }
+        }
+
+        function adjustValue(id, amount) {
+            let input = document.getElementById(id);
+            let val = parseInt(input.value) || 0;
+            if (val + amount >= 0) input.value = val + amount;
+        }
+
+        function getActiveOptionText(groupSelector) {
+            const group = document.querySelector(`[data-group="${groupSelector}"]`);
+            if (!group) return '-';
+            const activeBtn = group.querySelector('.option-btn.active');
+            return activeBtn ? activeBtn.innerText : '-';
+        }
+
+        function sendToWhatsApp(e) {
+            e.preventDefault();
+
+            const adSoyad = document.getElementById('formAdSoyad').value;
+            const telefon = document.getElementById('formTelefon').value;
+            const konum = document.getElementById('formKonum').value;
+
+            let detaylar = `*YENİ ÜCRETSİZ EKSPERTİZ TALEBİ*%0A`;
+            detaylar += `-----------------------------------%0A`;
+            detaylar += `👤 *Ad Soyad:* ${adSoyad}%0A`;
+            detaylar += `📞 *Telefon:* ${telefon}%0A`;
+            detaylar += `📍 *Konum:* ${konum}%0A`;
+            detaylar += `🏢 *Mülk Sınıfı:* ${currentMainCategory.toUpperCase()}%0A`;
+
+            if (currentMainCategory === 'konut') {
+                detaylar += `🏠 *Konut Alt Tipi:* ${currentKonutSub.toUpperCase()}%0A`;
+                detaylar += `📌 *Kullanım Durumu:* ${getActiveOptionText('kullanimDurumu')}%0A`;
+                detaylar += `🧱 *Yapı Durumu:* ${getActiveOptionText('yapiDurumu')}%0A`;
+                if (currentKonutSub === 'apartman') {
+                    detaylar += `🏢 *Apartman Tipi:* ${getActiveOptionText('apartmanTipi')}%0A`;
+                }
+                detaylar += `🛏 *Oda:* ${document.getElementById('odaSayisi').value} | *Salon:* ${document.getElementById('salonSayisi').value} | *Banyo:* ${document.getElementById('banyoSayisi').value}%0A`;
+                detaylar += `📐 *Brüt Alan:* ${document.getElementById('konutBrutAlan').value} m²%0A`;
+                if (currentKonutSub === 'mustakil') {
+                    detaylar += `🌿 *Bahçe Alanı:* ${document.getElementById('konutBahceAlan').value} m²%0A`;
+                }
+            } else if (currentMainCategory === 'arsa') {
+                detaylar += `🏗 *İmar Tipi:* ${getActiveOptionText('imarTipi')}%0A`;
+                detaylar += `📑 *Hisseli Tapu:* ${getActiveOptionText('arsaHisseli')}%0A`;
+                detaylar += `📐 *Alanı:* ${document.getElementById('arsaAlan').value} m²%0A`;
+                detaylar += `🏢 *Maks. Kat İzni:* ${document.getElementById('arsaKatIzni').value}%0A`;
+                detaylar += `🧱 *Yapılaşma Durumu:* ${getActiveOptionText('yapilasmaDurumu')}%0A`;
+            } else if (currentMainCategory === 'tarla') {
+                detaylar += `🌾 *Arazi Tipi:* ${getActiveOptionText('araziTipi')}%0A`;
+                detaylar += `📑 *Hisseli Tapu:* ${getActiveOptionText('tarlaHisseli')}%0A`;
+                detaylar += `📐 *Alanı:* ${document.getElementById('tarlaAlan').value} m²%0A`;
+            }
+
+            const phoneNumber = '905324075338';
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${detaylar}`;
+            window.open(whatsappURL, '_blank');
+        }
+    </script>
+</body>
+</html>
+"""
+
+with open("degerleme.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
