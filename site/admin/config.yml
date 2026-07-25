@@ -15,11 +15,11 @@ collections:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
       - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
+      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
       - {label: "Fiyat", name: "fiyat", widget: "string"}
       - {label: "Brüt m²", name: "brut", widget: "string"}
       - {label: "Net m²", name: "net", widget: "string"}
-      - label: "Oda Sayısı", name: "odasayisi", widget: "select", options: ["1+0", "1+1", "2+1", "3+1", "4+1", "4+2", "5+1"]}
+      - {label: "Oda Sayısı", name: "odasayisi", widget: "select", options: ["1+0", "1+1", "2+1", "3+1", "4+1", "4+2", "5+1"]}
       - {label: "Bina Yaşı", name: "binayasi", widget: "string"}
       - {label: "Bulunduğu Kat", name: "kat", widget: "string"}
       - {label: "Kat Sayısı", name: "katsayisi", widget: "string"}
@@ -36,11 +36,11 @@ collections:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
       - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
+      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
       - {label: "Fiyat", name: "fiyat", widget: "string"}
       - {label: "Brüt m²", name: "brut", widget: "string"}
       - {label: "Net m²", name: "net", widget: "string"}
-      - label: "Oda Sayısı", name: "odasayisi", widget: "select", options: ["2+1", "3+1", "4+1", "5+1", "6+1 ve üzeri"]}
+      - {label: "Oda Sayısı", name: "odasayisi", widget: "select", options: ["2+1", "3+1", "4+1", "5+1", "6+1 ve Üzeri"]}
       - {label: "Bina Yaşı", name: "binayasi", widget: "string"}
       - {label: "İlçe", name: "ilce", widget: "string"}
       - {label: "Mahalle", name: "mahalle", widget: "string"}
@@ -55,7 +55,7 @@ collections:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
       - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
+      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
       - {label: "Fiyat", name: "fiyat", widget: "string"}
       - {label: "Brüt m²", name: "brut", widget: "string"}
       - {label: "Net m²", name: "net", widget: "string"}
@@ -74,11 +74,11 @@ collections:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
       - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
+      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
       - {label: "Fiyat", name: "fiyat", widget: "string"}
       - {label: "Brüt m²", name: "brut", widget: "string"}
       - {label: "Net m²", name: "net", widget: "string"}
-      - label: "Oda Sayısı", name: "odasayisi", widget: "select", options: ["3+1", "4+1", "5+1", "6+1 ve üzeri"]}
+      - {label: "Oda Sayısı", name: "odasayisi", widget: "select", options: ["3+1", "4+1", "5+1", "6+1 ve Üzeri"]}
       - {label: "Bina Yaşı", name: "binayasi", widget: "string"}
       - {label: "İlçe", name: "ilce", widget: "string"}
       - {label: "Mahalle", name: "mahalle", widget: "string"}
@@ -93,7 +93,7 @@ collections:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
       - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
+      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
       - {label: "Fiyat", name: "fiyat", widget: "string"}
       - {label: "Brüt m²", name: "brut", widget: "string"}
       - {label: "Net m²", name: "net", widget: "string"}
@@ -111,7 +111,7 @@ collections:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
       - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
+      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
       - {label: "Fiyat", name: "fiyat", widget: "string"}
       - {label: "m²", name: "metrekare", widget: "string"}
       - {label: "İmar Durumu", name: "imardurumu", widget: "string", default: "Konut"}
@@ -130,7 +130,7 @@ collections:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
       - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
+      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
       - {label: "Fiyat", name: "fiyat", widget: "string"}
       - {label: "m²", name: "metrekare", widget: "string"}
       - {label: "İmar Durumu", name: "imardurumu", widget: "string", default: "Ticari"}
@@ -149,7 +149,7 @@ collections:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
       - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
+      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
       - {label: "Fiyat", name: "fiyat", widget: "string"}
       - {label: "m²", name: "metrekare", widget: "string"}
       - {label: "İmar Durumu", name: "imardurumu", widget: "string", default: "Sanayi"}
