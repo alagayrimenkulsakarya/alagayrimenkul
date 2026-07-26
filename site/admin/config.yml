@@ -13,148 +13,87 @@ collections:
     slug: "{{slug}}"
     fields:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
-      - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
-      - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
+      - {label: "İlan No", name: "ilanno", widget: "string"}
       - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
-      - {label: "Fiyat", name: "fiyat", widget: "string"}
+      - {label: "Fiyat (TL)", name: "fiyat", widget: "string"}
+      - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "Brüt m²", name: "brut", widget: "string"}
       - {label: "Net m²", name: "net", widget: "string"}
       - {label: "Oda Sayısı", name: "odasayisi", widget: "select", options: ["1+0", "1+1", "2+1", "3+1", "4+1", "4+2", "5+1"]}
       - {label: "Bina Yaşı", name: "binayasi", widget: "string"}
       - {label: "Bulunduğu Kat", name: "kat", widget: "string"}
       - {label: "Kat Sayısı", name: "katsayisi", widget: "string"}
-      - {label: "İlçe", name: "ilce", widget: "string"}
+      - {label: "Isıtma Tipi", name: "isitma", widget: "string"}
+      - {label: "İlçe", name: "ilce", widget: "string", default: "Adapazarı"}
       - {label: "Mahalle", name: "mahalle", widget: "string"}
-      - {label: "Açıklama", name: "body", widget: "markdown"}
+      - {label: "Danışman Adı", name: "danisman_adi", widget: "string", default: "Yusuf İşçi"}
+      - {label: "Danışman Telefonu", name: "danisman_tel", widget: "string", default: "0 (532) 407 53 38"}
+      - {label: "Danışman Fotoğrafı", name: "danisman_foto", widget: "image", required: false}
+      - {label: "İlan Açıklaması", name: "body", widget: "markdown"}
 
   - name: "mustakilev"
-    label: "Müstakil Ev"
+    label: "Müstakil Ev / Villa"
     folder: "content/mustakilev"
     create: true
     slug: "{{slug}}"
     fields:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
-      - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
-      - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
+      - {label: "İlan No", name: "ilanno", widget: "string"}
       - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
-      - {label: "Fiyat", name: "fiyat", widget: "string"}
+      - {label: "Fiyat (TL)", name: "fiyat", widget: "string"}
+      - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
       - {label: "Brüt m²", name: "brut", widget: "string"}
       - {label: "Net m²", name: "net", widget: "string"}
       - {label: "Oda Sayısı", name: "odasayisi", widget: "select", options: ["2+1", "3+1", "4+1", "5+1", "6+1 ve Üzeri"]}
       - {label: "Bina Yaşı", name: "binayasi", widget: "string"}
-      - {label: "İlçe", name: "ilce", widget: "string"}
+      - {label: "İlçe", name: "ilce", widget: "string", default: "Adapazarı"}
       - {label: "Mahalle", name: "mahalle", widget: "string"}
-      - {label: "Açıklama", name: "body", widget: "markdown"}
+      - {label: "Danışman Adı", name: "danisman_adi", widget: "string", default: "Yusuf İşçi"}
+      - {label: "Danışman Telefonu", name: "danisman_tel", widget: "string", default: "0 (532) 407 53 38"}
+      - {label: "Danışman Fotoğrafı", name: "danisman_foto", widget: "image", required: false}
+      - {label: "İlan Açıklaması", name: "body", widget: "markdown"}
 
-  - name: "apartman"
-    label: "Apartman"
-    folder: "content/apartman"
+  - name: "arsa"
+    label: "Arsa / Tarla"
+    folder: "content/arsa"
     create: true
     slug: "{{slug}}"
     fields:
       - {label: "İlan Başlığı", name: "title", widget: "string"}
-      - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
-      - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
+      - {label: "İlan No", name: "ilanno", widget: "string"}
       - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
-      - {label: "Fiyat", name: "fiyat", widget: "string"}
-      - {label: "Brüt m²", name: "brut", widget: "string"}
-      - {label: "Net m²", name: "net", widget: "string"}
-      - {label: "Bina Yaşı", name: "binayasi", widget: "string"}
-      - {label: "Kat Sayısı", name: "katsayisi", widget: "string"}
-      - {label: "İlçe", name: "ilce", widget: "string"}
-      - {label: "Mahalle", name: "mahalle", widget: "string"}
-      - {label: "Açıklama", name: "body", widget: "markdown"}
-
-  - name: "villa"
-    label: "Villa"
-    folder: "content/villa"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "İlan Başlığı", name: "title", widget: "string"}
+      - {label: "Fiyat (TL)", name: "fiyat", widget: "string"}
       - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
-      - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
-      - {label: "Fiyat", name: "fiyat", widget: "string"}
-      - {label: "Brüt m²", name: "brut", widget: "string"}
-      - {label: "Net m²", name: "net", widget: "string"}
-      - {label: "Oda Sayısı", name: "odasayisi", widget: "select", options: ["3+1", "4+1", "5+1", "6+1 ve Üzeri"]}
-      - {label: "Bina Yaşı", name: "binayasi", widget: "string"}
-      - {label: "İlçe", name: "ilce", widget: "string"}
-      - {label: "Mahalle", name: "mahalle", widget: "string"}
-      - {label: "Açıklama", name: "body", widget: "markdown"}
-
-  - name: "isyeri"
-    label: "İş Yeri"
-    folder: "content/isyeri"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "İlan Başlığı", name: "title", widget: "string"}
-      - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
-      - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
-      - {label: "Fiyat", name: "fiyat", widget: "string"}
-      - {label: "Brüt m²", name: "brut", widget: "string"}
-      - {label: "Net m²", name: "net", widget: "string"}
-      - {label: "Bulunduğu Kat", name: "kat", widget: "string"}
-      - {label: "İlçe", name: "ilce", widget: "string"}
-      - {label: "Mahalle", name: "mahalle", widget: "string"}
-      - {label: "Açıklama", name: "body", widget: "markdown"}
-
-  - name: "arsakonut"
-    label: "Arsa (Konut)"
-    folder: "content/arsakonut"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "İlan Başlığı", name: "title", widget: "string"}
-      - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
-      - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
-      - {label: "Fiyat", name: "fiyat", widget: "string"}
-      - {label: "m²", name: "metrekare", widget: "string"}
-      - {label: "İmar Durumu", name: "imardurumu", widget: "string", default: "Konut"}
+      - {label: "Toplam m²", name: "arsam2", widget: "string"}
+      - {label: "İmar Durumu", name: "imardurumu", widget: "select", options: ["Konut", "Ticari", "Sanayi", "Tarla", "Zeytinlik", "İmarsız"]}
       - {label: "Ada No", name: "ada", widget: "string"}
       - {label: "Parsel No", name: "parsel", widget: "string"}
-      - {label: "İlçe", name: "ilce", widget: "string"}
-      - {label: "Mahalle", name: "mahalle", widget: "string"}
-      - {label: "Açıklama", name: "body", widget: "markdown"}
+      - {label: "İlçe", name: "ilce", widget: "string", default: "Adapazarı"}
+      - {label: "Mahalle / Köy", name: "mahalle", widget: "string"}
+      - {label: "Danışman Adı", name: "danisman_adi", widget: "string", default: "Yusuf İşçi"}
+      - {label: "Danışman Telefonu", name: "danisman_tel", widget: "string", default: "0 (532) 407 53 38"}
+      - {label: "Danışman Fotoğrafı", name: "danisman_foto", widget: "image", required: false}
+      - {label: "İlan Açıklaması", name: "body", widget: "markdown"}
 
-  - name: "arsaticari"
-    label: "Arsa (Ticari)"
-    folder: "content/arsaticari"
+  - name: "videolar"
+    label: "Blog & Videolar"
+    folder: "content/videolar"
     create: true
     slug: "{{slug}}"
     fields:
-      - {label: "İlan Başlığı", name: "title", widget: "string"}
-      - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
-      - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
-      - {label: "Fiyat", name: "fiyat", widget: "string"}
-      - {label: "m²", name: "metrekare", widget: "string"}
-      - {label: "İmar Durumu", name: "imardurumu", widget: "string", default: "Ticari"}
-      - {label: "Ada No", name: "ada", widget: "string"}
-      - {label: "Parsel No", name: "parsel", widget: "string"}
-      - {label: "İlçe", name: "ilce", widget: "string"}
-      - {label: "Mahalle", name: "mahalle", widget: "string"}
-      - {label: "Açıklama", name: "body", widget: "markdown"}
+      - {label: "Video / Blog Başlığı", name: "title", widget: "string"}
+      - {label: "Kategori", name: "kategori", widget: "string"}
+      - {label: "YouTube Video URL", name: "video_url", widget: "string"}
+      - {label: "Özet Açıklama", name: "description", widget: "text"}
+      - {label: "Kapak Görseli", name: "image", widget: "image"}
 
-  - name: "arsasanayi"
-    label: "Arsa (Sanayi)"
-    folder: "content/arsasanayi"
+  - name: "yorumlar"
+    label: "Ziyaretçi Yorumları"
+    folder: "content/yorumlar"
     create: true
     slug: "{{slug}}"
     fields:
-      - {label: "İlan Başlığı", name: "title", widget: "string"}
-      - {label: "Kapak Fotoğrafı", name: "image", widget: "image"}
-      - {label: "Tanıtım Videosu", name: "video", widget: "file", required: false}
-      - {label: "İlan Durumu", name: "durum", widget: "select", options: ["Satılık", "Kiralık"]}
-      - {label: "Fiyat", name: "fiyat", widget: "string"}
-      - {label: "m²", name: "metrekare", widget: "string"}
-      - {label: "İmar Durumu", name: "imardurumu", widget: "string", default: "Sanayi"}
-      - {label: "Ada No", name: "ada", widget: "string"}
-      - {label: "Parsel No", name: "parsel", widget: "string"}
-      - {label: "İlçe", name: "ilce", widget: "string"}
-      - {label: "Mahalle", name: "mahalle", widget: "string"}
-      - {label: "Açıklama", name: "body", widget: "markdown"}
+      - {label: "Takma Ad (Nickname)", name: "nickname", widget: "string"}
+      - {label: "Yorum İçeriği", name: "mesaj", widget: "text"}
+      - {label: "Tarih", name: "tarih", widget: "date"}
+      - {label: "Yayınla / Onayla", name: "onay", widget: "boolean", default: false}
