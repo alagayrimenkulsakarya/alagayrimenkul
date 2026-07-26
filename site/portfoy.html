@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Özel Portföylerimiz | Ala Gayrimenkul</title>
+    <title>Portföylerimiz | Ala Gayrimenkul</title>
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .page-hero {
-            background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)),
-                url('https://images.unsplash.com/photo-148606146926-c627a92ad1ab?q=80&w=1920&auto=format&fit=crop');
+            background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), 
+                        url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1920&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
         }
@@ -18,118 +20,171 @@
 <body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
     <!-- HEADER / MENÜ -->
-    <header class="bg-[#0b0f19]/90 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header class="bg-[#0b0f19]/95 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="w-full px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex items-center space-x-3">
-                    <div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold text-xl tracking-wider">ALA</div>
+                <!-- LOGO (Sola Yaslı) -->
+                <a href="index.html" class="flex items-center space-x-2.5 shrink-0 pl-2">
+                    <div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold text-lg tracking-wider">ALA</div>
                     <div>
-                        <span class="block font-extrabold text-xl text-white tracking-tight">ALA GAYRİMENKUL</span>
-                        <span class="text-[10px] text-amber-500/80 font-medium tracking-widest uppercase">DANIŞMANLIK HİZMETLERİ</span>
+                        <span class="block font-extrabold text-lg text-white tracking-tight">ALA GAYRİMENKUL</span>
+                        <span class="text-[9px] text-amber-500/80 font-medium tracking-widest uppercase">DANIŞMANLIK HİZMETLERİ</span>
                     </div>
                 </a>
-                <nav class="hidden md:flex space-x-6 font-semibold text-slate-300 text-sm">
+
+                <!-- NAVİGASYON MENÜSÜ -->
+                <nav class="hidden 2xl:flex items-center space-x-6 font-medium text-slate-300 text-sm">
                     <a href="index.html" class="hover:text-amber-400 transition">Ana Sayfa</a>
                     <a href="hakkimizda.html" class="hover:text-amber-400 transition">Hakkımızda</a>
                     <a href="neden-biz.html" class="hover:text-amber-400 transition">Neden Biz?</a>
                     <a href="portfoy.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Portföylerimiz</a>
                     <a href="degerleme.html" class="hover:text-amber-400 transition">Değerleme Alın</a>
+                    <a href="blog.html" class="hover:text-amber-400 transition">Blog & Videolar</a>
+                    <a href="danisman-ol.html" class="hover:text-amber-400 transition text-amber-300 font-semibold">Danışman Ol</a>
                     <a href="iletisim.html" class="hover:text-amber-400 transition">İletişim & Konum</a>
                 </nav>
-                <div class="flex items-center space-x-3">
-                    <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center space-x-2">
+
+                <!-- SAĞ BUTONLAR VE MOBİL MENÜ -->
+                <div class="flex items-center space-x-2.5 pr-2 shrink-0">
+                    <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
                         <i class="fa-solid fa-phone-alt"></i>
-                        <span>Bizi Arayın</span>
+                        <span class="hidden sm:inline">Bizi Arayın</span>
                     </a>
-                    <a href="https://wa.me/905324075338" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-sm font-bold flex items-center space-x-2">
-                        <i class="fa-brands fa-whatsapp text-lg"></i>
-                        <span>WhatsApp</span>
+                    <a href="https://wa.me/905324075338" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span class="hidden sm:inline">WhatsApp</span>
                     </a>
+                    <!-- Mobil Menü Butonu -->
+                    <button id="menu-btn" class="2xl:hidden text-slate-300 hover:text-white p-2 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
                 </div>
             </div>
+        </div>
+
+        <!-- Mobil Açılır Menü -->
+        <div id="mobile-menu" class="hidden 2xl:hidden bg-[#0b0f19] border-b border-slate-800 px-6 py-4 space-y-3 font-semibold text-sm">
+            <a href="index.html" class="block text-slate-300 hover:text-amber-400 py-1">Ana Sayfa</a>
+            <a href="hakkimizda.html" class="block text-slate-300 hover:text-amber-400 py-1">Hakkımızda</a>
+            <a href="neden-biz.html" class="block text-slate-300 hover:text-amber-400 py-1">Neden Biz?</a>
+            <a href="portfoy.html" class="block text-amber-400 font-bold py-1">Portföylerimiz</a>
+            <a href="degerleme.html" class="block text-slate-300 hover:text-amber-400 py-1">Değerleme Alın</a>
+            <a href="blog.html" class="block text-slate-300 hover:text-amber-400 py-1">Blog & Videolar</a>
+            <a href="danisman-ol.html" class="block text-amber-300 hover:text-amber-400 py-1">Danışman Ol</a>
+            <a href="iletisim.html" class="block text-slate-300 hover:text-amber-400 py-1">İletişim & Konum</a>
         </div>
     </header>
 
     <!-- SAYFA BAŞLIĞI -->
     <section class="page-hero py-12 border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Özel Portföylerimiz</h1>
-            <p class="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto mt-2">Bölge hakimiyetimizle portföyümüzde yer alan size özel gayrimenkul seçenekleri.</p>
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <span class="inline-block bg-amber-500/10 text-amber-400 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-3">
+                Güncel Gayrimenkul Portföyümüz
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                Sakarya'nın Seçkin İlanları
+            </h1>
         </div>
     </section>
 
-    <!-- İÇERİK / İLANLAR LİSTESİ -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-grow">
+    <!-- İLAN LİSTESİ (Sahibinden Tarzı Kartlar) -->
+    <main class="max-w-6xl mx-auto px-4 py-12 w-full space-y-6">
         
-        <!-- Dinamik İlanların Dizileceği Grid Alanı -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            {% for ilan in collections.ilanlar %}
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between group hover:border-amber-500/50 transition">
-                <div>
-                    <!-- İlan Görseli ve Üst Etiketler -->
-                    <div class="relative h-52 overflow-hidden bg-slate-800">
-                        {% if ilan.image %}
-                        <img src="{{ ilan.image }}" alt="{{ ilan.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                        {% else %}
-                        <div class="w-full h-full flex items-center justify-center text-slate-600 font-bold">Ala Gayrimenkul</div>
-                        {% endif %}
-                        
-                        <span class="absolute top-3 left-3 bg-blue-600 text-white font-black text-[10px] px-3 py-1 rounded-full uppercase tracking-wider shadow">
-                            {{ ilan.durum }}
-                        </span>
-                        <span class="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur-md text-amber-400 font-bold text-base px-3 py-1 rounded-xl border border-slate-800">
-                            {{ ilan.fiyat }}
-                        </span>
-                    </div>
-
-                    <!-- İlan İçeriği -->
-                    <div class="p-6 space-y-3">
-                        <div class="flex items-center justify-between text-xs text-slate-400">
-                            <span class="bg-slate-800 px-2.5 py-1 rounded-md text-slate-300 font-medium border border-slate-700">
-                                <i class="fa-solid fa-home text-amber-500 mr-1"></i> {{ ilan.kategori }}
-                            </span>
-                            {% if ilan.konum %}
-                            <span><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i>{{ ilan.konum }}</span>
-                            {% endif %}
-                        </div>
-
-                        <h3 class="text-white font-extrabold text-base leading-snug group-hover:text-amber-400 transition">
-                            <a href="{{ ilan.url }}">
-                                {{ ilan.title }}
-                            </a>
-                        </h3>
-
-                        {% if ilan.odasayisi or ilan.brut %}
-                        <div class="flex items-center space-x-4 text-xs text-slate-300 pt-1">
-                            {% if ilan.odasayisi %}<span><i class="fa-solid fa-door-open text-amber-500 mr-1"></i> {{ ilan.odasayisi }}</span>{% endif %}
-                            {% if ilan.brut %}<span><i class="fa-solid fa-ruler-combined text-amber-500 mr-1"></i> {{ ilan.brut }} m² (Brüt)</span>{% endif %}
-                        </div>
-                        {% endif %}
-                    </div>
+        <!-- İlan Kartı 1 -->
+        <div class="bg-[#131b2e] border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-amber-500/50 transition flex flex-col md:flex-row">
+            <div class="md:w-72 h-52 relative shrink-0">
+                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=600&auto=format&fit=crop" alt="İlan Görseli" class="w-full h-full object-cover">
+                <div class="absolute bottom-2 left-2 bg-slate-950/80 text-amber-400 text-[10px] px-2.5 py-1 rounded-lg font-bold">
+                    İlan No: 1315935016
                 </div>
-
-                <!-- Alt Butonlar -->
-                <div class="p-6 pt-0 space-y-2">
-                    <a href="https://wa.me/905324075338?text=Merhaba,%20{{ ilan.title | urlencode }}%20ilanınız%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="w-full bg-emerald-600/10 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 font-bold text-xs py-2.5 rounded-xl transition flex items-center justify-center space-x-2">
-                        <i class="fa-brands fa-whatsapp text-base"></i>
-                        <span>WhatsApp ile Bilgi Al</span>
-                    </a>
-                    <a href="{{ ilan.url }}" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs py-3 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg">
-                        <i class="fa-solid fa-eye"></i>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <a href="detay-1.html" class="text-lg sm:text-xl font-bold text-white hover:text-amber-400 transition">
+                            SAKARYA CADDESİNDE, KONFOR VE LOKASYON BİR ARADA!
+                        </a>
+                        <span class="text-amber-400 font-extrabold text-lg shrink-0">2.225.000 TL</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">
+                        Satışık -> Daire -> Adapazarı / Tepekum Mah.
+                    </p>
+                </div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-800 text-xs text-slate-300">
+                    <div class="flex items-center space-x-4">
+                        <span><i class="fa-solid fa-eye text-amber-500 mr-1"></i> 848</span>
+                        <span><i class="fa-solid fa-star text-amber-400 mr-1"></i> 12</span>
+                        <span><i class="fa-solid fa-comment text-blue-400 mr-1"></i> 1</span>
+                    </div>
+                    <a href="detay-1.html" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-xl font-extrabold transition shadow-md flex items-center space-x-1.5">
                         <span>İlanı İncele</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
                     </a>
                 </div>
             </div>
-            {% endfor %}
-
         </div>
+
+        <!-- İlan Kartı 2 -->
+        <div class="bg-[#131b2e] border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-amber-500/50 transition flex flex-col md:flex-row">
+            <div class="md:w-72 h-52 relative shrink-0">
+                <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=600&auto=format&fit=crop" alt="İlan Görseli" class="w-full h-full object-cover">
+                <div class="absolute bottom-2 left-2 bg-slate-950/80 text-amber-400 text-[10px] px-2.5 py-1 rounded-lg font-bold">
+                    İlan No: 1325718068
+                </div>
+            </div>
+            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                <div>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <a href="detay-2.html" class="text-lg sm:text-xl font-bold text-white hover:text-amber-400 transition">
+                            Cadde Üstü Kiralık 2+1 Daire
+                        </a>
+                        <span class="text-emerald-400 font-extrabold text-lg shrink-0">17.500 TL</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">
+                        Kiralık -> Daire -> Adapazarı / Hızırtepe Mh.
+                    </p>
+                </div>
+                
+                <div class="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-800 text-xs text-slate-300">
+                    <div class="flex items-center space-x-4">
+                        <span><i class="fa-solid fa-eye text-amber-500 mr-1"></i> 667</span>
+                        <span><i class="fa-solid fa-star text-slate-500 mr-1"></i> 0</span>
+                        <span><i class="fa-solid fa-comment text-slate-500 mr-1"></i> 0</span>
+                    </div>
+                    <a href="detay-2.html" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-xl font-extrabold transition shadow-md flex items-center space-x-1.5">
+                        <span>İlanı İncele</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- FOOTER -->
     <footer class="bg-[#070a11] text-slate-500 py-6 border-t border-slate-800 text-center text-xs">
-        <p>&copy; 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
+        <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
     </footer>
 
+    <!-- Mobil Menü Scripti -->
+    <script>
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.reload();
+                    });
+                }
+            });
+        }
+    </script>
 </body>
 </html>
