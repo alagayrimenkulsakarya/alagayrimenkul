@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portföylerimiz | Ala Gayrimenkul</title>
-    <!-- Netlify Identity Widget -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .page-hero {
             background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), 
-                        url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1920&auto=format&fit=crop');
+                        url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1920&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
         }
@@ -19,11 +18,10 @@
 </head>
 <body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- HEADER / MENÜ -->
+    <!-- HEADER -->
     <header class="bg-[#0b0f19]/95 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
         <div class="w-full px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- LOGO (Sola Yaslı) -->
                 <a href="index.html" class="flex items-center space-x-2.5 shrink-0 pl-2">
                     <div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold text-lg tracking-wider">ALA</div>
                     <div>
@@ -32,7 +30,6 @@
                     </div>
                 </a>
 
-                <!-- NAVİGASYON MENÜSÜ -->
                 <nav class="hidden 2xl:flex items-center space-x-6 font-medium text-slate-300 text-sm">
                     <a href="index.html" class="hover:text-amber-400 transition">Ana Sayfa</a>
                     <a href="hakkimizda.html" class="hover:text-amber-400 transition">Hakkımızda</a>
@@ -44,7 +41,6 @@
                     <a href="iletisim.html" class="hover:text-amber-400 transition">İletişim & Konum</a>
                 </nav>
 
-                <!-- SAĞ BUTONLAR VE MOBİL MENÜ -->
                 <div class="flex items-center space-x-2.5 pr-2 shrink-0">
                     <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
                         <i class="fa-solid fa-phone-alt"></i>
@@ -54,7 +50,6 @@
                         <i class="fa-brands fa-whatsapp text-base"></i>
                         <span class="hidden sm:inline">WhatsApp</span>
                     </a>
-                    <!-- Mobil Menü Butonu -->
                     <button id="menu-btn" class="2xl:hidden text-slate-300 hover:text-white p-2 focus:outline-none">
                         <i class="fa-solid fa-bars text-2xl"></i>
                     </button>
@@ -62,7 +57,6 @@
             </div>
         </div>
 
-        <!-- Mobil Açılır Menü -->
         <div id="mobile-menu" class="hidden 2xl:hidden bg-[#0b0f19] border-b border-slate-800 px-6 py-4 space-y-3 font-semibold text-sm">
             <a href="index.html" class="block text-slate-300 hover:text-amber-400 py-1">Ana Sayfa</a>
             <a href="hakkimizda.html" class="block text-slate-300 hover:text-amber-400 py-1">Hakkımızda</a>
@@ -70,85 +64,162 @@
             <a href="portfoy.html" class="block text-amber-400 font-bold py-1">Portföylerimiz</a>
             <a href="degerleme.html" class="block text-slate-300 hover:text-amber-400 py-1">Değerleme Alın</a>
             <a href="blog.html" class="block text-slate-300 hover:text-amber-400 py-1">Blog & Videolar</a>
-            <a href="danisman-ol.html" class="block text-amber-300 hover:text-amber-400 py-1">Danışman Ol</a>
+            <a href="danisman-ol.html" class="block text-slate-300 hover:text-amber-400 py-1">Danışman Ol</a>
             <a href="iletisim.html" class="block text-slate-300 hover:text-amber-400 py-1">İletişim & Konum</a>
         </div>
     </header>
 
     <!-- SAYFA BAŞLIĞI -->
-    <section class="page-hero py-12 border-b border-slate-800">
-        <div class="max-w-5xl mx-auto px-4 text-center">
+    <section class="page-hero py-14 border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 text-center">
             <span class="inline-block bg-amber-500/10 text-amber-400 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-3">
                 Güncel Gayrimenkul Portföyümüz
             </span>
             <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
                 Sakarya'nın Seçkin İlanları
             </h1>
+            <p class="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto mt-2">
+                Konut, arsa, tarla ve ticari gayrimenkul alternatiflerimizi inceleyin.
+            </p>
         </div>
     </section>
 
-    <!-- İLAN LİSTESİ -->
-    <main class="max-w-6xl mx-auto px-4 py-12 w-full space-y-6">
-        
-        <!-- İlan Kartı Örneği -->
-        <div class="bg-[#131b2e] border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-amber-500/50 transition flex flex-col md:flex-row">
-            <div class="md:w-72 h-52 relative shrink-0">
-                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=600&auto=format&fit=crop" alt="İlan Görseli" class="w-full h-full object-cover">
-                <div class="absolute bottom-2 left-2 bg-slate-950/80 text-amber-400 text-[10px] px-2.5 py-1 rounded-lg font-bold">
-                    İlan No: 1315935016
-                </div>
-            </div>
-            <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
-                <div>
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <a href="detay.html" class="text-lg sm:text-xl font-bold text-white hover:text-amber-400 transition">
-                            SAKARYA CADDESİNDE, KONFOR VE LOKASYON BİR ARADA!
-                        </a>
-                        <span class="text-amber-400 font-extrabold text-lg shrink-0">2.225.000 TL</span>
-                    </div>
-                    <p class="text-xs text-slate-400 mt-1">
-                        Satılık -> Daire -> Adapazarı / Tepekum Mah.
-                    </p>
-                </div>
-                
-                <div class="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-slate-800 text-xs text-slate-300">
-                    <div class="flex items-center space-x-4">
-                        <span><i class="fa-solid fa-eye text-amber-500 mr-1"></i> 848</span>
-                        <span><i class="fa-solid fa-star text-amber-400 mr-1"></i> 12</span>
-                        <span><i class="fa-solid fa-comment text-blue-400 mr-1"></i> 1</span>
-                    </div>
-                    <a href="detay.html" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-xl font-extrabold transition shadow-md flex items-center space-x-1.5">
-                        <span>İlanı İncele</span>
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
-                    </a>
-                </div>
-            </div>
+    <!-- KATEGORİ FİLTRELERİ (İş Yeri & Ticari Eklendi) -->
+    <main class="max-w-6xl mx-auto px-4 py-12 w-full space-y-8">
+        <div class="flex flex-wrap justify-center gap-3">
+            <button onclick="filtrele('hepsi')" class="filter-btn active bg-amber-500 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-xs transition shadow-lg">Tüm Portföyler</button>
+            <button onclick="filtrele('daire')" class="filter-btn bg-[#131b2e] text-slate-300 hover:bg-slate-800 font-bold px-6 py-2.5 rounded-xl text-xs transition border border-slate-800">Daire</button>
+            <button onclick="filtrele('mustakilev')" class="filter-btn bg-[#131b2e] text-slate-300 hover:bg-slate-800 font-bold px-6 py-2.5 rounded-xl text-xs transition border border-slate-800">Müstakil Ev / Villa</button>
+            <button onclick="filtrele('arsa')" class="filter-btn bg-[#131b2e] text-slate-300 hover:bg-slate-800 font-bold px-6 py-2.5 rounded-xl text-xs transition border border-slate-800">Arsa / Tarla</button>
+            <button onclick="filtrele('isyeri')" class="filter-btn bg-[#131b2e] text-slate-300 hover:bg-slate-800 font-bold px-6 py-2.5 rounded-xl text-xs transition border border-slate-800">İş Yeri & Ticari</button>
         </div>
 
+        <!-- İLANLARIN LİSTELENECEĞİ ALAN -->
+        <div id="ilan-listesi" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="text-center py-12 text-slate-400 col-span-full text-sm">
+                <i class="fa-solid fa-spinner fa-spin text-amber-500 text-2xl mb-2"></i>
+                <p>Portföy yükleniyor...</p>
+            </div>
+        </div>
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-[#070a11] text-slate-500 py-6 border-t border-slate-800 text-center text-xs">
+    <footer class="bg-[#070a11] text-slate-500 py-6 border-t border-slate-800 text-center text-xs mt-12">
         <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
     </footer>
 
+    <!-- SCRIPT -->
     <script>
         const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => menu.classList.toggle('hidden'));
 
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
+        let tumIlanlar = [];
 
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => {
-                        document.location.reload();
-                    });
+        async function ilanlariCek() {
+            const klasorler = ['daire', 'mustakilev', 'arsa', 'isyeri'];
+            let liste = [];
+
+            for (const klasor of klasorler) {
+                try {
+                    const res = await fetch(`content/${klasor}/index.json`);
+                    if (res.ok) {
+                        const dosyalar = await res.json();
+                        for (const dosya of dosyalar) {
+                            const detayRes = await fetch(`content/${klasor}/${dosya.name}`);
+                            if (detayRes.ok) {
+                                const markdownText = await detayRes.text();
+                                const parsed = parseMarkdown(markdownText);
+                                parsed.kategori = klasor;
+                                liste.push(parsed);
+                            }
+                        }
+                    }
+                } catch (e) {}
+            }
+            tumIlanlar = liste;
+            goster(tumIlanlar);
+        }
+
+        function parseMarkdown(md) {
+            const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
+            if (!frontmatterMatch) return {};
+            const fm = frontmatterMatch[1];
+            const data = {};
+            fm.split('\n').forEach(line => {
+                const parts = line.split(':');
+                if (parts.length >= 2) {
+                    const key = parts[0].trim();
+                    let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
+                    data[key] = val;
                 }
             });
+            return data;
         }
+
+        function goster(ilanlar) {
+            const container = document.getElementById('ilan-listesi');
+            if (ilanlar.length === 0) {
+                container.innerHTML = `<div class="text-center py-12 text-slate-400 col-span-full text-sm">Henüz eklenmiş ilan bulunmuyor.</div>`;
+                return;
+            }
+
+            container.innerHTML = ilanlar.map(ilan => {
+                let goruntulenmeKey = `goruntulenme_${ilan.ilanno || ilan.title}`;
+                let sayac = localStorage.getItem(goruntulenmeKey);
+                if (!sayac) {
+                    sayac = Math.floor(Math.random() * 50) + 120;
+                } else {
+                    sayac = parseInt(sayac) + 1;
+                }
+                localStorage.setItem(goruntulenmeKey, sayac);
+
+                return `
+                    <div class="bg-[#131b2e] border border-slate-800 rounded-3xl overflow-hidden shadow-xl hover:border-amber-500/50 transition flex flex-col justify-between">
+                        <div>
+                            <div class="relative h-52">
+                                <img src="${ilan.image || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800'}" alt="${ilan.title}" class="w-full h-full object-cover">
+                                <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-amber-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-amber-500/30">
+                                    ${ilan.durum || 'Satılık'}
+                                </span>
+                            </div>
+                            <div class="p-5 space-y-3">
+                                <div class="flex justify-between items-center text-[11px] text-slate-400">
+                                    <span>İlan No: ${ilan.ilanno || 'N/A'}</span>
+                                    <span class="flex items-center space-x-1 text-amber-400"><i class="fa-solid fa-eye"></i> <span>${sayac} kez bakıldı</span></span>
+                                </div>
+                                <h3 class="text-base font-extrabold text-white line-clamp-1">${ilan.title}</h3>
+                                <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> ${ilan.ilce || 'Sakarya'} / ${ilan.mahalle || ''}</p>
+                            </div>
+                        </div>
+                        <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-800/60 mt-4">
+                            <span class="text-lg font-black text-amber-400">${ilan.fiyat ? ilan.fiyat + ' TL' : 'Fiyat Belirtilmemiş'}</span>
+                            <div class="flex space-x-2">
+                                <a href="detay.html?ilan=${ilan.ilanno}" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md">İlanı İncele</a>
+                                <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-2.5 rounded-xl text-xs transition shadow-md" title="Hemen Ara">
+                                    <i class="fa-solid fa-phone"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filtrele(kategori) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = "filter-btn bg-[#131b2e] text-slate-300 hover:bg-slate-800 font-bold px-6 py-2.5 rounded-xl text-xs transition border border-slate-800";
+            });
+            event.target.className = "filter-btn bg-amber-500 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-xs transition shadow-lg";
+
+            if (kategori === 'hepsi') {
+                goster(tumIlanlar);
+            } else {
+                goster(tumIlanlar.filter(i => i.kategori === kategori));
+            }
+        }
+
+        window.onload = ilanlariCek;
     </script>
 </body>
 </html>
