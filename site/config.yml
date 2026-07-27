@@ -2,6 +2,7 @@ backend:
   name: github
   repo: alagayrimenkulsakarya/alagayrimenkul
   branch: main
+  auth_type: implicit
 
 media_folder: "site/images"
 public_folder: "images"
