@@ -6,6 +6,8 @@ backend:
 media_folder: "site/images"
 public_folder: "/images"
 
+
+
 collections:
   - name: "daire"
     label: "Daire"
