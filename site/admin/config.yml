@@ -4,13 +4,13 @@ backend:
   branch: main
   base_url: https://decap-cms-oauth.netlify.app
 
-media_folder: "images"
-public_folder: "images"
+media_folder: "site/images"
+public_folder: "/images"
 
 collections:
   - name: "daire"
     label: "Daire"
-    folder: "content/daire"
+    folder: "site/content/daire"
     create: true
     slug: "{{slug}}"
     fields:
@@ -35,7 +35,7 @@ collections:
 
   - name: "mustakilev"
     label: "Müstakil Ev / Villa"
-    folder: "content/mustakilev"
+    folder: "site/content/mustakilev"
     create: true
     slug: "{{slug}}"
     fields:
@@ -57,7 +57,7 @@ collections:
 
   - name: "arsa"
     label: "Arsa / Tarla"
-    folder: "content/arsa"
+    folder: "site/content/arsa"
     create: true
     slug: "{{slug}}"
     fields:
@@ -79,7 +79,7 @@ collections:
 
   - name: "videolar"
     label: "Blog & Videolar"
-    folder: "content/videolar"
+    folder: "site/content/videolar"
     create: true
     slug: "{{slug}}"
     fields:
@@ -91,7 +91,7 @@ collections:
 
   - name: "yorumlar"
     label: "Ziyaretçi Yorumları"
-    folder: "content/yorumlar"
+    folder: "site/content/yorumlar"
     create: true
     slug: "{{slug}}"
     fields:
