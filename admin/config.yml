@@ -2,7 +2,7 @@ backend:
   name: github
   repo: alagayrimenkulsakarya/alagayrimenkul
   branch: main
-  base_url: https://decap-cms-oauth.netlify.app
+  
 
 media_folder: "images"
 public_folder: "/images"
