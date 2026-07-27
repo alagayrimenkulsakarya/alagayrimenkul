@@ -32,11 +32,13 @@
                     </div>
                 </a>
 
-                <!-- NAVİGASYON -->
+                <!-- NAVİGASYON (Üst Menüde Kredi Hesaplama Yok) -->
                 <nav class="hidden 2xl:flex items-center space-x-6 font-medium text-slate-300 text-sm">
                     <a href="index.html" class="hover:text-amber-400 transition">Ana Sayfa</a>
+                    <a href="hakkimizda.html" class="hover:text-amber-400 transition">Hakkımızda</a>
+                    <a href="neden-biz.html" class="hover:text-amber-400 transition">Neden Biz?</a>
                     <a href="portfoy.html" class="hover:text-amber-400 transition">Portföylerimiz</a>
-                    <a href="kredi-hesaplama.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Kredi Hesaplama</a>
+                    <a href="degerleme.html" class="hover:text-amber-400 transition">Değerleme Alın</a>
                     <a href="blog.html" class="hover:text-amber-400 transition">Blog & Videolar</a>
                     <a href="danisman-ol.html" class="hover:text-amber-400 transition text-amber-300 font-semibold">Danışman Ol</a>
                     <a href="iletisim.html" class="hover:text-amber-400 transition">İletişim & Konum</a>
@@ -48,6 +50,10 @@
                         <i class="fa-solid fa-phone-alt"></i>
                         <span class="hidden sm:inline">Bizi Arayın</span>
                     </a>
+                    <a href="https://wa.me/905324075338" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span class="hidden sm:inline">WhatsApp</span>
+                    </a>
                     <!-- Mobil Menü Butonu -->
                     <button id="menu-btn" class="2xl:hidden text-slate-300 hover:text-white p-2 focus:outline-none">
                         <i class="fa-solid fa-bars text-2xl"></i>
@@ -56,11 +62,13 @@
             </div>
         </div>
 
-        <!-- Mobil Açılır Menü -->
+        <!-- Mobil Açılır Menü (Mobil Görünümde de Kredi Hesaplama Yok) -->
         <div id="mobile-menu" class="hidden 2xl:hidden bg-[#0b0f19] border-b border-slate-800 px-6 py-4 space-y-3 font-semibold text-sm">
             <a href="index.html" class="block text-slate-300 hover:text-amber-400 py-1">Ana Sayfa</a>
+            <a href="hakkimizda.html" class="block text-slate-300 hover:text-amber-400 py-1">Hakkımızda</a>
+            <a href="neden-biz.html" class="block text-slate-300 hover:text-amber-400 py-1">Neden Biz?</a>
             <a href="portfoy.html" class="block text-slate-300 hover:text-amber-400 py-1">Portföylerimiz</a>
-            <a href="kredi-hesaplama.html" class="block text-amber-400 font-bold py-1">Kredi Hesaplama</a>
+            <a href="degerleme.html" class="block text-slate-300 hover:text-amber-400 py-1">Değerleme Alın</a>
             <a href="blog.html" class="block text-slate-300 hover:text-amber-400 py-1">Blog & Videolar</a>
             <a href="danisman-ol.html" class="block text-amber-300 hover:text-amber-400 py-1">Danışman Ol</a>
             <a href="iletisim.html" class="block text-slate-300 hover:text-amber-400 py-1">İletişim & Konum</a>
@@ -87,7 +95,7 @@
         
         <div class="bg-[#131b2e] border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             
-            <!-- Girdi Formu (İçleri Boş, Hazır Rakam Yok) -->
+            <!-- Girdi Formu -->
             <div class="md:col-span-7 space-y-4">
                 <h3 class="text-lg font-extrabold text-white flex items-center space-x-2 mb-2">
                     <i class="fa-solid fa-calculator text-amber-500"></i>
@@ -147,7 +155,7 @@
                             <span id="toplamOdeme" class="text-base font-bold text-slate-200">0 TL</span>
                         </div>
 
-                        <!-- Düzeltilmiş Değerlendirme Kutusu -->
+                        <!-- Değerlendirme Kutusu -->
                         <div id="degerlendirmeKutusu" class="p-3.5 rounded-xl border text-xs font-semibold space-y-1">
                             <span class="text-slate-400 italic">Lütfen değerleri girip hesapla butonuna basınız.</span>
                         </div>
@@ -168,7 +176,7 @@
         <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
     </footer>
 
-    <!-- Doğru Hesaplama ve Karşılaştırma Mantığı -->
+    <!-- Hesaplama ve Karşılaştırma Mantığı -->
     <script>
         const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
