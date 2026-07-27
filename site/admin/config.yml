@@ -4,7 +4,7 @@ backend:
   branch: main
   base_url: https://decap-cms-oauth.netlify.app
 
-media_folder: "site/images"
+media_folder: "images"
 public_folder: "images"
 
 collections:
