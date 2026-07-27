@@ -2,6 +2,7 @@ backend:
   name: github
   repo: alagayrimenkulsakarya/alagayrimenkul
   branch: main
+  base_url: https://www.alagayrimenkul.com.tr
 
 media_folder: "site/images"
 public_folder: "/images"
