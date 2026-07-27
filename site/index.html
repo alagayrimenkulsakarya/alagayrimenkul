@@ -1,138 +1,132 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ala Gayrimenkul | Sakarya Kurumsal Emlak Danışmanlığı</title>
-  <!-- Netlify Identity Widget -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    .hero-bg {
-      background: linear-gradient(rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.9)),
-                  url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1920&auto=format&fit=crop');
-      background-size: cover;
-      background-position: center;
-    }
-  </style>
-</head>
-<body class="bg-[#0b0f19] text-slate-100 font-sans antialiased h-screen overflow-hidden flex flex-col justify-between">
-  
-  <!-- Header / Üst Menü -->
-  <header class="bg-[#0b0f19]/95 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
-    <div class="w-full px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-20">
-        <!-- Logo (Tamamen Sola Yaslı) -->
-        <a href="index.html" class="flex items-center space-x-2.5 shrink-0 pl-2">
-          <div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold text-lg tracking-wider">ALA</div>
-          <div>
-            <span class="block font-extrabold text-lg text-white tracking-tight">ALA GAYRİMENKUL</span>
-            <span class="text-[9px] text-amber-500/80 font-medium tracking-widest uppercase">DANIŞMANLIK HİZMETLERİ</span>
-          </div>
-        </a>
-
-        <!-- Desktop Navigation / Masaüstü Menü (Ortalanmış ve Ferah) -->
-        <nav class="hidden 2xl:flex items-center space-x-6 font-medium text-slate-300 text-sm">
-          <a href="index.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Ana Sayfa</a>
-          <a href="hakkimizda.html" class="hover:text-amber-400 transition">Hakkımızda</a>
-          <a href="neden-biz.html" class="hover:text-amber-400 transition">Neden Biz?</a>
-          <a href="portfoy.html" class="hover:text-amber-400 transition">Portföylerimiz</a>
-          <a href="degerleme.html" class="hover:text-amber-400 transition">Değerleme Alın</a>
-          <a href="blog.html" class="hover:text-amber-400 transition">Blog & Videolar</a>
-          <a href="danisman-ol.html" class="hover:text-amber-400 transition text-amber-300 font-semibold">Danışman Ol</a>
-          <a href="iletisim.html" class="hover:text-amber-400 transition">İletişim & Konum</a>
-        
-        </nav>
-
-        <!-- Right Buttons / İletişim Butonları ve Mobil Menü Butonu -->
-        <div class="flex items-center space-x-2.5 pr-2 shrink-0">
-          <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
-            <i class="fa-solid fa-phone-alt"></i>
-            <span class="hidden sm:inline">Bizi Arayın</span>
-          </a>
-          <a href="https://wa.me/905324075338" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
-            <i class="fa-brands fa-whatsapp text-base"></i>
-            <span class="hidden sm:inline">WhatsApp</span>
-          </a>
-          <!-- Mobil Hamburger Butonu -->
-          <button id="menu-btn" class="2xl:hidden text-slate-300 hover:text-white p-2 focus:outline-none">
-            <i class="fa-solid fa-bars text-2xl"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mobile Dropdown Menu / Mobil Açılır Menü -->
-    <div id="mobile-menu" class="hidden 2xl:hidden bg-[#0b0f19] border-b border-slate-800 px-6 py-4 space-y-3 font-semibold text-sm">
-      <a href="index.html" class="block text-amber-400 py-1">Ana Sayfa</a>
-      <a href="hakkimizda.html" class="block text-slate-300 hover:text-amber-400 py-1">Hakkımızda</a>
-      <a href="neden-biz.html" class="block text-slate-300 hover:text-amber-400 py-1">Neden Biz?</a>
-      <a href="portfoy.html" class="block text-slate-300 hover:text-amber-400 py-1">Portföylerimiz</a>
-      <a href="degerleme.html" class="block text-slate-300 hover:text-amber-400 py-1">Değerleme Alın</a>
-      <a href="blog.html" class="block text-slate-300 hover:text-amber-400 py-1">Blog & Videolar</a>
-      <a href="danisman-ol.html" class="block text-amber-300 hover:text-amber-400 py-1">Danışman Ol</a>
-      <a href="iletisim.html" class="block text-slate-300 hover:text-amber-400 py-1">İletişim & Konum</a>
-    </div>
-  </header>
-
-  <!-- Hero Section / Ana İçerik -->
-  <section class="hero-bg flex-1 flex items-center justify-center py-12">
-    <div class="max-w-5xl mx-auto px-4 text-center">
-      <span class="inline-block bg-amber-500/10 text-amber-400 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-6">
-        Sakarya'da Doğru Fiyat & Şeffaf Hizmet
-      </span>
-      <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight mb-6">
-        Hayalinizdeki Mülk <br><span class="text-amber-400">Sizi Bekliyor</span>
-      </h1>
-      <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-10 font-normal">
-        Ala Gayrimenkul güvencesiyle Sakarya ve çevresindeki en seçkin konut, arsa ve ticari portföyleri inceleyin veya mülkünüze ücretsiz ekspertiz yaptırın.
-      </p>
-      
-      <!-- 3'lü Buton Grubu (Özel Renkli Akıllı Kredi Simülasyonu) -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-3xl mx-auto">
-        <a href="portfoy.html" class="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold px-6 py-4 rounded-xl transition shadow-xl flex items-center justify-center space-x-2 text-sm sm:text-base">
-          <span>🏠</span>
-          <span>İlanlarımızı İnceleyin</span>
-        </a>
-        <a href="degerleme.html" class="w-full sm:w-auto bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white px-6 py-4 rounded-xl transition shadow-xl flex items-center justify-center space-x-2 text-sm sm:text-base">
-          <i class="fa-solid fa-calculator text-amber-400"></i>
-          <span>Ücretsiz Değerleme Alın</span>
-        </a>
-        <a href="kredi-hesaplama.html" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 border border-indigo-500 text-white px-6 py-4 rounded-xl transition shadow-xl flex items-center justify-center space-x-2 text-sm sm:text-base font-semibold">
-          <i class="fa-solid fa-percent text-amber-300"></i>
-          <span>Akıllı Kredi Simülasyonu</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer / Alt Bilgi -->
-  <footer class="bg-[#070a11] text-slate-500 py-4 border-t border-slate-800 text-center text-xs">
-    <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
-  </footer>
-
-  <!-- Mobil Menü Açma/Kapama Scripti -->
-  <script>
-    const btn = document.getElementById('menu-btn');
-    const menu = document.getElementById('mobile-menu');
-
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-    });
-  </script>
-
-  <!-- Netlify Identity Widget Token Listener -->
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.reload();
-          });
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ala Gayrimenkul | Sakarya Danışmanlık ve Portföy</title>
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-bg {
+            background: linear-gradient(rgba(11, 15, 25, 0.8), rgba(11, 15, 25, 0.95)), 
+                        url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
         }
-      });
-    }
-  </script>
+    </style>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / MENÜ -->
+    <header class="bg-[#0b0f19]/95 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="w-full px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- LOGO -->
+                <a href="index.html" class="flex items-center space-x-2.5 shrink-0 pl-2">
+                    <div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold text-lg tracking-wider">ALA</div>
+                    <div>
+                        <span class="block font-extrabold text-lg text-white tracking-tight">ALA GAYRİMENKUL</span>
+                        <span class="text-[9px] text-amber-500/80 font-medium tracking-widest uppercase">DANIŞMANLIK HİZMETLERİ</span>
+                    </div>
+                </a>
+
+                <!-- NAVİGASYON -->
+                <nav class="hidden 2xl:flex items-center space-x-6 font-medium text-slate-300 text-sm">
+                    <a href="index.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Ana Sayfa</a>
+                    <a href="hakkimizda.html" class="hover:text-amber-400 transition">Hakkımızda</a>
+                    <a href="neden-biz.html" class="hover:text-amber-400 transition">Neden Biz?</a>
+                    <a href="portfoy.html" class="hover:text-amber-400 transition">Portföylerimiz</a>
+                    <a href="degerleme.html" class="hover:text-amber-400 transition">Değerleme Alın</a>
+                    <a href="blog.html" class="hover:text-amber-400 transition">Blog & Videolar</a>
+                    <a href="danisman-ol.html" class="hover:text-amber-400 transition text-amber-300 font-semibold">Danışman Ol</a>
+                    <a href="iletisim.html" class="hover:text-amber-400 transition">İletişim & Konum</a>
+                </nav>
+
+                <!-- SAĞ BUTONLAR -->
+                <div class="flex items-center space-x-2.5 pr-2 shrink-0">
+                    <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
+                        <i class="fa-solid fa-phone-alt"></i>
+                        <span class="hidden sm:inline">Bizi Arayın</span>
+                    </a>
+                    <a href="https://wa.me/905324075338" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span class="hidden sm:inline">WhatsApp</span>
+                    </a>
+                    <button id="menu-btn" class="2xl:hidden text-slate-300 hover:text-white p-2 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobil Açılır Menü -->
+        <div id="mobile-menu" class="hidden 2xl:hidden bg-[#0b0f19] border-b border-slate-800 px-6 py-4 space-y-3 font-semibold text-sm">
+            <a href="index.html" class="block text-amber-400 font-bold py-1">Ana Sayfa</a>
+            <a href="hakkimizda.html" class="block text-slate-300 hover:text-amber-400 py-1">Hakkımızda</a>
+            <a href="neden-biz.html" class="block text-slate-300 hover:text-amber-400 py-1">Neden Biz?</a>
+            <a href="portfoy.html" class="block text-slate-300 hover:text-amber-400 py-1">Portföylerimiz</a>
+            <a href="degerleme.html" class="block text-slate-300 hover:text-amber-400 py-1">Değerleme Alın</a>
+            <a href="blog.html" class="block text-slate-300 hover:text-amber-400 py-1">Blog & Videolar</a>
+            <a href="danisman-ol.html" class="block text-amber-300 hover:text-amber-400 py-1">Danışman Ol</a>
+            <a href="iletisim.html" class="block text-slate-300 hover:text-amber-400 py-1">İletişim & Konum</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-bg py-20 lg:py-32 border-b border-slate-800">
+        <div class="max-w-5xl mx-auto px-4 text-center space-y-6">
+            <span class="inline-block bg-amber-500/10 text-amber-400 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase">
+                SAKARYA'DA DOĞRU FİYAT & ŞEFFAF HİZMET
+            </span>
+            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+                Hayalinizdeki Mülk Sizi Bekliyor
+            </h1>
+            <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto">
+                Güvencesiyle Sakarya ve çevresindeki en seçkin konut, arsa ve ticari portföyü inceleyin veya mülkünüze ücretsiz ekspertiz yaptırın.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a href="portfoy.html" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold px-8 py-3.5 rounded-xl shadow-xl transition flex items-center space-x-2">
+                    <span>Portföyümüzü İnceleyin</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+                <a href="degerleme.html" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-3.5 rounded-xl shadow-xl transition flex items-center space-x-2">
+                    <i class="fa-solid fa-calculator"></i>
+                    <span>Ücretsiz Değerleme Alın</span>
+                </a>
+                <!-- GÖNDERDİĞİN FOTOĞRAFTA OLAN AKILLI KREDİ SİMÜLASYONU BUTONU -->
+                <a href="kredi-hesaplama.html" class="bg-slate-700 hover:bg-slate-600 text-white font-bold px-8 py-3.5 rounded-xl shadow-xl transition flex items-center space-x-2 border border-slate-600">
+                    <i class="fa-solid fa-percent"></i>
+                    <span>Akıllı Kredi Simülasyonu</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#070a11] text-slate-500 py-6 border-t border-slate-800 text-center text-xs">
+        <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <!-- Script -->
+    <script>
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.reload();
+                    });
+                }
+            });
+        }
+    </script>
 </body>
 </html>
