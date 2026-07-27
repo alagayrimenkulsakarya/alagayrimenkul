@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kredi Hesaplama & Simülasyon | Ala Gayrimenkul</title>
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-hero {
+            background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), 
+                        url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER / MENÜ -->
+    <header class="bg-[#0b0f19]/95 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="w-full px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- LOGO -->
+                <a href="index.html" class="flex items-center space-x-2.5 shrink-0 pl-2">
+                    <div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold text-lg tracking-wider">ALA</div>
+                    <div>
+                        <span class="block font-extrabold text-lg text-white tracking-tight">ALA GAYRİMENKUL</span>
+                        <span class="text-[9px] text-amber-500/80 font-medium tracking-widest uppercase">DANIŞMANLIK HİZMETLERİ</span>
+                    </div>
+                </a>
+
+                <!-- NAVİGASYON -->
+                <nav class="hidden 2xl:flex items-center space-x-6 font-medium text-slate-300 text-sm">
+                    <a href="index.html" class="hover:text-amber-400 transition">Ana Sayfa</a>
+                    <a href="portfoy.html" class="hover:text-amber-400 transition">Portföylerimiz</a>
+                    <a href="kredi-hesaplama.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Kredi Hesaplama</a>
+                    <a href="blog.html" class="hover:text-amber-400 transition">Blog & Videolar</a>
+                    <a href="danisman-ol.html" class="hover:text-amber-400 transition text-amber-300 font-semibold">Danışman Ol</a>
+                    <a href="iletisim.html" class="hover:text-amber-400 transition">İletişim & Konum</a>
+                </nav>
+
+                <!-- SAĞ BUTONLAR -->
+                <div class="flex items-center space-x-2.5 pr-2 shrink-0">
+                    <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
+                        <i class="fa-solid fa-phone-alt"></i>
+                        <span class="hidden sm:inline">Bizi Arayın</span>
+                    </a>
+                    <!-- Mobil Menü Butonu -->
+                    <button id="menu-btn" class="2xl:hidden text-slate-300 hover:text-white p-2 focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobil Açılır Menü -->
+        <div id="mobile-menu" class="hidden 2xl:hidden bg-[#0b0f19] border-b border-slate-800 px-6 py-4 space-y-3 font-semibold text-sm">
+            <a href="index.html" class="block text-slate-300 hover:text-amber-400 py-1">Ana Sayfa</a>
+            <a href="portfoy.html" class="block text-slate-300 hover:text-amber-400 py-1">Portföylerimiz</a>
+            <a href="kredi-hesaplama.html" class="block text-amber-400 font-bold py-1">Kredi Hesaplama</a>
+            <a href="blog.html" class="block text-slate-300 hover:text-amber-400 py-1">Blog & Videolar</a>
+            <a href="danisman-ol.html" class="block text-amber-300 hover:text-amber-400 py-1">Danışman Ol</a>
+            <a href="iletisim.html" class="block text-slate-300 hover:text-amber-400 py-1">İletişim & Konum</a>
+        </div>
+    </header>
+
+    <!-- SAYFA BAŞLIĞI -->
+    <section class="page-hero py-14 border-b border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <span class="inline-block bg-amber-500/10 text-amber-400 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-3">
+                Finansal Destek & Planlama
+            </span>
+            <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                Konut Kredisi Simülasyonu
+            </h1>
+            <p class="text-slate-400 text-xs sm:text-sm max-w-lg mx-auto mt-2">
+                Evinizin değerini ve kredi detaylarını girerek bütçe analizini ve kredi onay uygunluğunu hemen test edin.
+            </p>
+        </div>
+    </section>
+
+    <!-- KREDİ HESAPLAMA ALANI -->
+    <main class="max-w-4xl mx-auto px-4 py-12 w-full space-y-8">
+        
+        <div class="bg-[#131b2e] border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            
+            <!-- Girdi Formu (İçleri Boş, Hazır Rakam Yok) -->
+            <div class="md:col-span-7 space-y-4">
+                <h3 class="text-lg font-extrabold text-white flex items-center space-x-2 mb-2">
+                    <i class="fa-solid fa-calculator text-amber-500"></i>
+                    <span>Kredi Hesaplama Kriterleri</span>
+                </h3>
+
+                <!-- 1. Evin Değeri -->
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Evin Değeri (TL)</label>
+                    <input type="number" id="evinDegeri" placeholder="Örn: 5000000" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-4 py-3 text-white text-sm font-bold focus:outline-none focus:border-amber-500">
+                </div>
+
+                <!-- 2. Kredi Tutarı -->
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Kredi Tutarı (TL)</label>
+                    <input type="number" id="krediTutar" placeholder="Örn: 2000000" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-4 py-3 text-white text-sm font-bold focus:outline-none focus:border-amber-500">
+                </div>
+
+                <!-- 3. Faiz Oranı -->
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Aylık Faiz Oranı (%)</label>
+                    <input type="number" step="0.01" id="faizOrani" value="3.19" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-4 py-3 text-white text-sm font-bold focus:outline-none focus:border-amber-500">
+                </div>
+
+                <!-- 4. Kaç Ay Vade -->
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Kaç Ay Vade</label>
+                    <select id="krediVade" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-4 py-3 text-white text-sm font-bold focus:outline-none focus:border-amber-500">
+                        <option value="12">12 Ay (1 Yıl)</option>
+                        <option value="24">24 Ay (2 Yıl)</option>
+                        <option value="36">36 Ay (3 Yıl)</option>
+                        <option value="60">60 Ay (5 Yıl)</option>
+                        <option value="120" selected>120 Ay (10 Yıl)</option>
+                        <option value="180">180 Ay (15 Yıl)</option>
+                    </select>
+                </div>
+
+                <button onclick="krediHesapla()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-4 rounded-xl transition shadow-xl text-sm flex items-center justify-center space-x-2 mt-2">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Hesapla ve Değerlendir</span>
+                </button>
+            </div>
+
+            <!-- Sonuç ve Değerlendirme Paneli -->
+            <div class="md:col-span-5 bg-[#0b0f19] border border-slate-800 rounded-2xl p-6 shadow-inner space-y-6 flex flex-col justify-between">
+                <div class="space-y-4">
+                    <span class="text-[10px] bg-amber-500/10 text-amber-400 px-3 py-1 rounded-full font-bold uppercase tracking-wider">Simülasyon Sonucu</span>
+                    
+                    <div class="space-y-3 pt-2">
+                        <div>
+                            <span class="text-xs text-slate-400 block">Tahmini Aylık Taksit</span>
+                            <span id="aylikTaksit" class="text-2xl sm:text-3xl font-black text-amber-400">0 TL</span>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-800">
+                            <span class="text-xs text-slate-400 block">Toplam Geri Ödeme (Anapara + Faiz)</span>
+                            <span id="toplamOdeme" class="text-base font-bold text-slate-200">0 TL</span>
+                        </div>
+
+                        <!-- Düzeltilmiş Değerlendirme Kutusu -->
+                        <div id="degerlendirmeKutusu" class="p-3.5 rounded-xl border text-xs font-semibold space-y-1">
+                            <span class="text-slate-400 italic">Lütfen değerleri girip hesapla butonuna basınız.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yasal Uyarı Notu -->
+                <div class="text-[10px] text-slate-500 italic pt-4 border-t border-slate-900 leading-relaxed">
+                    * <strong>Yasal Uyarı / Bilgilendirme:</strong> Bu simülasyon tamamen bilgilendirme amaçlıdır. Bankaların kredi politikaları, ekspertiz değerleri ve KKB puanınız onay sürecinde esastır. Kesin sonuç için bankanızla görüşünüz.
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#070a11] text-slate-500 py-6 border-t border-slate-800 text-center text-xs mt-12">
+        <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <!-- Doğru Hesaplama ve Karşılaştırma Mantığı -->
+    <script>
+        const btn = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        function krediHesapla() {
+            const evinDegeri = parseFloat(document.getElementById('evinDegeri').value);
+            const anapara = parseFloat(document.getElementById('krediTutar').value);
+            const vade = parseInt(document.getElementById('krediVade').value);
+            const aylikFaiz = (parseFloat(document.getElementById('faizOrani').value) || 0) / 100;
+
+            const kutu = document.getElementById('degerlendirmeKutusu');
+
+            if (!evinDegeri || !anapara) {
+                kutu.className = "p-3.5 rounded-xl border bg-amber-500/10 border-amber-500/30 text-amber-400 text-xs font-semibold space-y-1";
+                kutu.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1"></i> <strong>Uyarı:</strong> Lütfen ev değerini ve kredi tutarını eksiksiz giriniz.`;
+                return;
+            }
+
+            // Kredi Taksit Hesaplama Formülü
+            let aylikTaksit = 0;
+            if (aylikFaiz === 0) {
+                aylikTaksit = anapara / vade;
+            } else {
+                let carpan = Math.pow(1 + aylikFaiz, vade);
+                aylikTaksit = anapara * (aylikFaiz * carpan) / (carpan - 1);
+            }
+
+            const toplamOdeme = aylikTaksit * vade;
+
+            // Ekrana yazdırma
+            document.getElementById('aylikTaksit').innerText = Math.round(aylikTaksit).toLocaleString('tr-TR') + " TL";
+            document.getElementById('toplamOdeme').innerText = Math.round(toplamOdeme).toLocaleString('tr-TR') + " TL";
+
+            // Doğru Mantık: Toplam Geri Ödeme Tutarı ile Evin Değerini Kıyaslama
+            if (toplamOdeme > evinDegeri) {
+                kutu.className = "p-3.5 rounded-xl border bg-rose-500/10 border-rose-500/30 text-rose-400 text-xs font-semibold space-y-1";
+                kutu.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1"></i> <strong>Olumsuz:</strong> Toplam kredi geri ödeme tutarı evin değerinden büyük çıkmaktadır. Bu şartlarda bankaların onay vermesi zor olabilir, peşinatı artırmayı düşünebilirsiniz.`;
+            } else {
+                kutu.className = "p-3.5 rounded-xl border bg-emerald-500/10 border-emerald-500/30 text-emerald-400 text-xs font-semibold space-y-1";
+                kutu.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> <strong>Olumlu:</strong> Toplam geri ödeme tutarı evin değerinin altındadır. Şartlar uygundur, detaylı başvuru için bankanızla görüşebilirsiniz.`;
+            }
+        }
+
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.reload();
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
