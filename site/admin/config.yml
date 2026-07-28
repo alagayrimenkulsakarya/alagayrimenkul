@@ -91,5 +91,5 @@ slug: "{{slug}}"
 fields:
 ￼ {label: "Takma Ad (Nickname)", name: "nickname", widget: "string"}
 ￼ {label: "Yorum İçeriği", name: "mesaj", widget: "text"}
-￼ {label: "Tarih", name: "tarih", widget: "datetime", format: "YYYY-MM-DD", time_format: false}
+￼ {label: "Tarih", name: "tarih", widget: "datetime"}
 ￼ {label: "Yayınla / Onayla", name: "onay", widget: "boolean", default: false}
