@@ -99,7 +99,7 @@
     window.onload = function() {
       if (githubToken) {
         document.getElementById('githubTokenInput').value = githubToken;
-        githubGirisYap();
+        panelAc();
       }
     };
 
@@ -111,6 +111,10 @@
       }
       githubToken = token;
       localStorage.setItem('ala_github_token', token);
+      panelAc();
+    }
+
+    function panelAc() {
       document.getElementById('loginScreen').classList.add('hidden');
       document.getElementById('dashboardScreen').classList.remove('hidden');
       document.getElementById('authStatus').innerText = "Bağlantı Kuruldu (Admin)";
@@ -182,7 +186,7 @@
     }
 
     async function ilanSil(dosyaYolu) {
-      if (!confirm(`Dikkat: "${dosyaYolu"}' adlı ilanı kalıcı olarak silmek istediğinize emin misiniz?`)) return;
+      if (!confirm(`Dikkat: "${dosyaYolu}" adlı ilanı kalıcı olarak silmek istediğinize emin misiniz?`)) return;
 
       const repoOwner = "alagayrimenkulsakarya";
       const repoName = "alagayrimenkul";
@@ -248,7 +252,7 @@
                 </div>
                 <div class="flex gap-2">
                   <button onclick="yorumOnayla('${file.path}', '${file.name}', \`${btoa(encodeURIComponent(markdownText))}\`)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition">Onayla & Yayınla</button>
-                  <button onclick="yorumSil('${file.path}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition">Sil</button>
+                  <button onclick="yorumSilTek('${file.path}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition">Sil</button>
                 </div>
               </div>
             `;
@@ -480,7 +484,7 @@ ${aciklama}`;
         const response = await fetch(url, {
           method: 'PUT',
           headers: { 'Authorization': `Bearer ${githubToken}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: mesaj, content: base64Icerik, branch: branch })
+          body: JSON.stringify({ message: mesaj, content: base64Iceril = base64Icerik, branch: branch })
         });
         return response.ok;
       } catch (e) {
@@ -491,4 +495,3 @@ ${aciklama}`;
   </script>
 </body>
 </html>
-  
