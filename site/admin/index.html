@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col justify-between">
-  <div class="max-w-4xl mx-auto w-full p-6">
+  <div class="max-w-5xl mx-auto w-full p-6">
     <header class="bg-white rounded-xl shadow-sm p-6 mb-6 flex justify-between items-center border border-gray-100">
       <div>
         <h1 class="text-xl font-bold text-gray-800">ALA Gayrimenkul Admin</h1>
@@ -22,10 +22,10 @@
     <div id="loginScreen" class="bg-white rounded-xl shadow-sm p-8 text-center border border-gray-100">
       <div class="max-w-md mx-auto">
         <h2 class="text-lg font-semibold text-gray-800 mb-2">Yönetim Paneline Hoş Geldiniz</h2>
-        <p class="text-gray-500 text-sm mb-6">GitHub Personal Access Token (Token) ile sisteme giriş yapın.</p>
+        <p class="text-gray-500 text-sm mb-6">GitHub Personal Access Token ile sisteme bağlanın.</p>
         <input type="password" id="githubTokenInput" placeholder="GitHub Token giriniz" class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-4 outline-none focus:ring-2 focus:ring-blue-500">
         <button onclick="githubGirisYap()" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-sm">
-          Sisteme Bağlan
+          Sisteme Bağlan ve Hatırla
         </button>
       </div>
     </div>
@@ -45,20 +45,20 @@
             <h3 class="font-semibold text-gray-800 text-sm">Daire</h3>
           </div>
           <div onclick="kategoriSec('mustakilev')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-            <h3 class="font-semibold text-gray-800 text-sm">Müstakil Ev</h3>
+            <h3 class="font-semibold text-gray-800 text-sm">Müstakil Ev / Villa</h3>
           </div>
           <div onclick="kategoriSec('arsa')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-            <h3 class="font-semibold text-gray-800 text-sm">Arsa / Tarla</h3>
+            <h3 class="font-semibold text-gray-800 text-sm">İmarlı Arsa / Tarla</h3>
           </div>
           <div onclick="kategoriSec('isyeri')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-            <h3 class="font-semibold text-gray-800 text-sm">İş Yeri</h3>
+            <h3 class="font-semibold text-gray-800 text-sm">İş Yeri (Dükkan / Büro)</h3>
           </div>
         </div>
 
         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <h3 id="panelBaslik" class="text-lg font-bold text-gray-800 mb-4">Lütfen yukarıdan bir kategori seçin</h3>
           <div id="panelForm" class="space-y-4">
-            <p class="text-gray-500 text-sm">Kategori seçtiğinizde tüm detaylı ilan formu burada açılacaktır.</p>
+            <p class="text-gray-500 text-sm">Seçtiğiniz kategoriye özel tüm detaylar burada açılacaktır.</p>
           </div>
         </div>
       </div>
@@ -66,9 +66,9 @@
       <!-- Yorumlar Sekmesi -->
       <div id="tabYorumlar" class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
         <h3 class="text-lg font-bold text-gray-800 mb-4">Ziyaretçi Yorumları ve Onay Paneli</h3>
-        <p class="text-sm text-gray-500">Kullanıcıların gönderdiği yorumlar burada listelenecek ve onaylandığında sitede görünecektir.</p>
+        <p class="text-sm text-gray-500">Kullanıcıların blog sayfasına gönderdiği yorumlar burada listelenir. Onayladığınızda sitede görünür hale gelir.</p>
         <div id="yorumListesi" class="mt-4 space-y-3">
-          <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">Henüz bekleyen yorum bulunmuyor. Siteden gelen yorumlar buraya düşecektir.</div>
+          <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">Siteden gelen yeni yorumlar burada listelenecektir.</div>
         </div>
       </div>
     </div>
@@ -79,7 +79,14 @@
   </footer>
 
   <script>
-    let githubToken = '';
+    let githubToken = localStorage.getItem('ala_github_token') || '';
+
+    window.onload = function() {
+      if (githubToken) {
+        document.getElementById('githubTokenInput').value = githubToken;
+        githubGirisYap();
+      }
+    };
 
     function githubGirisYap() {
       const token = document.getElementById('githubTokenInput').value.trim();
@@ -88,6 +95,7 @@
         return;
       }
       githubToken = token;
+      localStorage.setItem('ala_github_token', token);
       document.getElementById('loginScreen').classList.add('hidden');
       document.getElementById('dashboardScreen').classList.remove('hidden');
       document.getElementById('authStatus').innerText = "Bağlantı Kuruldu (Admin)";
@@ -112,94 +120,121 @@
       const basliklar = {
         'daire': 'Yeni Daire İlanı Ekle',
         'mustakilev': 'Yeni Müstakil Ev / Villa Ekle',
-        'arsa': 'Yeni Arsa / Tarla Ekle',
-        'isyeri': 'Yeni İş Yeri Ekle'
+        'arsa': 'Yeni İmarlı Arsa / Tarla Ekle',
+        'isyeri': 'Yeni İş Yeri (Dükkan / Büro) Ekle'
       };
       document.getElementById('panelBaslik').innerText = basliklar[tur];
       
-      document.getElementById('panelForm').innerHTML = `
+      let html = `
         <div class="space-y-4">
           <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">İlan Başlığı</label>
-              <input type="text" id="fBaslik" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="Örn: Serdivan Satılık 3+1">
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">İlan No</label>
-              <input type="text" id="fNo" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="ALA-501">
-            </div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İlan Başlığı</label><input type="text" id="fBaslik" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Örn: Serdivan Merkezde Satılık 3+1"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İlan No</label><input type="text" id="fNo" class="w-full border rounded-lg p-2.5 text-sm" placeholder="ALA-101"></div>
           </div>
+          <div class="grid grid-cols-4 gap-3">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Durum</label><select id="fDurum" class="w-full border rounded-lg p-2.5 text-sm"><option value="Satılık">Satılık</option><option value="Kiralık">Kiralık</option></select></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Fiyat (TL)</label><input type="text" id="fFiyat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4.500.000"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İl / İlçe</label><input type="text" id="fIlce" value="Sakarya / Serdivan" class="w-full border rounded-lg p-2.5 text-sm"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Mahalle</label><input type="text" id="fMahalle" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Arabacıalanı Mah."></div>
+          </div>
+      `;
 
+      if (tur === 'daire') {
+        html += `
           <div class="grid grid-cols-3 gap-4">
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Durum</label>
-              <select id="fDurum" class="w-full border rounded-lg p-2.5 text-sm outline-none">
-                <option value="Satılık">Satılık</option>
-                <option value="Kiralık">Kiralık</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Fiyat (TL)</label>
-              <input type="text" id="fFiyat" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="4.250.000">
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Mahalle</label>
-              <input type="text" id="fMahalle" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="Orta Mah.">
-            </div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="140"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label><input type="text" id="fNet" class="w-full border rounded-lg p-2.5 text-sm" placeholder="125"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label><input type="text" id="fOda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="3+1"></div>
           </div>
-
+          <div class="grid grid-cols-4 gap-3">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bina Yaşı</label><input type="text" id="fYas" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bulunduğu Kat</label><input type="text" id="fKat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Kat Sayısı</label><input type="text" id="fKatSayisi" class="w-full border rounded-lg p-2.5 text-sm" placeholder="5"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label><input type="text" id="fIsitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Kombi (Doğalgaz)"></div>
+          </div>
+          <div class="grid grid-cols-4 gap-3">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Banyo Sayısı</label><input type="text" id="fBanyo" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Mutfak</label><input type="text" id="fMutfak" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Kapalı Mutfak"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Otopark</label><input type="text" id="fOtopark" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Kapalı Otopark"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Takas</label><select id="fTakas" class="w-full border rounded-lg p-2.5 text-sm"><option value="Yok">Yok</option><option value="Var">Var</option></select></div>
+          </div>
           <div class="grid grid-cols-3 gap-4">
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label>
-              <input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="135">
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label>
-              <input type="text" id="fNet" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="120">
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label>
-              <input type="text" id="fOda" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="3+1">
-            </div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Eşyalı mı?</label><select id="fEsyali" class="w-full border rounded-lg p-2.5 text-sm"><option value="Hayır">Hayır (Boş)</option><option value="Evet">Evet</option></select></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Krediye Uygunluk</label><select id="fKredi" class="w-full border rounded-lg p-2.5 text-sm"><option value="Uygun">Uygun</option><option value="Değil">Değil</option></select></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Tapu Durumu</label><input type="text" id="fTapu" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Kat Mülkiyetli"></div>
           </div>
+        `;
+      } else if (tur === 'mustakilev') {
+        html += `
+          <div class="grid grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="220"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label><input type="text" id="fNet" class="w-full border rounded-lg p-2.5 text-sm" placeholder="190"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Arsa Alanı m²</label><input type="text" id="fArsaAlan" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500"></div>
+          </div>
+          <div class="grid grid-cols-4 gap-3">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label><input type="text" id="fOda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4+1"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bina Yaşı</label><input type="text" id="fYas" class="w-full border rounded-lg p-2.5 text-sm" placeholder="0 (Sıfır)"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Kat Sayısı</label><input type="text" id="fKatSayisi" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2 Katlı"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label><input type="text" id="fIsitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Yerden Isıtma"></div>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Balkon / Teras</label><input type="text" id="fBalkon" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Var"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Krediye Uygunluk</label><select id="fKredi" class="w-full border rounded-lg p-2.5 text-sm"><option value="Uygun">Uygun</option><option value="Değil">Değil</option></select></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Takas</label><select id="fTakas" class="w-full border rounded-lg p-2.5 text-sm"><option value="Yok">Yok</option><option value="Var">Var</option></select></div>
+          </div>
+        `;
+      } else if (tur === 'arsa') {
+        html += `
+          <div class="grid grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Toplam m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="1000"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">m² Fiyatı (TL)</label><input type="text" id="fM2Fiyat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="3.500 TL"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İmar Durumu</label><input type="text" id="fImar" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Konut / Tarla"></div>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Ada / Parsel / Pafta</label><input type="text" id="fAdaParsel" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Ada: 120 / Parsel: 3"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Tapu Durumu</label><input type="text" id="fTapu" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Müstakil Tapulu"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Takas</label><select id="fTakas" class="w-full border rounded-lg p-2.5 text-sm"><option value="Yok">Yok</option><option value="Var">Var</option></select></div>
+          </div>
+        `;
+      } else if (tur === 'isyeri') {
+        html += `
+          <div class="grid grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İş Yeri Türü</label><select id="fIsTuru" class="w-full border rounded-lg p-2.5 text-sm"><option value="Dükkan">Dükkan / Mağaza</option><option value="Büro">Büro / Ofis</option></select></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="150"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bölüm / Oda Sayısı</label><input type="text" id="fOda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="3 Bölüm"></div>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Aidat (TL)</label><input type="text" id="fAidat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500 TL"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bulunduğu Kat</label><input type="text" id="fKat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Zemin Kat"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Krediye Uygunluk</label><select id="fKredi" class="w-full border rounded-lg p-2.5 text-sm"><option value="Uygun">Uygun</option><option value="Değil">Değil</option></select></div>
+          </div>
+        `;
+      }
 
+      html += `
           <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Kapak Fotoğrafı URL</label>
-              <input type="text" id="fResim" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="/images/daire1.jpg">
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Video / Sanal Tur Linki</label>
-              <input type="text" id="fVideo" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="YouTube Linki">
-            </div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İlan Fotoğrafı Yükle / URL</label><input type="text" id="fResim" class="w-full border rounded-lg p-2.5 text-sm" placeholder="/images/ilan.jpg"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Video / Sanal Tur URL</label><input type="text" id="fVideo" class="w-full border rounded-lg p-2.5 text-sm" placeholder="YouTube Linki"></div>
           </div>
 
-          <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
-            <h4 class="text-xs font-bold text-gray-700 uppercase">Mülk Sahibi Bilgileri (Gizli)</h4>
-            <div class="grid grid-cols-2 gap-3">
-              <input type="text" id="mAd" class="border rounded-lg p-2 text-sm bg-white" placeholder="Mülk Sahibi Adı">
-              <input type="text" id="mTel" class="border rounded-lg p-2 text-sm bg-white" placeholder="Mülk Sahibi Telefonu">
-            </div>
-          </div>
-
-          <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
+          <div class="p-4 bg-gray-50 rounded-lg border space-y-3">
             <h4 class="text-xs font-bold text-gray-700 uppercase">Danışman Bilgileri</h4>
-            <div class="grid grid-cols-2 gap-3">
+            <div class="grid grid-cols-3 gap-3">
               <input type="text" id="dAdi" value="Yusuf İşçi" class="border rounded-lg p-2 text-sm bg-white" placeholder="Danışman Adı">
-              <input type="text" id="dTel" value="0 (532) 407 53 38" class="border rounded-lg p-2 text-sm bg-white" placeholder="Danışman Telefonu">
+              <input type="text" id="dTel" value="0 (532) 407 53 38" class="border rounded-lg p-2 text-sm bg-white" placeholder="Telefon">
+              <input type="text" id="dResim" class="border rounded-lg p-2 text-sm bg-white" placeholder="Danışman Foto URL">
             </div>
           </div>
 
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">İlan Açıklaması</label>
-            <textarea id="fAciklama" rows="4" class="w-full border rounded-lg p-3 text-sm outline-none" placeholder="İlan detayları..."></textarea>
-          </div>
+          <div><label class="block text-xs font-semibold text-gray-600 mb-1">İlan Açıklaması</label><textarea id="fAciklama" rows="4" class="w-full border rounded-lg p-3 text-sm" placeholder="İlan detayları..."></textarea></div>
 
           <button onclick="ilaniGitHubaKaydet('${tur}')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-sm">
             İlanı Kaydet ve Sitede Yayınla
           </button>
         </div>
       `;
+
+      document.getElementById('panelForm').innerHTML = html;
     }
 
     async function ilaniGitHubaKaydet(tur) {
@@ -208,15 +243,11 @@
       const durum = document.getElementById('fDurum').value;
       const fiyat = document.getElementById('fFiyat').value;
       const mahalle = document.getElementById('fMahalle').value;
-      const brut = document.getElementById('fBrut').value;
-      const net = document.getElementById('fNet').value;
-      const oda = document.getElementById('fOda').value;
       const resim = document.getElementById('fResim').value || '/images/default.jpg';
       const video = document.getElementById('fVideo').value;
-      const mulkAd = document.getElementById('mAd').value;
-      const mulkTel = document.getElementById('mTel').value;
       const dAdi = document.getElementById('dAdi').value;
       const dTel = document.getElementById('dTel').value;
+      const dResim = document.getElementById('dResim').value || '';
       const aciklama = document.getElementById('fAciklama').value;
 
       if (!baslik || !fiyat) {
@@ -233,17 +264,12 @@ ilanno: "${no}"
 durum: "${durum}"
 fiyat: "${fiyat}"
 mahalle: "${mahalle}"
-brut: "${brut}"
-net: "${net}"
-odasayisi: "${oda}"
 image: "${resim}"
 video_url: "${video}"
-mulk_sahibi:
-  ad: "${mulkAd}"
-  telefon: "${mulkTel}"
 danisman:
   adi: "${dAdi}"
   telefon: "${dTel}"
+  fotograf: "${dResim}"
 ---
 ${aciklama}`;
 
