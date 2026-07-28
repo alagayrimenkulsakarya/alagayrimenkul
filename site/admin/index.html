@@ -213,8 +213,14 @@
 
       html += `
           <div class="grid grid-cols-2 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İlan Fotoğrafı Yükle / URL</label><input type="text" id="fResim" class="w-full border rounded-lg p-2.5 text-sm" placeholder="/images/ilan.jpg"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Video / Sanal Tur URL</label><input type="text" id="fVideo" class="w-full border rounded-lg p-2.5 text-sm" placeholder="YouTube Linki"></div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">İlan Fotoğrafı Seç (Bilgisayardan)</label>
+              <input type="file" id="fResimDosya" accept="image/*" class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Video / Sanal Tur Linki (YouTube vb.)</label>
+              <input type="text" id="fVideo" class="w-full border rounded-lg p-2.5 text-sm" placeholder="https://youtube.com/...">
+            </div>
           </div>
 
           <div class="p-4 bg-gray-50 rounded-lg border space-y-3">
@@ -222,7 +228,10 @@
             <div class="grid grid-cols-3 gap-3">
               <input type="text" id="dAdi" value="Yusuf İşçi" class="border rounded-lg p-2 text-sm bg-white" placeholder="Danışman Adı">
               <input type="text" id="dTel" value="0 (532) 407 53 38" class="border rounded-lg p-2 text-sm bg-white" placeholder="Telefon">
-              <input type="text" id="dResim" class="border rounded-lg p-2 text-sm bg-white" placeholder="Danışman Foto URL">
+              <div>
+                <label class="block text-[10px] text-gray-500 mb-1">Danışman Fotoğrafı</label>
+                <input type="file" id="dResimDosya" accept="image/*" class="w-full border rounded p-1 text-xs bg-white">
+              </div>
             </div>
           </div>
 
@@ -237,17 +246,25 @@
       document.getElementById('panelForm').innerHTML = html;
     }
 
+    // Dosyayı Base64 formatına çeviren yardımcı fonksiyon
+    function dosyaToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = error => reject(error);
+      });
+    }
+
     async function ilaniGitHubaKaydet(tur) {
       const baslik = document.getElementById('fBaslik').value;
       const no = document.getElementById('fNo').value || 'ALA-100';
       const durum = document.getElementById('fDurum').value;
       const fiyat = document.getElementById('fFiyat').value;
       const mahalle = document.getElementById('fMahalle').value;
-      const resim = document.getElementById('fResim').value || '/images/default.jpg';
       const video = document.getElementById('fVideo').value;
       const dAdi = document.getElementById('dAdi').value;
       const dTel = document.getElementById('dTel').value;
-      const dResim = document.getElementById('dResim').value || '';
       const aciklama = document.getElementById('fAciklama').value;
 
       if (!baslik || !fiyat) {
@@ -256,29 +273,61 @@
       }
 
       const slug = baslik.toLowerCase().replace(/[^a-z0-9]/g, '-');
-      const dosyaAdi = `content/${tur}/${slug}.md`;
+      let kapakResimYolu = '/images/default.jpg';
+      let danismanResimYolu = '';
 
+      // İlan Fotoğrafı Yükleme
+      const resimInput = document.getElementById('fResimDosya');
+      if (resimInput && resimInput.files[0]) {
+        const dosya = resimInput.files[0];
+        const base64Data = await dosyaToBase64(dosya);
+        const resimYolu = `images/${slug}-${Date.now()}-${dosya.name}`;
+        
+        await githubDosyaYukle(resimYolu, base64Data, `Yeni görsel yüklendi: ${dosya.name}`);
+        kapakResimYolu = `/${resimYolu}`;
+      }
+
+      // Danışman Fotoğrafı Yükleme
+      const dResimInput = document.getElementById('dResimDosya');
+      if (dResimInput && dResimInput.files[0]) {
+        const dDosya = dResimInput.files[0];
+        const dBase64Data = await dosyaToBase64(dDosya);
+        const dResimYolu = `images/danisman-${Date.now()}-${dDosya.name}`;
+        
+        await githubDosyaYukle(dResimYolu, dBase64Data, `Danışman görseli yüklendi: ${dDosya.name}`);
+        danismanResimYolu = `/${dResimYolu}`;
+      }
+
+      const dosyaAdi = `content/${tur}/${slug}.md`;
       const icerikYaml = `---
 title: "${baslik}"
 ilanno: "${no}"
 durum: "${durum}"
 fiyat: "${fiyat}"
 mahalle: "${mahalle}"
-image: "${resim}"
+image: "${kapakResimYolu}"
 video_url: "${video}"
 danisman:
   adi: "${dAdi}"
   telefon: "${dTel}"
-  fotograf: "${dResim}"
+  fotograf: "${danismanResimYolu}"
 ---
 ${aciklama}`;
 
       const encodedContent = btoa(unescape(encodeURIComponent(icerikYaml)));
+      const sonuc = await githubDosyaYukle(dosyaAdi, encodedContent, `Yeni ilan eklendi: ${baslik}`);
+
+      if (sonuc) {
+        alert('Tebrikler! İlan ve görseller başarıyla GitHub\'a yüklendi ve sitede yayınlandı.');
+        kategoriSec(tur);
+      }
+    }
+
+    async function githubDosyaYukle(dosyaYolu, base64Icerik, mesaj) {
       const repoOwner = "alagayrimenkulsakarya";
       const repoName = "alagayrimenkul";
       const branch = "main";
-
-      const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dosyaAdi}`;
+      const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dosyaYolu}`;
 
       try {
         const response = await fetch(url, {
@@ -288,21 +337,22 @@ ${aciklama}`;
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            message: `Yeni ilan eklendi: ${baslik}`,
-            content: encodedContent,
+            message: mesaj,
+            content: base64Icerik,
             branch: branch
           })
         });
 
         if (response.ok) {
-          alert('Tebrikler! İlan başarıyla GitHub\'a kaydedildi ve sitede yayınlandı.');
-          kategoriSec(tur);
+          return true;
         } else {
           const err = await response.json();
-          alert('Kayıt başarısız oldu: ' + (err.message || 'Bilinmeyen hata'));
+          alert('GitHub kayıt hatası: ' + (err.message || 'Bilinmeyen hata'));
+          return false;
         }
       } catch (e) {
-        alert('Bağlantı hatası oluştu: ' + e.message);
+        alert('Bağlantı hatası: ' + e.message);
+        return false;
       }
     }
   </script>
