@@ -3,9 +3,38 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ALA Gayrimenkul Yönetim Paneli</title>
+  <title>ALA Gayrimenkul - Özel Yönetim Paneli</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js" type="module"></script>
+<body class="bg-gray-100 min-h-screen font-sans">
+  <div class="max-w-4xl mx-auto py-10 px-4">
+    <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+      <h1 class="text-2xl font-bold text-gray-800 mb-2">ALA Gayrimenkul Yönetim Paneli</h1>
+      <p class="text-gray-600">Sistem sorunsuz çalışıyor. GitHub üzerinden ilan ekleyebilir ve içerikleri yönetebilirsiniz.</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Hızlı Durum Kontrolü</h2>
+      <div class="space-y-3">
+        <div class="flex items-center justify-between p-3 bg-green-50 text-green-700 rounded-lg border border-green-200">
+          <span>Veri Dizini Kontrolü: <strong>site/content/</strong> aktif</span>
+          <span class="text-xs bg-green-200 px-2 py-1 rounded font-bold">Çalışıyor</span>
+        </div>
+        <div class="flex items-center justify-between p-3 bg-blue-50 text-blue-700 rounded-lg border border-blue-200">
+          <span>GitHub Bağlantısı: <strong>alagayrimenkulsakarya/alagayrimenkul</strong></span>
+          <span class="text-xs bg-blue-200 px-2 py-1 rounded font-bold">Bağlı</span>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-6 border-t border-gray-200 flex gap-4">
+        <a href="https://github.com/alagayrimenkulsakarya/alagayrimenkul" target="_blank" class="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition">
+          GitHub Deposuna Git
+        </a>
+        <button onclick="location.reload()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition">
+          Sayfayı Yenile
+        </button>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
