@@ -68,7 +68,7 @@
         <h3 class="text-lg font-bold text-gray-800 mb-4">Ziyaretçi Yorumları ve Onay Paneli</h3>
         <p class="text-sm text-gray-500">Kullanıcıların gönderdiği yorumlar burada listelenecek ve onaylandığında sitede görünecektir.</p>
         <div id="yorumListesi" class="mt-4 space-y-3">
-          <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">Henüz bekleyen yorum bulunmuyor.</div>
+          <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">Henüz bekleyen yorum bulunmuyor. Siteden gelen yorumlar buraya düşecektir.</div>
         </div>
       </div>
     </div>
@@ -129,11 +129,155 @@
               <input type="text" id="fNo" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="ALA-501">
             </div>
           </div>
-          <div class="p-4 bg-blue-50 rounded-lg text-sm text-blue-700">
-            Form iskeleti başarıyla yüklendi. Detaylı alanları bir sonraki adımda ekleyeceğiz.
+
+          <div class="grid grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Durum</label>
+              <select id="fDurum" class="w-full border rounded-lg p-2.5 text-sm outline-none">
+                <option value="Satılık">Satılık</option>
+                <option value="Kiralık">Kiralık</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Fiyat (TL)</label>
+              <input type="text" id="fFiyat" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="4.250.000">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Mahalle</label>
+              <input type="text" id="fMahalle" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="Orta Mah.">
+            </div>
           </div>
+
+          <div class="grid grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label>
+              <input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="135">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label>
+              <input type="text" id="fNet" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="120">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label>
+              <input type="text" id="fOda" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="3+1">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Kapak Fotoğrafı URL</label>
+              <input type="text" id="fResim" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="/images/daire1.jpg">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Video / Sanal Tur Linki</label>
+              <input type="text" id="fVideo" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="YouTube Linki">
+            </div>
+          </div>
+
+          <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
+            <h4 class="text-xs font-bold text-gray-700 uppercase">Mülk Sahibi Bilgileri (Gizli)</h4>
+            <div class="grid grid-cols-2 gap-3">
+              <input type="text" id="mAd" class="border rounded-lg p-2 text-sm bg-white" placeholder="Mülk Sahibi Adı">
+              <input type="text" id="mTel" class="border rounded-lg p-2 text-sm bg-white" placeholder="Mülk Sahibi Telefonu">
+            </div>
+          </div>
+
+          <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
+            <h4 class="text-xs font-bold text-gray-700 uppercase">Danışman Bilgileri</h4>
+            <div class="grid grid-cols-2 gap-3">
+              <input type="text" id="dAdi" value="Yusuf İşçi" class="border rounded-lg p-2 text-sm bg-white" placeholder="Danışman Adı">
+              <input type="text" id="dTel" value="0 (532) 407 53 38" class="border rounded-lg p-2 text-sm bg-white" placeholder="Danışman Telefonu">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">İlan Açıklaması</label>
+            <textarea id="fAciklama" rows="4" class="w-full border rounded-lg p-3 text-sm outline-none" placeholder="İlan detayları..."></textarea>
+          </div>
+
+          <button onclick="ilaniGitHubaKaydet('${tur}')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-sm">
+            İlanı Kaydet ve Sitede Yayınla
+          </button>
         </div>
       `;
+    }
+
+    async function ilaniGitHubaKaydet(tur) {
+      const baslik = document.getElementById('fBaslik').value;
+      const no = document.getElementById('fNo').value || 'ALA-100';
+      const durum = document.getElementById('fDurum').value;
+      const fiyat = document.getElementById('fFiyat').value;
+      const mahalle = document.getElementById('fMahalle').value;
+      const brut = document.getElementById('fBrut').value;
+      const net = document.getElementById('fNet').value;
+      const oda = document.getElementById('fOda').value;
+      const resim = document.getElementById('fResim').value || '/images/default.jpg';
+      const video = document.getElementById('fVideo').value;
+      const mulkAd = document.getElementById('mAd').value;
+      const mulkTel = document.getElementById('mTel').value;
+      const dAdi = document.getElementById('dAdi').value;
+      const dTel = document.getElementById('dTel').value;
+      const aciklama = document.getElementById('fAciklama').value;
+
+      if (!baslik || !fiyat) {
+        alert('Lütfen İlan Başlığı ve Fiyat alanlarını doldurunuz.');
+        return;
+      }
+
+      const slug = baslik.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      const dosyaAdi = `content/${tur}/${slug}.md`;
+
+      const icerikYaml = `---
+title: "${baslik}"
+ilanno: "${no}"
+durum: "${durum}"
+fiyat: "${fiyat}"
+mahalle: "${mahalle}"
+brut: "${brut}"
+net: "${net}"
+odasayisi: "${oda}"
+image: "${resim}"
+video_url: "${video}"
+mulk_sahibi:
+  ad: "${mulkAd}"
+  telefon: "${mulkTel}"
+danisman:
+  adi: "${dAdi}"
+  telefon: "${dTel}"
+---
+${aciklama}`;
+
+      const encodedContent = btoa(unescape(encodeURIComponent(icerikYaml)));
+      const repoOwner = "alagayrimenkulsakarya";
+      const repoName = "alagayrimenkul";
+      const branch = "main";
+
+      const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dosyaAdi}`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${githubToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: `Yeni ilan eklendi: ${baslik}`,
+            content: encodedContent,
+            branch: branch
+          })
+        });
+
+        if (response.ok) {
+          alert('Tebrikler! İlan başarıyla GitHub\'a kaydedildi ve sitede yayınlandı.');
+          kategoriSec(tur);
+        } else {
+          const err = await response.json();
+          alert('Kayıt başarısız oldu: ' + (err.message || 'Bilinmeyen hata'));
+        }
+      } catch (e) {
+        alert('Bağlantı hatası oluştu: ' + e.message);
+      }
     }
   </script>
 </body>
