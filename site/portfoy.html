@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portföylerimiz | Ala Gayrimenkul</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -84,7 +83,7 @@
         </div>
     </section>
 
-    <!-- KATEGORİ FİLTRELERİ (İş Yeri & Ticari Eklendi) -->
+    <!-- KATEGORİ FİLTRELERİ -->
     <main class="max-w-6xl mx-auto px-4 py-12 w-full space-y-8">
         <div class="flex flex-wrap justify-center gap-3">
             <button onclick="filtrele('hepsi')" class="filter-btn active bg-amber-500 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-xs transition shadow-lg">Tüm Portföyler</button>
@@ -119,23 +118,30 @@
         async function ilanlariCek() {
             const klasorler = ['daire', 'mustakilev', 'arsa', 'isyeri'];
             let liste = [];
+            const repoOwner = "alagayrimenkulsakarya";
+            const repoName = "alagayrimenkul";
 
             for (const klasor of klasorler) {
                 try {
-                    const res = await fetch(`content/${klasor}/index.json`);
+                    // GitHub API kullanarak doğrudan klasör içeriğini çekiyoruz (index.json derdine son)
+                    const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${klasor}`);
                     if (res.ok) {
                         const dosyalar = await res.json();
                         for (const dosya of dosyalar) {
-                            const detayRes = await fetch(`content/${klasor}/${dosya.name}`);
-                            if (detayRes.ok) {
-                                const markdownText = await detayRes.text();
-                                const parsed = parseMarkdown(markdownText);
-                                parsed.kategori = klasor;
-                                liste.push(parsed);
+                            if (dosya.name.endsWith('.md')) {
+                                const detayRes = await fetch(dosya.download_url);
+                                if (detayRes.ok) {
+                                    const markdownText = await detayRes.text();
+                                    const parsed = parseMarkdown(markdownText);
+                                    parsed.kategori = klasor;
+                                    liste.push(parsed);
+                                }
                             }
                         }
                     }
-                } catch (e) {}
+                } catch (e) {
+                    console.error(klasor + " yüklenirken hata:", e);
+                }
             }
             tumIlanlar = liste;
             goster(tumIlanlar);
