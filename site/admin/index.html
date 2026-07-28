@@ -22,35 +22,53 @@
     <div id="loginScreen" class="bg-white rounded-xl shadow-sm p-8 text-center border border-gray-100">
       <div class="max-w-md mx-auto">
         <h2 class="text-lg font-semibold text-gray-800 mb-2">Yönetim Paneline Hoş Geldiniz</h2>
-        <p class="text-gray-500 text-sm mb-6">İlanları yönetmek ve içerik eklemek için GitHub hesabınızla giriş yapmalısınız.</p>
-        <button onclick="githubGirisYap()" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-2 shadow-sm">
-          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          GitHub ile Giriş Yap
+        <p class="text-gray-500 text-sm mb-6">GitHub Personal Access Token (Token) ile sisteme giriş yapın.</p>
+        <input type="password" id="githubTokenInput" placeholder="GitHub Token giriniz" class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-4 outline-none focus:ring-2 focus:ring-blue-500">
+        <button onclick="githubGirisYap()" class="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-sm">
+          Sisteme Bağlan
         </button>
       </div>
     </div>
 
-    <!-- Panel Paneli (Giriş Sonrası) -->
+    <!-- Ana Panel Alanı -->
     <div id="dashboardScreen" class="hidden space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div onclick="kategoriSec('daire')" class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:border-blue-500 cursor-pointer transition">
-          <h3 class="font-semibold text-gray-800">Daireler</h3>
-          <p class="text-xs text-gray-500 mt-1">Daire ilanlarını yönet</p>
+      <!-- Sekmeler -->
+      <div class="flex gap-2 border-b pb-4">
+        <button onclick="sekmeDegis('portfoy')" id="btnPortfoy" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition">Portföy Yönetimi</button>
+        <button onclick="sekmeDegis('yorumlar')" id="btnYorumlar" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition">Blog & Yorum Onayları</button>
+      </div>
+
+      <!-- Portföy Sekmesi -->
+      <div id="tabPortfoy" class="space-y-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div onclick="kategoriSec('daire')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+            <h3 class="font-semibold text-gray-800 text-sm">Daire</h3>
+          </div>
+          <div onclick="kategoriSec('mustakilev')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+            <h3 class="font-semibold text-gray-800 text-sm">Müstakil Ev</h3>
+          </div>
+          <div onclick="kategoriSec('arsa')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+            <h3 class="font-semibold text-gray-800 text-sm">Arsa / Tarla</h3>
+          </div>
+          <div onclick="kategoriSec('isyeri')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+            <h3 class="font-semibold text-gray-800 text-sm">İş Yeri</h3>
+          </div>
         </div>
-        <div onclick="kategoriSec('mustakilev')" class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:border-blue-500 cursor-pointer transition">
-          <h3 class="font-semibold text-gray-800">Müstakil Evler</h3>
-          <p class="text-xs text-gray-500 mt-1">Villa / Müstakil ilanları</p>
-        </div>
-        <div onclick="kategoriSec('arsa')" class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:border-blue-500 cursor-pointer transition">
-          <h3 class="font-semibold text-gray-800">Arsalar</h3>
-          <p class="text-xs text-gray-500 mt-1">Arsa ve tarla ilanları</p>
+
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <h3 id="panelBaslik" class="text-lg font-bold text-gray-800 mb-4">Lütfen yukarıdan bir kategori seçin</h3>
+          <div id="panelForm" class="space-y-4">
+            <p class="text-gray-500 text-sm">Kategori seçtiğinizde tüm detaylı ilan formu burada açılacaktır.</p>
+          </div>
         </div>
       </div>
 
-      <div id="contentArea" class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-        <h3 id="panelBaslik" class="text-lg font-bold text-gray-800 mb-4">Lütfen bir kategori seçin</h3>
-        <div id="panelForm" class="space-y-4">
-          <p class="text-gray-500 text-sm">Yukarıdaki kategorilerden birine tıklayarak içerik eklemeye başlayabilirsiniz.</p>
+      <!-- Yorumlar Sekmesi -->
+      <div id="tabYorumlar" class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">Ziyaretçi Yorumları ve Onay Paneli</h3>
+        <p class="text-sm text-gray-500">Kullanıcıların gönderdiği yorumlar burada listelenecek ve onaylandığında sitede görünecektir.</p>
+        <div id="yorumListesi" class="mt-4 space-y-3">
+          <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">Henüz bekleyen yorum bulunmuyor.</div>
         </div>
       </div>
     </div>
@@ -61,74 +79,61 @@
   </footer>
 
   <script>
+    let githubToken = '';
+
     function githubGirisYap() {
-      // Netlify Identity veya GitHub OAuth yönlendirmesi
+      const token = document.getElementById('githubTokenInput').value.trim();
+      if (!token) {
+        alert('Lütfen geçerli bir GitHub Token giriniz.');
+        return;
+      }
+      githubToken = token;
       document.getElementById('loginScreen').classList.add('hidden');
       document.getElementById('dashboardScreen').classList.remove('hidden');
       document.getElementById('authStatus').innerText = "Bağlantı Kuruldu (Admin)";
       document.getElementById('authStatus').className = "text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200";
     }
 
+    function sekmeDegis(sekme) {
+      if (sekme === 'portfoy') {
+        document.getElementById('tabPortfoy').classList.remove('hidden');
+        document.getElementById('tabYorumlar').classList.add('hidden');
+        document.getElementById('btnPortfoy').className = "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition";
+        document.getElementById('btnYorumlar').className = "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition";
+      } else {
+        document.getElementById('tabYorumlar').classList.remove('hidden');
+        document.getElementById('tabPortfoy').classList.add('hidden');
+        document.getElementById('btnYorumlar').className = "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition";
+        document.getElementById('btnPortfoy').className = "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition";
+      }
+    }
+
     function kategoriSec(tur) {
       const basliklar = {
         'daire': 'Yeni Daire İlanı Ekle',
-        'mustakilev': 'Yeni Müstakil Ev İlanı Ekle',
-        'arsa': 'Yeni Arsa İlanı Ekle'
+        'mustakilev': 'Yeni Müstakil Ev / Villa Ekle',
+        'arsa': 'Yeni Arsa / Tarla Ekle',
+        'isyeri': 'Yeni İş Yeri Ekle'
       };
       document.getElementById('panelBaslik').innerText = basliklar[tur];
+      
       document.getElementById('panelForm').innerHTML = `
         <div class="space-y-4">
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">İlan Başlığı</label>
-            <input type="text" id="formBaslik" class="w-full border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Örn: Serdivan Merkezde Satılık 3+1">
-          </div>
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">İlan No</label>
-              <input type="text" id="formNo" class="w-full border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="ALA-501">
+              <label class="block text-xs font-semibold text-gray-600 mb-1">İlan Başlığı</label>
+              <input type="text" id="fBaslik" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="Örn: Serdivan Satılık 3+1">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Fiyat (TL)</label>
-              <input type="text" id="formFiyat" class="w-full border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="4.250.000 TL">
+              <label class="block text-xs font-semibold text-gray-600 mb-1">İlan No</label>
+              <input type="text" id="fNo" class="w-full border rounded-lg p-2.5 text-sm outline-none" placeholder="ALA-501">
             </div>
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">İlan Açıklaması</label>
-            <textarea id="formAciklama" rows="4" class="w-full border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="İlan detayları..."></textarea>
+          <div class="p-4 bg-blue-50 rounded-lg text-sm text-blue-700">
+            Form iskeleti başarıyla yüklendi. Detaylı alanları bir sonraki adımda ekleyeceğiz.
           </div>
-          <button onclick="dosyaIndir('${tur}')" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-5 rounded-lg text-sm transition shadow-sm">
-            İlan Dosyasını İndir ve GitHub'a Yükle
-          </button>
         </div>
       `;
-    }
-
-    function dosyaIndir(tur) {
-      const baslik = document.getElementById('formBaslik').value || 'ilan';
-      const no = document.getElementById('formNo').value || '00';
-      const fiyat = document.getElementById('formFiyat').value || '0';
-      const aciklama = document.getElementById('formAciklama').value || '';
-      const slug = baslik.toLowerCase().replace(/[^a-z0-9]/g, '-');
-
-      const icerik = `---
-title: "${baslik}"
-ilanno: "${no}"
-durum: "Satılık"
-fiyat: "${fiyat}"
-ilce: "Adapazarı"
-mahalle: "Merkez"
-danisman_adi: "Yusuf İşçi"
-danisman_tel: "0 (532) 407 53 38"
----
-${aciklama}`;
-
-      const blob = new Blob([icerik], { type: 'text/markdown;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = slug + '.md';
-      a.click();
-      alert(`Dosya oluşturuldu! GitHub'da "site/content/${tur}/" klasörüne girip "Add file > Upload files" diyerek bu dosyayı yüklediğinizde sitenizde anında yayınlanacaktır.`);
     }
   </script>
 </body>
