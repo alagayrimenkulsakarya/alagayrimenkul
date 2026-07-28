@@ -1,11 +1,9 @@
 backend:
   name: github
-  repo: alagayrimenkulsakarya/alagayrimenkul # Proje reposunun adı
+  repo: alagayrimenkulsakarya/alagayrimenkul
   branch: main
   base_url: https://www.alagayrimenkul.com.tr
   auth_endpoint: api/auth
-
-  
 
 media_folder: "images"
 public_folder: "/images"
