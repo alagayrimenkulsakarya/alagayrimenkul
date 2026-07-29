@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İlan Detayı | Ala Gayrimenkul</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -21,50 +20,17 @@
                         <span class="text-[9px] text-amber-500/80 font-medium tracking-widest uppercase">DANIŞMANLIK HİZMETLERİ</span>
                     </div>
                 </a>
-
-                <nav class="hidden 2xl:flex items-center space-x-6 font-medium text-slate-300 text-sm">
-                    <a href="index.html" class="hover:text-amber-400 transition">Ana Sayfa</a>
-                    <a href="hakkimizda.html" class="hover:text-amber-400 transition">Hakkımızda</a>
-                    <a href="neden-biz.html" class="hover:text-amber-400 transition">Neden Biz?</a>
-                    <a href="portfoy.html" class="hover:text-amber-400 transition">Portföylerimiz</a>
-                    <a href="degerleme.html" class="hover:text-amber-400 transition">Değerleme Alın</a>
-                    <a href="blog.html" class="hover:text-amber-400 transition">Blog & Videolar</a>
-                    <a href="danisman-ol.html" class="hover:text-amber-400 transition text-amber-300 font-semibold">Danışman Ol</a>
-                    <a href="iletisim.html" class="hover:text-amber-400 transition">İletişim & Konum</a>
-                </nav>
-
-                <div class="flex items-center space-x-2.5 pr-2 shrink-0">
-                    <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
-                        <i class="fa-solid fa-phone-alt"></i>
-                        <span class="hidden sm:inline">Bizi Arayın</span>
-                    </a>
-                    <a href="https://wa.me/905324075338" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
-                        <i class="fa-brands fa-whatsapp text-base"></i>
-                        <span class="hidden sm:inline">WhatsApp</span>
-                    </a>
-                    <button id="menu-btn" class="2xl:hidden text-slate-300 hover:text-white p-2 focus:outline-none">
-                        <i class="fa-solid fa-bars text-2xl"></i>
-                    </button>
-                </div>
+                <a href="portfoy.html" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Portföye Dön
+                </a>
             </div>
-        </div>
-
-        <div id="mobile-menu" class="hidden 2xl:hidden bg-[#0b0f19] border-b border-slate-800 px-6 py-4 space-y-3 font-semibold text-sm">
-            <a href="index.html" class="block text-slate-300 hover:text-amber-400 py-1">Ana Sayfa</a>
-            <a href="hakkimizda.html" class="block text-slate-300 hover:text-amber-400 py-1">Hakkımızda</a>
-            <a href="neden-biz.html" class="block text-slate-300 hover:text-amber-400 py-1">Neden Biz?</a>
-            <a href="portfoy.html" class="block text-slate-300 hover:text-amber-400 py-1">Portföylerimiz</a>
-            <a href="degerleme.html" class="block text-slate-300 hover:text-amber-400 py-1">Değerleme Alın</a>
-            <a href="blog.html" class="block text-slate-300 hover:text-amber-400 py-1">Blog & Videolar</a>
-            <a href="danisman-ol.html" class="block text-slate-300 hover:text-amber-400 py-1">Danışman Ol</a>
-            <a href="iletisim.html" class="block text-slate-300 hover:text-amber-400 py-1">İletişim & Konum</a>
         </div>
     </header>
 
-    <!-- İLAN DETAY İÇERİK ALANI -->
-    <main class="max-w-6xl mx-auto px-4 py-12 w-full space-y-8">
-        <div id="detay-konteyner" class="space-y-6">
-            <div class="text-center py-20 text-slate-400 text-sm">
+    <!-- İLAN DETAY ALANI -->
+    <main class="max-w-6xl mx-auto px-4 py-10 w-full space-y-8">
+        <div id="detay-icerik" class="space-y-6">
+            <div class="text-center py-20 text-slate-400">
                 <i class="fa-solid fa-spinner fa-spin text-amber-500 text-3xl mb-3"></i>
                 <p>İlan detayları yükleniyor...</p>
             </div>
@@ -78,133 +44,46 @@
 
     <!-- SCRIPT -->
     <script>
-        const btn = document.getElementById('menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+        async function ilanDetayiniGetir() {
+            const params = new URLSearchParams(window.location.search);
+            const kategori = params.get('kategori');
+            const dosya = params.get('dosya');
 
-        async function detayGetir() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const ilanNo = urlParams.get('ilan');
-
-            if (!ilanNo) {
-                document.getElementById('detay-konteyner').innerHTML = `<div class="text-center py-20 text-rose-400">İlan numarası bulunamadı. <a href="portfoy.html" class="underline text-amber-400 font-bold">Portföye dön</a></div>`;
+            if (!kategori || !dosya) {
+                document.getElementById('detay-icerik').innerHTML = `
+                    <div class="text-center py-20 text-slate-400">
+                        <p class="text-lg font-bold text-white mb-2">Aradığınız ilan bulunamadı veya yayından kaldırıldı.</p>
+                        <a href="portfoy.html" class="text-amber-400 underline text-sm">Portföye dön</a>
+                    </div>
+                `;
                 return;
             }
 
-            const klasorler = ['daire', 'mustakilev', 'arsa', 'isyeri'];
-            let bulunanIlan = null;
+            const repoOwner = "alagayrimenkulsakarya";
+            const repoName = "alagayrimenkul";
+            const url = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/content/${kategori}/${dosya}`;
 
-            for (const klasor of klasorler) {
-                try {
-                    const res = await fetch(`content/${klasor}/index.json`);
-                    if (res.ok) {
-                        const dosyalar = await res.json();
-                        for (const dosya of dosyalar) {
-                            const detayRes = await fetch(`content/${klasor}/${dosya.name}`);
-                            if (detayRes.ok) {
-                                const md = await detayRes.text();
-                                const parsed = parseMarkdown(md);
-                                if (parsed.ilanno === ilanNo) {
-                                    bulunanIlan = parsed;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                } catch (e) {}
-                if (bulunanIlan) break;
+            try {
+                const res = await fetch(url);
+                if (res.ok) {
+                    const md = await res.text();
+                    const ilan = parseMarkdown(md);
+                    detayiEkranaBas(ilan);
+                } else {
+                    throw new Error('İlan dosyasına ulaşılamadı.');
+                }
+            } catch (e) {
+                document.getElementById('detay-icerik').innerHTML = `
+                    <div class="text-center py-20 text-red-400">
+                        <p>İlan yüklenirken hata oluştu: ${e.message}</p>
+                    </div>
+                `;
             }
-
-            if (!bulunanIlan) {
-                document.getElementById('detay-konteyner').innerHTML = `<div class="text-center py-20 text-rose-400">Aradığınız ilan bulunamadı veya yayından kaldırıldı. <a href="portfoy.html" class="underline text-amber-400 font-bold">Portföye dön</a></div>`;
-                return;
-            }
-
-            document.title = `${bulunanIlan.title} | Ala Gayrimenkul`;
-
-            const gorseller = [bulunanIlan.image, bulunanIlan.image2, bulunanIlan.image3].filter(Boolean);
-
-            document.getElementById('detay-konteyner').innerHTML = `
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-6">
-                    <div>
-                        <span class="text-xs bg-amber-500/10 text-amber-400 px-3 py-1 rounded-full font-bold uppercase tracking-wider border border-amber-500/30">
-                            ${bulunanIlan.durum || 'Satılık'}
-                        </span>
-                        <h1 class="text-2xl sm:text-3xl font-black text-white mt-2">${bulunanIlan.title}</h1>
-                        <p class="text-xs text-slate-400 mt-1">İlan No: <span class="text-amber-400 font-bold">${bulunanIlan.ilanno}</span> | Konum: ${bulunanIlan.ilce || 'Sakarya'} / ${bulunanIlan.mahalle || ''}</p>
-                    </div>
-                    <div class="text-left md:text-right">
-                        <span class="text-xs text-slate-400 block">İlan Fiyatı</span>
-                        <span class="text-3xl font-black text-amber-400">${bulunanIlan.fiyat ? bulunanIlan.fiyat + ' TL' : 'Özel Fiyat'}</span>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    <div class="lg:col-span-8 space-y-4">
-                        <div class="bg-[#131b2e] border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
-                            <img id="ana-resim" src="${gorseller[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200'}" alt="${bulunanIlan.title}" class="w-full h-[380px] sm:h-[480px] object-cover transition duration-300">
-                        </div>
-
-                        ${gorseller.length > 1 ? `
-                            <div class="grid grid-cols-4 sm:grid-cols-6 gap-3">
-                                ${gorseller.map((img) => `
-                                    <div onclick="resimDegistir('${img}')" class="cursor-pointer bg-[#131b2e] border-2 border-slate-800 hover:border-amber-500 rounded-xl overflow-hidden h-20 transition">
-                                        <img src="${img}" class="w-full h-full object-cover">
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : ''}
-
-                        <div class="bg-[#131b2e] border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl mt-6">
-                            <h3 class="text-lg font-extrabold text-white border-b border-slate-800 pb-3">İlan Özellikleri & Açıklaması</h3>
-                            
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs font-semibold">
-                                ${bulunanIlan.brut ? `<div class="bg-[#0b0f19] p-3 rounded-xl border border-slate-800"><span class="text-slate-400 block mb-1">Brüt m²</span><span class="text-white text-sm font-bold">${bulunanIlan.brut}</span></div>` : ''}
-                                ${bulunanIlan.net ? `<div class="bg-[#0b0f19] p-3 rounded-xl border border-slate-800"><span class="text-slate-400 block mb-1">Net m²</span><span class="text-white text-sm font-bold">${bulunanIlan.net}</span></div>` : ''}
-                                ${bulunanIlan.odasayisi ? `<div class="bg-[#0b0f19] p-3 rounded-xl border border-slate-800"><span class="text-slate-400 block mb-1">Oda Sayısı</span><span class="text-white text-sm font-bold">${bulunanIlan.odasayisi}</span></div>` : ''}
-                                ${bulunanIlan.binayasi ? `<div class="bg-[#0b0f19] p-3 rounded-xl border border-slate-800"><span class="text-slate-400 block mb-1">Bina Yaşı</span><span class="text-white text-sm font-bold">${bulunanIlan.binayasi}</span></div>` : ''}
-                                ${bulunanIlan.arsam2 ? `<div class="bg-[#0b0f19] p-3 rounded-xl border border-slate-800"><span class="text-slate-400 block mb-1">Arsa m²</span><span class="text-white text-sm font-bold">${bulunanIlan.arsam2}</span></div>` : ''}
-                                ${bulunanIlan.imardurumu ? `<div class="bg-[#0b0f19] p-3 rounded-xl border border-slate-800"><span class="text-slate-400 block mb-1">İmar Durumu</span><span class="text-white text-sm font-bold">${bulunanIlan.imardurumu}</span></div>` : ''}
-                            </div>
-
-                            <div class="text-slate-300 text-xs sm:text-sm leading-relaxed space-y-2 pt-2">
-                                <p>${bulunanIlan.body || 'Bu ilan için henüz detaylı açıklama girilmemiştir.'}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="lg:col-span-4 bg-[#131b2e] border border-slate-800 rounded-3xl p-6 shadow-2xl space-y-6 sticky top-28">
-                        <div class="text-center space-y-3">
-                            <img src="${bulunanIlan.danisman_foto || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=300'}" alt="${bulunanIlan.danisman_adi || 'Yusuf İşçi'}" class="w-24 h-24 rounded-full object-cover mx-auto border-4 border-amber-500 shadow-lg">
-                            <div>
-                                <span class="text-[10px] text-amber-400 font-bold tracking-widest uppercase block">Yetkili Danışman</span>
-                                <h4 class="text-base font-extrabold text-white mt-0.5">${bulunanIlan.danisman_adi || 'Yusuf İşçi'}</h4>
-                                <p class="text-[11px] text-slate-400">Ala Gayrimenkul Uzman Danışman</p>
-                            </div>
-                        </div>
-
-                        <div class="space-y-3 pt-2">
-                            <a href="tel:${bulunanIlan.danisman_tel || '+905324075338'}" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-3.5 rounded-xl transition shadow-lg text-xs flex items-center justify-center space-x-2">
-                                <i class="fa-solid fa-phone text-sm"></i>
-                                <span>Hemen Ara / Beni Arayın</span>
-                            </a>
-                            <a href="https://wa.me/905324075338?text=Merhaba,%20${bulunanIlan.ilanno}%20nolu%20ilanınız%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-xl transition shadow-lg text-xs flex items-center justify-center space-x-2">
-                                <i class="fa-brands fa-whatsapp text-base"></i>
-                                <span>WhatsApp ile Bağlan</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function resimDegistir(yeniSrc) {
-            document.getElementById('ana-resim').src = yeniSrc;
         }
 
         function parseMarkdown(md) {
             const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
-            if (!frontmatterMatch) return {};
+            if (!frontmatterMatch) return { aciklama: md };
             const fm = frontmatterMatch[1];
             const data = {};
             fm.split('\n').forEach(line => {
@@ -215,12 +94,78 @@
                     data[key] = val;
                 }
             });
-            const bodyMatch = md.replace(/---\s*([\s\S]*?)\s*---/, '').trim();
-            data['body'] = bodyMatch;
+            data.aciklama = md.replace(/---\s*([\s\S]*?)\s*---/, '').trim();
             return data;
         }
 
-        window.onload = detayGetir;
+        function detayiEkranaBas(ilan) {
+            document.title = `${ilan.title || 'İlan Detayı'} | Ala Gayrimenkul`;
+
+            const container = document.getElementById('detay-icerik');
+            container.innerHTML = `
+                <!-- Üst Başlık ve Fiyat -->
+                <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <span class="bg-amber-600 text-slate-950 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
+                            ${ilan.durum || 'Satılık'}
+                        </span>
+                        <h1 class="text-2xl sm:text-3xl font-black text-white mt-2">${ilan.title || ''}</h1>
+                        <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> Sakarya / ${ilan.mahalle || ''}</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl sm:text-3xl font-black text-amber-400">${ilan.fiyat ? ilan.fiyat + ' TL' : 'Fiyat Belirtilmemiş'}</div>
+                        <p class="text-[11px] text-slate-400 mt-1">İlan No: ${ilan.ilanno || 'ALA-100'}</p>
+                    </div>
+                </div>
+
+                <!-- Fotoğraf ve Danışman Paneli -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Sol: Fotoğraf -->
+                    <div class="lg:col-span-2 bg-[#131b2e] border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+                        <img src="${ilan.image || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200'}" alt="${ilan.title}" class="w-full h-[400px] object-cover">
+                    </div>
+
+                    <!-- Sağ: Danışman Kartı -->
+                    <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl flex flex-col justify-between space-y-6">
+                        <div>
+                            <div class="flex items-center space-x-4">
+                                <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/30 overflow-hidden flex items-center justify-center text-amber-400 font-bold text-xl">
+                                    ALA
+                                </div>
+                                <div>
+                                    <h3 class="font-extrabold text-white text-base">${ilan.danisman?.adi || 'Yusuf İşçi'}</h3>
+                                    <p class="text-xs text-amber-400 font-medium">ALA GAYRİMENKUL DANIŞMANI</p>
+                                </div>
+                            </div>
+                            <div class="mt-6 space-y-3 text-xs">
+                                <div class="flex justify-between py-2 border-b border-slate-800">
+                                    <span class="text-slate-400">Cep Telefonu</span>
+                                    <span class="font-bold text-white">${ilan.danisman?.telefon || '0 (532) 407 53 38'}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <a href="tel:${ilan.danisman?.telefon || '+905324075338'}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-center text-xs transition shadow-md">
+                                <i class="fa-solid fa-phone mr-2"></i> Danışmanı Ara
+                            </a>
+                            <a href="https://wa.me/${(ilan.danisman?.telefon || '905324075338').replace(/[^0-9]/g, '')}" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-center text-xs transition shadow-md">
+                                <i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp İletişim
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Açıklama ve Detaylar -->
+                <div class="bg-[#131b2e] border border-slate-800 p-8 rounded-3xl space-y-6">
+                    <h2 class="text-lg font-extrabold text-white border-b border-slate-800 pb-3">İlan Açıklaması</h2>
+                    <div class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
+                        ${ilan.aciklama || 'Bu ilan için henüz açıklama girilmemiş.'}
+                    </div>
+                </div>
+            `;
+        }
+
+        window.onload = ilanDetayiniGetir;
     </script>
 </body>
 </html>
