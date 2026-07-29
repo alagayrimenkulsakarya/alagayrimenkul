@@ -97,7 +97,6 @@
             }
         }
 
-        // Bütün frontmatter alanlarını, alt objeleri ve listeleri hatasız okuyan gelişmiş parser
         function parseMarkdownKusursuz(md) {
             const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
             const data = { images: [], danisman: {} };
@@ -134,7 +133,6 @@
                     const key = trimmed.substring(0, colonIndex).trim();
                     let val = trimmed.substring(colonIndex + 1).trim().replace(/^['"](.*)['"]$/, '$1');
 
-                    // Girintili kontrol (danisman alt alanları)
                     if (line.startsWith('  ') || line.startsWith('    ')) {
                         if (currentContext === 'danisman') {
                             data.danisman[key] = val;
@@ -177,57 +175,61 @@
 
             const danismanFoto = duzeltResimYolu(ilan.danisman?.fotograf, owner, repo);
 
-            // TÜM ÖZELLİKLERİN EKSİKSİZ TABLOSU
+            // Sadece dolu ve girilmiş alanları tabloya ekleyen akıllı yapı
             let ozelliklerHtml = `
-                <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">İlan No</span><span class="font-bold text-white">${ilan.ilanno || 'ALA-100'}</span></li>
-                <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Emlak Tipi</span><span class="font-bold text-white">${ilan.durum || 'Satılık'}</span></li>
+                <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">İlan No</span><span class="font-bold text-white">${ilan.ilanno || '-'}</span></li>
+                <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Emlak Tipi</span><span class="font-bold text-white">${ilan.durum || '-'}</span></li>
                 <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Mahalle</span><span class="font-bold text-white">${ilan.mahalle || '-'}</span></li>
             `;
 
+            const alanEkle = (etiket, deger) => {
+                if (deger && deger !== '' && deger !== 'undefined' && deger !== 'null') {
+                    ozelliklerHtml += `<li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">${etiket}</span><span class="font-bold text-white">${deger}</span></li>`;
+                }
+            };
+
             if (ilan.kategori === 'daire') {
-                ozelliklerHtml += `
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Brüt m²</span><span class="font-bold text-white">${ilan.fBrut || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Net m²</span><span class="font-bold text-white">${ilan.fNet || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Oda Sayısı</span><span class="font-bold text-white">${ilan.fOda || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Bina Yaşı</span><span class="font-bold text-white">${ilan.fYas || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Bulunduğu Kat</span><span class="font-bold text-white">${ilan.fKat || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Isıtma Tipi</span><span class="font-bold text-white">${ilan.fIsitma || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Balkon</span><span class="font-bold text-white">${ilan.fBalkon || 'Var'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Asansör</span><span class="font-bold text-white">${ilan.fAsansor || 'Var'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Otopark</span><span class="font-bold text-white">${ilan.fOtopark || 'Var'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Takas</span><span class="font-bold text-white">${ilan.fTakas || 'Yok'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Krediye Uygunluk</span><span class="font-bold text-white">${ilan.fKredi || 'Uygun'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Tapu Durumu</span><span class="font-bold text-white">${ilan.fTapu || 'Müstakil Tapulu'}</span></li>
-                `;
+                alanEkle('Brüt m²', ilan.fBrut);
+                alanEkle('Net m²', ilan.fNet);
+                alanEkle('Oda Sayısı', ilan.fOda);
+                alanEkle('Bina Yaşı', ilan.fYas);
+                alanEkle('Bulunduğu Kat', ilan.fKat);
+                alanEkle('Kat Sayısı', ilan.fKatSayisi);
+                alanEkle('Isıtma Tipi', ilan.fIsitma);
+                alanEkle('Banyo Sayısı', ilan.fBanyo);
+                alanEkle('Mutfak', ilan.fMutfak);
+                alanEkle('Otopark', ilan.fOtopark);
+                alanEkle('Takas', ilan.fTakas);
+                alanEkle('Eşyalı mı?', ilan.fEsyali);
+                alanEkle('Krediye Uygunluk', ilan.fKredi);
+                alanEkle('Tapu Durumu', ilan.fTapu);
             } else if (ilan.kategori === 'mustakilev') {
-                ozelliklerHtml += `
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Brüt m²</span><span class="font-bold text-white">${ilan.fBrut || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Net m²</span><span class="font-bold text-white">${ilan.fNet || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Arsa Alanı m²</span><span class="font-bold text-white">${ilan.fArsaAlan || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Oda Sayısı</span><span class="font-bold text-white">${ilan.fOda || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Kat Sayısı</span><span class="font-bold text-white">${ilan.fKatSayisi || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Isıtma Tipi</span><span class="font-bold text-white">${ilan.fIsitma || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Takas</span><span class="font-bold text-white">${ilan.fTakas || 'Yok'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Krediye Uygunluk</span><span class="font-bold text-white">${ilan.fKredi || 'Uygun'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Tapu Durumu</span><span class="font-bold text-white">${ilan.fTapu || 'Müstakil Tapulu'}</span></li>
-                `;
+                alanEkle('Brüt m²', ilan.fBrut);
+                alanEkle('Net m²', ilan.fNet);
+                alanEkle('Arsa Alanı m²', ilan.fArsaAlan);
+                alanEkle('Oda Sayısı', ilan.fOda);
+                alanEkle('Bina Yaşı', ilan.fYas);
+                alanEkle('Kat Sayısı', ilan.fKatSayisi);
+                alanEkle('Isıtma Tipi', ilan.fIsitma);
+                alanEkle('Balkon', ilan.fBalkon);
+                alanEkle('Takas', ilan.fTakas);
+                alanEkle('Krediye Uygunluk', ilan.fKredi);
+                alanEkle('Tapu Durumu', ilan.fTapu);
             } else if (ilan.kategori === 'arsa') {
-                ozelliklerHtml += `
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Toplam m²</span><span class="font-bold text-white">${ilan.fBrut || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">m² Fiyatı</span><span class="font-bold text-white">${ilan.fM2Fiyat || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">İmar Durumu</span><span class="font-bold text-white">${ilan.fImar || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Ada / Parsel</span><span class="font-bold text-white">${ilan.fAdaParsel || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Takas</span><span class="font-bold text-white">${ilan.fTakas || 'Yok'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Tapu Durumu</span><span class="font-bold text-white">${ilan.fTapu || 'Müstakil Tapulu'}</span></li>
-                `;
+                alanEkle('Toplam m²', ilan.fBrut);
+                alanEkle('m² Fiyatı', ilan.fM2Fiyat);
+                alanEkle('İmar Durumu', ilan.fImar);
+                alanEkle('Ada / Parsel', ilan.fAdaParsel);
+                alanEkle('Takas', ilan.fTakas);
+                alanEkle('Tapu Durumu', ilan.fTapu);
             } else if (ilan.kategori === 'isyeri') {
-                ozelliklerHtml += `
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">İş Yeri Türü</span><span class="font-bold text-white">${ilan.fIsTuru || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">m²</span><span class="font-bold text-white">${ilan.fBrut || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Bölüm / Oda</span><span class="font-bold text-white">${ilan.fOda || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Aidat</span><span class="font-bold text-white">${ilan.fAidat || '-'}</span></li>
-                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Takas</span><span class="font-bold text-white">${ilan.fTakas || 'Yok'}</span></li>
-                `;
+                alanEkle('İş Yeri Türü', ilan.fIsTuru);
+                alanEkle('m²', ilan.fBrut);
+                alanEkle('Bölüm / Oda', ilan.fOda);
+                alanEkle('Aidat', ilan.fAidat);
+                alanEkle('Bulunduğu Kat', ilan.fKat);
+                alanEkle('Takas', ilan.fTakas);
+                alanEkle('Krediye Uygunluk', ilan.fKredi);
             }
 
             const container = document.getElementById('detay-icerik');
@@ -247,14 +249,14 @@
                     </div>
                 </div>
 
-                <!-- Sahibinden Tarzı 2 Kolonlu Üst Bölüm (Foto Galeri + Özellikler Tablosu) -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                    <!-- Sol Kolon (Büyük Fotoğraf + Küçük Küçük Resimler Galerisi): 7 Birim -->
-                    <div class="lg:col-span-7 bg-[#131b2e] border border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
-                        <div class="relative h-[420px] rounded-2xl overflow-hidden bg-black border border-slate-800">
+                <!-- Sahibinden Tarzı 2 Kolonlu Tam Simetrik Üst Bölüm -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                    <!-- Sol Kolon (Büyük Fotoğraf + Değişen Küçük Resimler Galerisi): 7 Birim -->
+                    <div class="lg:col-span-7 bg-[#131b2e] border border-slate-800 p-5 rounded-3xl flex flex-col justify-between shadow-xl">
+                        <div class="relative h-[380px] rounded-2xl overflow-hidden bg-black border border-slate-800 mb-4">
                             <img id="ana-foto" src="${resimler[0]}" alt="${ilan.title}" class="w-full h-full object-cover transition duration-300">
                         </div>
-                        <div class="flex gap-2.5 overflow-x-auto pb-2 scrollbar-thin">
+                        <div class="flex gap-2.5 overflow-x-auto pb-1">
                             ${resimler.map((img, index) => `
                                 <img src="${img}" onclick="resimDegistir('${img}', this)" class="galeri-thumb w-20 h-16 object-cover rounded-xl cursor-pointer border-2 ${index === 0 ? 'border-amber-500 scale-95' : 'border-slate-700 opacity-70'} hover:opacity-100 hover:border-amber-400 transition shrink-0">
                             `).join('')}
@@ -262,14 +264,16 @@
                     </div>
 
                     <!-- Sağ Kolon (İlan Özellikleri Tablosu): 5 Birim -->
-                    <div class="lg:col-span-5 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
-                        <h3 class="text-sm font-extrabold text-white border-b border-slate-800 pb-3 flex items-center justify-between">
-                            <span>İlan Özellikleri</span>
-                            <i class="fa-solid fa-list-check text-amber-500"></i>
-                        </h3>
-                        <ul class="space-y-0.5 text-xs text-slate-300 max-h-[440px] overflow-y-auto pr-1">
-                            ${ozelliklerHtml}
-                        </ul>
+                    <div class="lg:col-span-5 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl flex flex-col justify-between shadow-xl">
+                        <div>
+                            <h3 class="text-sm font-extrabold text-white border-b border-slate-800 pb-3 flex items-center justify-between">
+                                <span>İlan Özellikleri</span>
+                                <i class="fa-solid fa-list-check text-amber-500"></i>
+                            </h3>
+                            <ul class="space-y-0 text-xs text-slate-300 mt-2">
+                                ${ozelliklerHtml}
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -287,7 +291,7 @@
                     </div>
 
                     <!-- Sağ: Sabit Boyutlu Şık Danışman Kartı (4 Birim) -->
-                    <div class="lg:col-span-4 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-6 shadow-xl sticky top-28">
+                    <div class="lg:col-span-4 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-6 shadow-xl">
                         <div>
                             <div class="flex items-center space-x-4">
                                 <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/30 overflow-hidden flex items-center justify-center text-amber-400 font-bold shrink-0">
@@ -320,7 +324,6 @@
             `;
         }
 
-        // Küçük resme tıklandığında büyük fotoğrafı değiştirme fonksiyonu
         function resimDegistir( yeniSrc, element ) {
             document.getElementById('ana-foto').src = yeniSrc;
             document.querySelectorAll('.galeri-thumb').forEach(thumb => {
