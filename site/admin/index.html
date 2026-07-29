@@ -95,7 +95,7 @@
 
   <script>
     let githubToken = localStorage.getItem('ala_github_token') || '';
-    let secilenDosyalarListesi = []; // Seçilen fotoğrafları tutan global dizi
+    let secilenDosyalarListesi = [];
 
     window.onload = function() {
       if (githubToken) {
@@ -316,7 +316,7 @@
     }
 
     function kategoriSec(tur) {
-      secilenDosyalarListesi = []; // Kategori değiştiğinde listeyi sıfırla
+      secilenDosyalarListesi = [];
       const basliklar = {
         'daire': 'Yeni Daire İlanı Ekle',
         'mustakilev': 'Yeni Müstakil Ev / Villa Ekle',
@@ -353,7 +353,6 @@
             <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label><input type="text" id="fIsitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Kombi (Doğalgaz)"></div>
           </div>
 
-          <!-- Daire 12 Kriter -->
           <div class="p-4 bg-gray-50 rounded-xl border space-y-4">
             <h4 class="text-xs font-bold text-gray-700 uppercase">Daire Ek Detayları</h4>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -410,15 +409,14 @@
         `;
       }
 
-      // TÜM KATEGORİLER İÇİN PROFESYONEL ÖNİZLEMELİ FOTOĞRAF YÜKLEME ALANI
+      // TÜM KATEGORİLER İÇİN HATASIZ ÇOKLU FOTOĞRAF SEÇİMİ VE ÖNİZLEME IZGARASI
       html += `
           <div class="space-y-3 p-4 bg-slate-50 border rounded-xl">
-            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">İlan Fotoğrafları (Önizlemeli & Çoklu Seçim)</label>
-            <input type="file" id="fResimlerDosya" multiple accept="image/*" onchange="resimOnizlemeleriniGoster(this)" class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">İlan Fotoğrafları (Çoklu Seçim & Önizleme)</label>
+            <input type="file" id="fResimlerDosya" multiple accept="image/*" onchange="resimEkleyin(this)" class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
             
-            <!-- Seçilen Fotoğrafların Önizleme Izgarası -->
             <div id="resimOnizlemeKutusu" class="grid grid-cols-3 sm:grid-cols-6 gap-3 pt-2">
-              <div class="text-xs text-gray-400 col-span-full italic">Henüz fotoğraf seçilmedi. İlk seçtiğiniz fotoğraf kapak resmi olacaktır.</div>
+              <div class="text-xs text-gray-400 col-span-full italic">Henüz fotoğraf seçilmedi. İlk seçilen fotoğraf kapak resmi olur.</div>
             </div>
           </div>
 
@@ -449,11 +447,24 @@
       document.getElementById('panelForm').innerHTML = html;
     }
 
-    // Seçilen fotoğrafları anında ekranda küçük kareler halinde gösteren fonksiyon
-    function resimOnizlemeleriniGoster(input) {
+    // Hatasız bir şekilde üst üste veya toplu dosya eklemeyi sağlayan güncellenmiş fonksiyon
+    function resimEkleyin(input) {
+      if (input.files) {
+        for (let i = 0; i < input.files.length; i++) {
+          secilenDosyalarListesi.push(input.files[i]);
+        }
+      }
+      onizlemeleriGuncelle();
+    }
+
+    function fotografCikar(index) {
+      secilenDosyalarListesi.splice(index, 1);
+      onizlemeleriGuncelle();
+    }
+
+    function onizlemeleriGuncelle() {
       const kutu = document.getElementById('resimOnizlemeKutusu');
       kutu.innerHTML = '';
-      secilenDosyalarListesi = Array.from(input.files);
 
       if (secilenDosyalarListesi.length === 0) {
         kutu.innerHTML = `<div class="text-xs text-gray-400 col-span-full italic">Henüz fotoğraf seçilmedi.</div>`;
@@ -468,21 +479,12 @@
           div.innerHTML = `
             <img src="${e.target.result}" class="w-full h-full object-cover">
             ${index === 0 ? '<span class="absolute top-1 left-1 bg-amber-500 text-slate-950 text-[9px] font-bold px-1.5 py-0.5 rounded shadow">Kapak</span>' : ''}
-            <button type="button" onclick="fotografCikar(${index})" class="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center opacity-80 group-hover:opacity-100 transition shadow">×</button>
+            <button type="button" onclick="fotografCikar(${index})" class="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center opacity-90 hover:opacity-100 transition shadow">×</button>
           `;
           kutu.appendChild(div);
         }
         reader.readAsDataURL(dosya);
       });
-    }
-
-    // Listeden fotoğraf çıkarma
-    function fotografCikar(index) {
-      secilenDosyalarListesi.splice(index, 1);
-      const dt = new DataTransfer();
-      secilenDosyalarListesi.forEach(file => dt.items.add(file));
-      document.getElementById('fResimlerDosya').files = dt.files;
-      resimOnizlemeleriniGoster(document.getElementById('fResimlerDosya'));
     }
 
     function dosyaToBase64(file) {
