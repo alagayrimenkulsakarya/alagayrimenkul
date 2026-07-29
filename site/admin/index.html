@@ -350,6 +350,92 @@
             <div><label class="block text-xs font-semibold text-gray-600 mb-1">Kat Sayısı</label><input type="text" id="fKatSayisi" class="w-full border rounded-lg p-2.5 text-sm" placeholder="5"></div>
             <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label><input type="text" id="fIsitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Kombi (Doğalgaz)"></div>
           </div>
+
+          <!-- DAİRE İÇİN İSTEDİĞİN 12 YENİ KRİTER -->
+          <div class="p-4 bg-slate-50 rounded-xl border space-y-4">
+            <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Daire Ek Detayları</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">1. Banyo Sayısı</label>
+                <input type="text" id="fBanyo" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: 2">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">2. Mutfak</label>
+                <select id="fMutfak" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                  <option value="Kapalı Mutfak">Kapalı Mutfak</option>
+                  <option value="Amerikan Mutfak">Amerikan Mutfak</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">3. Balkon</label>
+                <select id="fBalkon" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                  <option value="Var">Var</option>
+                  <option value="Yok">Yok</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">4. Asansör</label>
+                <select id="fAsansor" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                  <option value="Var">Var</option>
+                  <option value="Yok">Yok</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">5. Otopark</label>
+                <select id="fOtopark" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                  <option value="Açık Otopark">Açık Otopark</option>
+                  <option value="Kapalı Otopark">Kapalı Otopark</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">6. Eşyalı</label>
+                <select id="fEsyali" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                  <option value="Evet">Evet</option>
+                  <option value="Hayır">Hayır</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">7. Kullanım Durumu</label>
+                <select id="fKullanim" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                  <option value="Boş">Boş</option>
+                  <option value="Kiracılı">Kiracılı</option>
+                  <option value="Mülk Sahibi">Mülk Sahibi</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">8. Site İçerisinde</label>
+                <select id="fSiteIci" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                  <option value="Evet">Evet</option>
+                  <option value="Hayır">Hayır</option>
+                </select>
+              </div>
+              <div class="col-span-2">
+                <label class="block text-xs font-semibold text-gray-600 mb-1">9. Site Adı</label>
+                <input type="text" id="fSiteAdi" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: Serdivan Park Konakları">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">10. Krediye Uygun</label>
+                <select id="fKredi" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                  <option value="Evet">Evet</option>
+                  <option value="Hayır">Hayır</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">11. Tapu Durumu</label>
+                <select id="fTapu" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                  <option value="Kat Mülkiyeti">Kat Mülkiyeti</option>
+                  <option value="Kat İrtifakı">Kat İrtifakı</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">12. Takas</label>
+                <select id="fTakas" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                  <option value="Evet">Evet</option>
+                  <option value="Hayır">Hayır</option>
+                </select>
+              </div>
+            </div>
+          </div>
         `;
       }
 
@@ -445,6 +531,37 @@
         danismanResimYolu = `/${dYol}`;
       }
 
+      // Daireye ait ek 12 kriterin değerlerini alıyoruz
+      let ekDaireYaml = '';
+      if (tur === 'daire') {
+        const fBanyo = document.getElementById('fBanyo')?.value || '';
+        const fMutfak = document.getElementById('fMutfak')?.value || '';
+        const fBalkon = document.getElementById('fBalkon')?.value || '';
+        const fAsansor = document.getElementById('fAsansor')?.value || '';
+        const fOtopark = document.getElementById('fOtopark')?.value || '';
+        const fEsyali = document.getElementById('fEsyali')?.value || '';
+        const fKullanim = document.getElementById('fKullanim')?.value || '';
+        const fSiteIci = document.getElementById('fSiteIci')?.value || '';
+        const fSiteAdi = document.getElementById('fSiteAdi')?.value || '';
+        const fKredi = document.getElementById('fKredi')?.value || '';
+        const fTapu = document.getElementById('fTapu')?.value || '';
+        const fTakas = document.getElementById('fTakas')?.value || '';
+
+        ekDaireYaml = `
+banyo: "${fBanyo}"
+mutfak: "${fMutfak}"
+balkon: "${fBalkon}"
+asansor: "${fAsansor}"
+otopark: "${fOtopark}"
+esyali: "${fEsyali}"
+kullanimdurumu: "${fKullanim}"
+siteicinde: "${fSiteIci}"
+siteadi: "${fSiteAdi}"
+krediyegun: "${fKredi}"
+tapudurumu: "${fTapu}"
+takas: "${fTakas}"`;
+      }
+
       const dosyaAdi = `content/${tur}/${slug}.md`;
       const resimlerYaml = yuklenenResimler.map(r => `  - "${r}"`).join('\n');
 
@@ -462,6 +579,7 @@ danisman:
   adi: "${dAdi}"
   telefon: "${dTel}"
   fotograf: "${danismanResimYolu}"
+${ekDaireYaml}
 ---
 ${aciklama}`;
 
@@ -484,7 +602,7 @@ ${aciklama}`;
         const response = await fetch(url, {
           method: 'PUT',
           headers: { 'Authorization': `Bearer ${githubToken}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: mesaj, content: base64Iceril = base64Icerik, branch: branch })
+          body: JSON.stringify({ message: mesaj, content: base64Icerik, branch: branch })
         });
         return response.ok;
       } catch (e) {
