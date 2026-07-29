@@ -37,7 +37,7 @@
       <div class="flex gap-2 border-b pb-4 overflow-x-auto">
         <button onclick="sekmeDegis('portfoy')" id="btnPortfoy" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap">Yeni İlan Ekle</button>
         <button onclick="sekmeDegis('ilanListesi')" id="btnIlanListesi" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Mevcut İlanlar & Düzenle / Sil</button>
-        <button onclick="sekmeDegis('yorumlar')" id="btnYorumlar" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Blog & Yorum Onayları</button>
+        <button onclick="sekmeDegis('yorumlar')" id="btnYorumlar" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Ziyaretçi Yorumları</button>
       </div>
 
       <!-- Yeni İlan Ekleme Sekmesi -->
@@ -65,7 +65,7 @@
         </div>
       </div>
 
-      <!-- Mevcut İlanlar & Silme/Düzenleme Sekmesi -->
+      <!-- Mevcut İlanlar Sekmesi -->
       <div id="tabIlanListesi" class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
         <div class="flex justify-between items-center mb-4">
           <div>
@@ -81,9 +81,14 @@
 
       <!-- Yorumlar Sekmesi -->
       <div id="tabYorumlar" class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-        <h3 class="text-lg font-bold text-gray-800 mb-4">Ziyaretçi Yorumları ve Onay Paneli</h3>
-        <p class="text-sm text-gray-500">Sitenin blog sayfasından gönderilen tüm yorumlar burada listelenir. Onayladığınızda sitede görünür hale gelir.</p>
-        <div id="yorumListesi" class="mt-4 space-y-3">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h3 class="text-lg font-bold text-gray-800">Ziyaretçi Yorumları Yönetimi</h3>
+            <p class="text-sm text-gray-500">Gelen yorumları onaylayarak sitede yayınlayabilir veya silebilirsiniz.</p>
+          </div>
+          <button onclick="yorumlarıYukle()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded-lg font-medium transition">Yorumları Yenile</button>
+        </div>
+        <div id="yorumListesi" class="space-y-3">
           <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">Yorumlar yükleniyor...</div>
         </div>
       </div>
@@ -97,7 +102,7 @@
   <script>
     let githubToken = localStorage.getItem('ala_github_token') || '';
     let secilenDosyalarListesi = [];
-    let duzenlenenDosyaYolu = null; // Düzenleme modu için takip değişkeni
+    let duzenlenenDosyaYolu = null;
 
     window.onload = function() {
       if (githubToken) {
@@ -191,7 +196,6 @@
       }
     }
 
-    // İlanı düzenlemek üzere form alanlarına doldurma fonksiyonu
     async function ilaniDuzenleIcinYukle(kat, downloadUrl, dosyaYolu) {
       try {
         const res = await fetch(downloadUrl);
@@ -202,7 +206,6 @@
         duzenlenenDosyaYolu = dosyaYolu;
         document.getElementById('kaydetBtn').innerText = "İlanı Güncelle";
 
-        // Markdown frontmatter parse işlemi
         const fmMatch = mdText.match(/---\s*([\s\S]*?)\s*---/);
         if (fmMatch) {
           const lines = fmMatch[1].split('\n');
@@ -212,14 +215,12 @@
               const key = parts[0].trim();
               let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
               
-              // Alan eşleştirmeleri
               if (key === 'title') { const el = document.getElementById(`${kat}_baslik`); if(el) el.value = val; }
               if (key === 'ilanno') { const el = document.getElementById(`${kat}_ilanno`); if(el) el.value = val; }
               if (key === 'durum') { const el = document.getElementById(`${kat}_durum`); if(el) el.value = val; }
               if (key === 'fiyat') { const el = document.getElementById(`${kat}_fiyat`); if(el) el.value = val; }
               if (key === 'mahalle') { const el = document.getElementById(`${kat}_mahalle`); if(el) el.value = val; }
               
-              // Kategori ek alanları
               const elUniq = document.getElementById(`${kat}_${key}`) || document.getElementById(`${key}`);
               if (elUniq) elUniq.value = val;
             }
@@ -294,12 +295,12 @@
             const markdownText = await fileRes.text();
             
             htmlContent += `
-              <div class="p-4 border rounded-lg bg-white shadow-sm flex justify-between items-center">
-                <div>
+              <div class="p-4 border rounded-lg bg-white shadow-sm flex justify-between items-center gap-4">
+                <div class="overflow-hidden">
                   <h4 class="font-bold text-sm text-gray-800">Dosya: ${file.name}</h4>
-                  <pre class="text-xs text-gray-600 mt-1 whitespace-pre-wrap">${markdownText}</pre>
+                  <p class="text-xs text-gray-600 mt-1 bg-gray-50 p-2 rounded border whitespace-pre-wrap">${markdownText}</p>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 shrink-0">
                   <button onclick="yorumOnayla('${file.path}', '${file.name}', \`${btoa(encodeURIComponent(markdownText))}\`)" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition">Onayla & Yayınla</button>
                   <button onclick="yorumSilTek('${file.path}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition">Sil</button>
                 </div>
@@ -308,10 +309,10 @@
           }
           container.innerHTML = htmlContent;
         } else {
-          container.innerHTML = `<div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">content/yorumlar klasörü henüz boş veya bulunamadı.</div>`;
+          container.innerHTML = `<div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">Henüz gelen yeni bir yorum bulunmuyor.</div>`;
         }
       } catch (e) {
-        container.innerHTML = `<div class="p-4 border rounded-lg bg-red-50 text-sm text-red-600">Yorumlar yüklenirken hata oluştu: ${e.message}</div>`;
+        container.innerHTML = `<div class="p-4 border rounded-lg bg-gray-50 text-sm text-red-600">Yorumlar yüklenirken hata oluştu: ${e.message}</div>`;
       }
     }
 
@@ -484,7 +485,6 @@
             </div>
           </div>
 
-          <!-- AÇIKLAMA KISMI VE BİÇİMLENDİRME ARAÇ ÇUBUĞU -->
           <div class="space-y-2">
             <label class="block text-xs font-semibold text-gray-600 mb-1">İlan Açıklaması (Biçimlendirmeli)</label>
             <div class="flex gap-1 bg-gray-100 p-1.5 rounded-t-lg border border-b-0">
@@ -650,7 +650,6 @@ ${alanlarYaml}
 ---
 ${aciklama}`;
 
-      // Eğer düzenleme yapılıyorsa eski dosyanın SHA bilgisini alıp güncelleme yapalım
       let sha = null;
       if (duzenlenenDosyaYolu) {
         const getRes = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${duzenlenenDosyaYolu}`, {
@@ -662,7 +661,7 @@ ${aciklama}`;
         }
       }
 
-      const encodedContent = btoa(unescape(encodeURIComponent(icerikYaml)));
+      const encodedContent = bota(unescape(encodeURIComponent(icerikYaml)));
       const sonuc = await githubDosyaGuncelleVeyaYukle(dosyaAdi, encodedContent, `İlan güncellendi/eklendi: ${baslik}`, sha);
 
       if (sonuc) {
