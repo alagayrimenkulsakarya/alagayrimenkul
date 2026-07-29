@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ALA Gayrimenkul Yönetim Paneli</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col justify-between">
   <div class="max-w-5xl mx-auto w-full p-6">
@@ -35,7 +36,7 @@
       <!-- Sekmeler -->
       <div class="flex gap-2 border-b pb-4 overflow-x-auto">
         <button onclick="sekmeDegis('portfoy')" id="btnPortfoy" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap">Yeni İlan Ekle</button>
-        <button onclick="sekmeDegis('ilanListesi')" id="btnIlanListesi" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Mevcut İlanlar & Sil / Kaldır</button>
+        <button onclick="sekmeDegis('ilanListesi')" id="btnIlanListesi" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Mevcut İlanlar & Düzenle / Sil</button>
         <button onclick="sekmeDegis('yorumlar')" id="btnYorumlar" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Blog & Yorum Onayları</button>
       </div>
 
@@ -64,12 +65,12 @@
         </div>
       </div>
 
-      <!-- Mevcut İlanlar & Silme Sekmesi -->
+      <!-- Mevcut İlanlar & Silme/Düzenleme Sekmesi -->
       <div id="tabIlanListesi" class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
         <div class="flex justify-between items-center mb-4">
           <div>
             <h3 class="text-lg font-bold text-gray-800">Sitedeki Mevcut İlanlar</h3>
-            <p class="text-sm text-gray-500">Satılan veya yayından kaldırmak istediğiniz ilanları buradan silebilirsiniz.</p>
+            <p class="text-sm text-gray-500">İlanları düzenleyebilir veya yayından kaldırıp silebilirsiniz.</p>
           </div>
           <button onclick="tumIlanlariYukle()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded-lg font-medium transition">Listeyi Yenile</button>
         </div>
@@ -96,6 +97,7 @@
   <script>
     let githubToken = localStorage.getItem('ala_github_token') || '';
     let secilenDosyalarListesi = [];
+    let duzenlenenDosyaYolu = null; // Düzenleme modu için takip değişkeni
 
     window.onload = function() {
       if (githubToken) {
@@ -169,7 +171,10 @@
                     <h4 class="font-bold text-sm text-gray-800 mt-1">${file.name}</h4>
                     <p class="text-xs text-gray-400">${file.path}</p>
                   </div>
-                  <button onclick="ilanSil('${file.path}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition whitespace-nowrap">İlanı Kaldır / Sil</button>
+                  <div class="flex gap-2">
+                    <button onclick="ilaniDuzenleIcinYukle('${kat}', '${file.download_url}', '${file.path}')" class="bg-amber-600 hover:bg-amber-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition whitespace-nowrap">Düzenle</button>
+                    <button onclick="ilanSil('${file.path}')" class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition whitespace-nowrap">Kaldır / Sil</button>
+                  </div>
                 </div>
               `;
             }
@@ -183,6 +188,49 @@
         }
       } catch (e) {
         container.innerHTML = `<div class="p-4 border rounded-lg bg-red-50 text-sm text-red-600">İlanlar yüklenirken hata oluştu: ${e.message}</div>`;
+      }
+    }
+
+    // İlanı düzenlemek üzere form alanlarına doldurma fonksiyonu
+    async function ilaniDuzenleIcinYukle(kat, downloadUrl, dosyaYolu) {
+      try {
+        const res = await fetch(downloadUrl);
+        const mdText = await res.text();
+        
+        sekmeDegis('portfoy');
+        kategoriSec(kat);
+        duzenlenenDosyaYolu = dosyaYolu;
+        document.getElementById('kaydetBtn').innerText = "İlanı Güncelle";
+
+        // Markdown frontmatter parse işlemi
+        const fmMatch = mdText.match(/---\s*([\s\S]*?)\s*---/);
+        if (fmMatch) {
+          const lines = fmMatch[1].split('\n');
+          lines.forEach(line => {
+            const parts = line.split(':');
+            if (parts.length >= 2) {
+              const key = parts[0].trim();
+              let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
+              
+              // Alan eşleştirmeleri
+              if (key === 'title') { const el = document.getElementById(`${kat}_baslik`); if(el) el.value = val; }
+              if (key === 'ilanno') { const el = document.getElementById(`${kat}_ilanno`); if(el) el.value = val; }
+              if (key === 'durum') { const el = document.getElementById(`${kat}_durum`); if(el) el.value = val; }
+              if (key === 'fiyat') { const el = document.getElementById(`${kat}_fiyat`); if(el) el.value = val; }
+              if (key === 'mahalle') { const el = document.getElementById(`${kat}_mahalle`); if(el) el.value = val; }
+              
+              // Kategori ek alanları
+              const elUniq = document.getElementById(`${kat}_${key}`) || document.getElementById(`${key}`);
+              if (elUniq) elUniq.value = val;
+            }
+          });
+          
+          const aciklamaKismi = mdText.replace(/---\s*([\s\S]*?)\s*---/, '').trim();
+          const aciklamaDiv = document.getElementById('fAciklama');
+          if (aciklamaDiv) aciklamaDiv.innerHTML = aciklamaKismi;
+        }
+      } catch(e) {
+        alert('İlan bilgileri yüklenirken hata oluştu: ' + e.message);
       }
     }
 
@@ -317,6 +365,7 @@
 
     function kategoriSec(tur) {
       secilenDosyalarListesi = [];
+      duzenlenenDosyaYolu = null;
       const basliklar = {
         'daire': 'Yeni Daire İlanı Ekle',
         'mustakilev': 'Yeni Müstakil Ev / Villa Ekle',
@@ -435,15 +484,30 @@
             </div>
           </div>
 
-          <div><label class="block text-xs font-semibold text-gray-600 mb-1">İlan Açıklaması</label><textarea id="fAciklama" rows="4" class="w-full border rounded-lg p-3 text-sm" placeholder="İlan detayları..."></textarea></div>
+          <!-- AÇIKLAMA KISMI VE BİÇİMLENDİRME ARAÇ ÇUBUĞU -->
+          <div class="space-y-2">
+            <label class="block text-xs font-semibold text-gray-600 mb-1">İlan Açıklaması (Biçimlendirmeli)</label>
+            <div class="flex gap-1 bg-gray-100 p-1.5 rounded-t-lg border border-b-0">
+              <button type="button" onclick="metinBicimlendir('bold')" class="px-2.5 py-1 bg-white border rounded text-xs font-bold hover:bg-gray-50"><i class="fa-solid fa-bold"></i></button>
+              <button type="button" onclick="metinBicimlendir('italic')" class="px-2.5 py-1 bg-white border rounded text-xs italic hover:bg-gray-50"><i class="fa-solid fa-italic"></i></button>
+              <button type="button" onclick="metinBicimlendir('underline')" class="px-2.5 py-1 bg-white border rounded text-xs underline hover:bg-gray-50"><i class="fa-solid fa-underline"></i></button>
+              <button type="button" onclick="metinBicimlendir('insertUnorderedList')" class="px-2.5 py-1 bg-white border rounded text-xs hover:bg-gray-50"><i class="fa-solid fa-list-ul"></i></button>
+              <input type="color" onchange="metinBicimlendir('foreColor', this.value)" class="w-8 h-7 p-0.5 border rounded cursor-pointer bg-white" title="Yazı Rengi">
+            </div>
+            <div id="fAciklama" contenteditable="true" class="w-full border rounded-b-lg p-3 text-sm bg-white min-h-[120px] outline-none focus:ring-1 focus:ring-blue-500" placeholder="İlan detayları..."></div>
+          </div>
 
-          <button onclick="ilaniGitHubaKaydet('${tur}')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-sm">
+          <button id="kaydetBtn" onclick="ilaniGitHubaKaydet('${tur}')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-sm">
             İlanı Kaydet ve Sitede Yayınla
           </button>
         </div>
       `;
 
       document.getElementById('panelForm').innerHTML = html;
+    }
+
+    function metinBicimlendir(komut, deger = null) {
+      document.execCommand(komut, false, deger);
     }
 
     function resimEkleyin(input) {
@@ -502,7 +566,7 @@
       const mahalle = document.getElementById(`${tur}_mahalle`)?.value || '';
       const dAdi = document.getElementById('dAdi').value;
       const dTel = document.getElementById('dTel').value;
-      const aciklama = document.getElementById('fAciklama').value;
+      const aciklama = document.getElementById('fAciklama').innerHTML;
 
       if (!baslik || !fiyat) {
         alert('Lütfen İlan Başlığı ve Fiyat alanlarını doldurunuz.');
@@ -544,7 +608,6 @@
         danismanResimYolu = `/${dYol}`;
       }
 
-      // Kategoriye özel benzersiz ID'lere göre değerleri topluyoruz
       let alanlarYaml = '';
       let aktifIdler = [];
 
@@ -561,13 +624,12 @@
       aktifIdler.forEach(id => {
         const el = document.getElementById(id);
         if (el && el.value) {
-          // YAML için temiz anahtar adı (örn: daire_brut yerine doğrudan brut veya anahtar olarak kaydedelim)
           const safAnahtar = id.split('_')[1];
           alanlarYaml += `${safAnahtar}: "${el.value}"\n`;
         }
       });
 
-      const dosyaAdi = `content/${tur}/${slug}.md`;
+      const dosyaAdi = duzenlenenDosyaYolu || `content/${tur}/${slug}.md`;
       const resimlerYaml = yuklenenResimler.map(r => `  - "${r}"`).join('\n');
 
       const icerikYaml = `---
@@ -588,26 +650,42 @@ ${alanlarYaml}
 ---
 ${aciklama}`;
 
+      // Eğer düzenleme yapılıyorsa eski dosyanın SHA bilgisini alıp güncelleme yapalım
+      let sha = null;
+      if (duzenlenenDosyaYolu) {
+        const getRes = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${duzenlenenDosyaYolu}`, {
+          headers: { 'Authorization': `Bearer ${githubToken}` }
+        });
+        if (getRes.ok) {
+          const fileData = await getRes.json();
+          sha = fileData.sha;
+        }
+      }
+
       const encodedContent = btoa(unescape(encodeURIComponent(icerikYaml)));
-      const sonuc = await githubDosyaYukle(dosyaAdi, encodedContent, `Yeni ilan eklendi: ${baslik}`);
+      const sonuc = await githubDosyaGuncelleVeyaYukle(dosyaAdi, encodedContent, `İlan güncellendi/eklendi: ${baslik}`, sha);
 
       if (sonuc) {
-        alert('Tebrikler! İlan başarıyla GitHub\'a yüklendi ve sitede yayınlandı.');
+        alert('Tebrikler! İlan başarıyla kaydedildi ve sitede güncellendi.');
+        duzenlenenDosyaYolu = null;
         kategoriSec(tur);
       }
     }
 
-    async function githubDosyaYukle(dosyaYolu, base64Icerik, mesaj) {
+    async function githubDosyaGuncelleVeyaYukle(dosyaYolu, base64Icerik, mesaj, sha = null) {
       const repoOwner = "alagayrimenkulsakarya";
       const repoName = "alagayrimenkul";
       const branch = "main";
       const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dosyaYolu}`;
 
+      const bodyData = { message: mesaj, content: base64Icerik, branch: branch };
+      if (sha) bodyData.sha = sha;
+
       try {
         const response = await fetch(url, {
           method: 'PUT',
           headers: { 'Authorization': `Bearer ${githubToken}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: mesaj, content: base64Icerik, branch: branch })
+          body: JSON.stringify(bodyData)
         });
         return response.ok;
       } catch (e) {
