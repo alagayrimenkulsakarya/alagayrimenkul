@@ -33,15 +33,16 @@
                 </nav>
 
                 <div class="flex items-center space-x-2.5 pr-2 shrink-0">
-                    <a href="portfoy.html" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition">
-                        <i class="fa-solid fa-arrow-left mr-1"></i> Portföye Dön
+                    <a href="portfoy.html" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Portföye Dön</span>
                     </a>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- İLAN DETAY ALANI -->
+    <!-- İLAN DETAY İÇERİK -->
     <main class="max-w-[1400px] mx-auto px-4 py-10 w-full space-y-6">
         <div id="detay-icerik" class="space-y-6">
             <div class="text-center py-20 text-slate-400">
@@ -81,7 +82,7 @@
                 const res = await fetch(url);
                 if (res.ok) {
                     const md = await res.text();
-                    const ilan = parseMarkdownSimple(md);
+                    const ilan = parseMarkdownKusursuz(md);
                     ilan.kategori = kategori;
                     detayiEkranaBas(ilan, repoOwner, repoName);
                 } else {
@@ -96,7 +97,8 @@
             }
         }
 
-        function parseMarkdownSimple(md) {
+        // Bütün frontmatter alanlarını, alt objeleri ve listeleri hatasız okuyan gelişmiş parser
+        function parseMarkdownKusursuz(md) {
             const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
             const data = { images: [], danisman: {} };
             if (!frontmatterMatch) {
@@ -106,32 +108,44 @@
 
             const fm = frontmatterMatch[1];
             const lines = fm.split('\n');
-            let section = '';
+            let currentContext = 'root';
 
             lines.forEach(line => {
                 const trimmed = line.trim();
                 if (!trimmed) return;
-                if (trimmed.startsWith('danisman:')) { section = 'danisman'; return; }
-                if (trimmed.startsWith('images:')) { section = 'images'; return; }
 
-                if (section === 'images' && trimmed.startsWith('-')) {
+                if (trimmed.startsWith('danisman:')) {
+                    currentContext = 'danisman';
+                    return;
+                }
+                if (trimmed.startsWith('images:')) {
+                    currentContext = 'images';
+                    return;
+                }
+
+                if (currentContext === 'images' && trimmed.startsWith('-')) {
                     let val = trimmed.replace(/^-\s*['"](.*)['"]$/, '$1').replace(/^-\s*/, '');
                     if (val) data.images.push(val);
                     return;
                 }
 
-                const parts = trimmed.split(':');
-                if (parts.length >= 2) {
-                    const key = parts[0].trim();
-                    let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
+                const colonIndex = trimmed.indexOf(':');
+                if (colonIndex !== -1) {
+                    const key = trimmed.substring(0, colonIndex).trim();
+                    let val = trimmed.substring(colonIndex + 1).trim().replace(/^['"](.*)['"]$/, '$1');
 
-                    if (section === 'danisman') {
-                        data.danisman[key] = val;
-                    } else {
-                        if (trimmed.startsWith('  ') && section === 'danisman') {
+                    // Girintili kontrol (danisman alt alanları)
+                    if (line.startsWith('  ') || line.startsWith('    ')) {
+                        if (currentContext === 'danisman') {
                             data.danisman[key] = val;
+                        }
+                    } else {
+                        if (key === 'danisman') {
+                            currentContext = 'danisman';
+                        } else if (key === 'images') {
+                            currentContext = 'images';
                         } else {
-                            section = '';
+                            currentContext = 'root';
                             data[key] = val;
                         }
                     }
@@ -163,49 +177,63 @@
 
             const danismanFoto = duzeltResimYolu(ilan.danisman?.fotograf, owner, repo);
 
+            // TÜM ÖZELLİKLERİN EKSİKSİZ TABLOSU
             let ozelliklerHtml = `
-                <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">İlan No</span><span class="font-bold">${ilan.ilanno || 'ALA-100'}</span></li>
-                <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Emlak Tipi</span><span class="font-bold">${ilan.durum || 'Satılık'}</span></li>
-                <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Mahalle</span><span class="font-bold">${ilan.mahalle || '-'}</span></li>
+                <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">İlan No</span><span class="font-bold text-white">${ilan.ilanno || 'ALA-100'}</span></li>
+                <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Emlak Tipi</span><span class="font-bold text-white">${ilan.durum || 'Satılık'}</span></li>
+                <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Mahalle</span><span class="font-bold text-white">${ilan.mahalle || '-'}</span></li>
             `;
 
             if (ilan.kategori === 'daire') {
                 ozelliklerHtml += `
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Brüt m²</span><span class="font-bold">${ilan.fBrut || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Net m²</span><span class="font-bold">${ilan.fNet || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Oda Sayısı</span><span class="font-bold">${ilan.fOda || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Bina Yaşı</span><span class="font-bold">${ilan.fYas || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Bulunduğu Kat</span><span class="font-bold">${ilan.fKat || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Isıtma Tipi</span><span class="font-bold">${ilan.fIsitma || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Brüt m²</span><span class="font-bold text-white">${ilan.fBrut || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Net m²</span><span class="font-bold text-white">${ilan.fNet || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Oda Sayısı</span><span class="font-bold text-white">${ilan.fOda || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Bina Yaşı</span><span class="font-bold text-white">${ilan.fYas || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Bulunduğu Kat</span><span class="font-bold text-white">${ilan.fKat || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Isıtma Tipi</span><span class="font-bold text-white">${ilan.fIsitma || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Balkon</span><span class="font-bold text-white">${ilan.fBalkon || 'Var'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Asansör</span><span class="font-bold text-white">${ilan.fAsansor || 'Var'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Otopark</span><span class="font-bold text-white">${ilan.fOtopark || 'Var'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Takas</span><span class="font-bold text-white">${ilan.fTakas || 'Yok'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Krediye Uygunluk</span><span class="font-bold text-white">${ilan.fKredi || 'Uygun'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Tapu Durumu</span><span class="font-bold text-white">${ilan.fTapu || 'Müstakil Tapulu'}</span></li>
                 `;
             } else if (ilan.kategori === 'mustakilev') {
                 ozelliklerHtml += `
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Brüt m²</span><span class="font-bold">${ilan.fBrut || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Net m²</span><span class="font-bold">${ilan.fNet || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Arsa Alanı m²</span><span class="font-bold">${ilan.fArsaAlan || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Oda Sayısı</span><span class="font-bold">${ilan.fOda || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Kat Sayısı</span><span class="font-bold">${ilan.fKatSayisi || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Brüt m²</span><span class="font-bold text-white">${ilan.fBrut || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Net m²</span><span class="font-bold text-white">${ilan.fNet || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Arsa Alanı m²</span><span class="font-bold text-white">${ilan.fArsaAlan || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Oda Sayısı</span><span class="font-bold text-white">${ilan.fOda || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Kat Sayısı</span><span class="font-bold text-white">${ilan.fKatSayisi || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Isıtma Tipi</span><span class="font-bold text-white">${ilan.fIsitma || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Takas</span><span class="font-bold text-white">${ilan.fTakas || 'Yok'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Krediye Uygunluk</span><span class="font-bold text-white">${ilan.fKredi || 'Uygun'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Tapu Durumu</span><span class="font-bold text-white">${ilan.fTapu || 'Müstakil Tapulu'}</span></li>
                 `;
             } else if (ilan.kategori === 'arsa') {
                 ozelliklerHtml += `
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Toplam m²</span><span class="font-bold">${ilan.fBrut || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">m² Fiyatı</span><span class="font-bold">${ilan.fM2Fiyat || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">İmar Durumu</span><span class="font-bold">${ilan.fImar || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Ada / Parsel</span><span class="font-bold">${ilan.fAdaParsel || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Toplam m²</span><span class="font-bold text-white">${ilan.fBrut || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">m² Fiyatı</span><span class="font-bold text-white">${ilan.fM2Fiyat || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">İmar Durumu</span><span class="font-bold text-white">${ilan.fImar || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Ada / Parsel</span><span class="font-bold text-white">${ilan.fAdaParsel || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Takas</span><span class="font-bold text-white">${ilan.fTakas || 'Yok'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Tapu Durumu</span><span class="font-bold text-white">${ilan.fTapu || 'Müstakil Tapulu'}</span></li>
                 `;
             } else if (ilan.kategori === 'isyeri') {
                 ozelliklerHtml += `
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">İş Yeri Türü</span><span class="font-bold">${ilan.fIsTuru || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">m²</span><span class="font-bold">${ilan.fBrut || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Bölüm / Oda</span><span class="font-bold">${ilan.fOda || '-'}</span></li>
-                    <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Aidat</span><span class="font-bold">${ilan.fAidat || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">İş Yeri Türü</span><span class="font-bold text-white">${ilan.fIsTuru || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">m²</span><span class="font-bold text-white">${ilan.fBrut || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Bölüm / Oda</span><span class="font-bold text-white">${ilan.fOda || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Aidat</span><span class="font-bold text-white">${ilan.fAidat || '-'}</span></li>
+                    <li class="flex justify-between py-2.5 border-b border-slate-800"><span class="text-slate-400">Takas</span><span class="font-bold text-white">${ilan.fTakas || 'Yok'}</span></li>
                 `;
             }
 
             const container = document.getElementById('detay-icerik');
             container.innerHTML = `
                 <!-- Üst Başlık ve Fiyat -->
-                <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-xl">
                     <div>
                         <span class="bg-amber-600 text-slate-950 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
                             ${ilan.durum || 'Satılık'}
@@ -219,69 +247,88 @@
                     </div>
                 </div>
 
-                <!-- Sahibinden Tarzı 2 Kolonlu Üst Bölüm (Fotoğraflar + Özellikler Tablosu) -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <!-- Sol Kolon (Fotoğraflar): 7 Birim -->
-                    <div class="lg:col-span-7 bg-[#131b2e] border border-slate-800 p-4 rounded-3xl space-y-4 shadow-xl">
-                        <div class="relative h-[400px] rounded-2xl overflow-hidden bg-black">
-                            <img id="ana-foto" src="${resimler[0]}" alt="${ilan.title}" class="w-full h-full object-cover">
+                <!-- Sahibinden Tarzı 2 Kolonlu Üst Bölüm (Foto Galeri + Özellikler Tablosu) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    <!-- Sol Kolon (Büyük Fotoğraf + Küçük Küçük Resimler Galerisi): 7 Birim -->
+                    <div class="lg:col-span-7 bg-[#131b2e] border border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
+                        <div class="relative h-[420px] rounded-2xl overflow-hidden bg-black border border-slate-800">
+                            <img id="ana-foto" src="${resimler[0]}" alt="${ilan.title}" class="w-full h-full object-cover transition duration-300">
                         </div>
-                        <div class="flex gap-2 overflow-x-auto pb-2">
-                            ${resimler.map((img) => `
-                                <img src="${img}" onclick="document.getElementById('ana-foto').src='${img}'" class="w-20 h-16 object-cover rounded-xl cursor-pointer border-2 border-slate-700 hover:border-amber-500 transition shrink-0">
+                        <div class="flex gap-2.5 overflow-x-auto pb-2 scrollbar-thin">
+                            ${resimler.map((img, index) => `
+                                <img src="${img}" onclick="resimDegistir('${img}', this)" class="galeri-thumb w-20 h-16 object-cover rounded-xl cursor-pointer border-2 ${index === 0 ? 'border-amber-500 scale-95' : 'border-slate-700 opacity-70'} hover:opacity-100 hover:border-amber-400 transition shrink-0">
                             `).join('')}
                         </div>
                     </div>
 
-                    <!-- Sağ Kolon (Özellikler Tablosu): 5 Birim -->
-                    <div class="lg:col-span-5 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-3">
-                        <h3 class="text-sm font-extrabold text-white border-b border-slate-800 pb-3">İlan Özellikleri</h3>
-                        <ul class="space-y-1 text-xs text-slate-300">
+                    <!-- Sağ Kolon (İlan Özellikleri Tablosu): 5 Birim -->
+                    <div class="lg:col-span-5 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+                        <h3 class="text-sm font-extrabold text-white border-b border-slate-800 pb-3 flex items-center justify-between">
+                            <span>İlan Özellikleri</span>
+                            <i class="fa-solid fa-list-check text-amber-500"></i>
+                        </h3>
+                        <ul class="space-y-0.5 text-xs text-slate-300 max-h-[440px] overflow-y-auto pr-1">
                             ${ozelliklerHtml}
                         </ul>
                     </div>
                 </div>
 
-                <!-- Alt Bölüm: Açıklama ve Sabit Boyutlu Danışman Kartı (Yan Yana) -->
+                <!-- Alt Bölüm: İlan Açıklaması ve Sabit Boyutlu Şık Danışman Kartı -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                     <!-- Sol: Açıklama (8 Birim) -->
-                    <div class="lg:col-span-8 bg-[#131b2e] border border-slate-800 p-8 rounded-3xl space-y-6">
-                        <h2 class="text-lg font-extrabold text-white border-b border-slate-800 pb-3">İlan Açıklaması</h2>
-                        <div class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap">
+                    <div class="lg:col-span-8 bg-[#131b2e] border border-slate-800 p-8 rounded-3xl space-y-6 shadow-xl">
+                        <h2 class="text-lg font-extrabold text-white border-b border-slate-800 pb-3 flex items-center space-x-2">
+                            <i class="fa-solid fa-align-left text-amber-500"></i>
+                            <span>İlan Açıklaması</span>
+                        </h2>
+                        <div class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap font-normal">
                             ${ilan.aciklama || 'Bu ilan için henüz açıklama girilmemiş.'}
                         </div>
                     </div>
 
-                    <!-- Sağ: Danışman Kartı (4 Birim - Sabit ve Şık) -->
-                    <div class="lg:col-span-4 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-6">
+                    <!-- Sağ: Sabit Boyutlu Şık Danışman Kartı (4 Birim) -->
+                    <div class="lg:col-span-4 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-6 shadow-xl sticky top-28">
                         <div>
                             <div class="flex items-center space-x-4">
                                 <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/30 overflow-hidden flex items-center justify-center text-amber-400 font-bold shrink-0">
-                                    ${danismanFoto ? `<img src="${danismanFoto}" class="w-full h-full object-cover">` : 'ALA'}
+                                    ${danismanFoto ? `<img src="${danismanFoto}" class="w-full h-full object-cover">` : '<i class="fa-solid fa-user text-xl"></i>'}
                                 </div>
                                 <div class="overflow-hidden">
                                     <h3 class="font-extrabold text-white text-base truncate">${ilan.danisman?.adi || 'Yusuf İşçi'}</h3>
-                                    <p class="text-xs text-amber-400 font-medium truncate">ALA GAYRİMENKUL DANIŞMANI</p>
+                                    <p class="text-[11px] text-amber-400 font-bold tracking-wide uppercase truncate">ALA GAYRİMENKUL DANIŞMANI</p>
                                 </div>
                             </div>
-                            <div class="mt-6 space-y-3 text-xs">
+                            <div class="mt-6 space-y-2 text-xs">
                                 <div class="flex justify-between py-2 border-b border-slate-800">
                                     <span class="text-slate-400">Cep Telefonu</span>
                                     <span class="font-bold text-white">${ilan.danisman?.telefon || '0 (532) 407 53 38'}</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="space-y-2 pt-2">
-                            <a href="tel:${ilan.danisman?.telefon || '+905324075338'}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-center text-xs transition shadow-md">
-                                <i class="fa-solid fa-phone mr-2"></i> Danışmanı Ara
+                        <div class="space-y-2.5 pt-1">
+                            <a href="tel:${ilan.danisman?.telefon || '+905324075338'}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-center text-xs transition shadow-lg flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-phone-alt"></i>
+                                <span>Danışmanı Ara</span>
                             </a>
-                            <a href="https://wa.me/${(ilan.danisman?.telefon || '905324075338').replace(/[^0-9]/g, '')}" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-center text-xs transition shadow-md">
-                                <i class="fa-brands fa-whatsapp mr-2"></i> WhatsApp İletişim
+                            <a href="https://wa.me/${(ilan.danisman?.telefon || '905324075338').replace(/[^0-9]/g, '')}" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-center text-xs transition shadow-lg flex items-center justify-center space-x-2">
+                                <i class="fa-brands fa-whatsapp text-base"></i>
+                                <span>WhatsApp İletişim</span>
                             </a>
                         </div>
                     </div>
                 </div>
             `;
+        }
+
+        // Küçük resme tıklandığında büyük fotoğrafı değiştirme fonksiyonu
+        function resimDegistir( yeniSrc, element ) {
+            document.getElementById('ana-foto').src = yeniSrc;
+            document.querySelectorAll('.galeri-thumb').forEach(thumb => {
+                thumb.classList.remove('border-amber-500', 'scale-95');
+                thumb.classList.add('border-slate-700', 'opacity-70');
+            });
+            element.classList.remove('border-slate-700', 'opacity-70');
+            element.classList.add('border-amber-500', 'scale-95');
         }
 
         window.onload = ilanDetayiniGetir;
