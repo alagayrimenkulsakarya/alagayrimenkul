@@ -1,4 +1,3 @@
-```html
 <!doctype html>
 <html lang="tr">
 <head>
@@ -329,110 +328,83 @@
       let html = `
         <div class="space-y-4">
           <div class="grid grid-cols-2 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İlan Başlığı</label><input type="text" id="fBaslik" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Örn: Serdivan Merkezde Satılık 3+1"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İlan No</label><input type="text" id="fNo" class="w-full border rounded-lg p-2.5 text-sm" placeholder="ALA-101"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İlan Başlığı</label><input type="text" id="${tur}_baslik" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Örn: Serdivan Merkezde Satılık 3+1"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İlan No</label><input type="text" id="${tur}_ilanno" class="w-full border rounded-lg p-2.5 text-sm" placeholder="ALA-101"></div>
           </div>
           <div class="grid grid-cols-4 gap-3">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Durum</label><select id="fDurum" class="w-full border rounded-lg p-2.5 text-sm"><option value="Satılık">Satılık</option><option value="Kiralık">Kiralık</option></select></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Fiyat (TL)</label><input type="text" id="fFiyat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4.500.000"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İl / İlçe</label><input type="text" id="fIlce" value="Sakarya / Serdivan" class="w-full border rounded-lg p-2.5 text-sm"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Mahalle</label><input type="text" id="fMahalle" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Arabacıalanı Mah."></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Durum</label><select id="${tur}_durum" class="w-full border rounded-lg p-2.5 text-sm"><option value="Satılık">Satılık</option><option value="Kiralık">Kiralık</option></select></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Fiyat (TL)</label><input type="text" id="${tur}_fiyat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4.500.000"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İl / İlçe</label><input type="text" id="${tur}_ilce" value="Sakarya / Serdivan" class="w-full border rounded-lg p-2.5 text-sm"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Mahalle</label><input type="text" id="${tur}_mahalle" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Arabacıalanı Mah."></div>
           </div>
       `;
 
       if (tur === 'daire') {
         html += `
           <div class="grid grid-cols-3 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="140"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label><input type="text" id="fNet" class="w-full border rounded-lg p-2.5 text-sm" placeholder="125"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label><input type="text" id="fOda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="3+1"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label><input type="text" id="daire_brut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="140"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label><input type="text" id="daire_net" class="w-full border rounded-lg p-2.5 text-sm" placeholder="125"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label><input type="text" id="daire_oda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="3+1"></div>
           </div>
           <div class="grid grid-cols-4 gap-3">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bina Yaşı</label><input type="text" id="fYas" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bulunduğu Kat</label><input type="text" id="fKat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Kat Sayısı</label><input type="text" id="fKatSayisi" class="w-full border rounded-lg p-2.5 text-sm" placeholder="5"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label><input type="text" id="fIsitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Kombi (Doğalgaz)"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bina Yaşı</label><input type="text" id="daire_yas" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bulunduğu Kat</label><input type="text" id="daire_kat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Kat Sayısı</label><input type="text" id="daire_katsayisi" class="w-full border rounded-lg p-2.5 text-sm" placeholder="5"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label><input type="text" id="daire_isitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Kombi (Doğalgaz)"></div>
           </div>
 
           <div class="p-4 bg-gray-50 rounded-xl border space-y-4">
             <h4 class="text-xs font-bold text-gray-700 uppercase">Daire Ek Detayları</h4>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">1. Banyo Sayısı</label><input type="text" id="fBanyo" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="2"></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">2. Mutfak</label><select id="fMutfak" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Kapalı Mutfak">Kapalı Mutfak</option><option value="Amerikan Mutfak">Amerikan Mutfak</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">3. Balkon</label><select id="fBalkon" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Var">Var</option><option value="Yok">Yok</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">4. Asansör</label><select id="fAsansor" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Var">Var</option><option value="Yok">Yok</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">5. Otopark</label><select id="fOtopark" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Açık Otopark">Açık Otopark</option><option value="Kapalı Otopark">Kapalı Otopark</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">6. Eşyalı</label><select id="fEsyali" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">7. Kullanım Durumu</label><select id="fKullanim" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Boş">Boş</option><option value="Kiracılı">Kiracılı</option><option value="Mülk Sahibi">Mülk Sahibi</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">8. Site İçerisinde</label><select id="fSiteIci" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
-              <div class="col-span-2"><label class="block text-xs font-semibold text-gray-600 mb-1">9. Site Adı</label><input type="text" id="fSiteAdi" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: Park Konakları"></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">10. Krediye Uygun</label><select id="fKredi" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">11. Tapu Durumu</label><select id="fTapu" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Kat Mülkiyeti">Kat Mülkiyeti</option><option value="Kat İrtifakı">Kat İrtifakı</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">12. Takas</label><select id="fTakas" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">1. Banyo Sayısı</label><input type="text" id="daire_banyo" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="2"></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">2. Mutfak</label><select id="daire_mutfak" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Kapalı Mutfak">Kapalı Mutfak</option><option value="Amerikan Mutfak">Amerikan Mutfak</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">3. Balkon</label><select id="daire_balkon" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Var">Var</option><option value="Yok">Yok</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">4. Asansör</label><select id="daire_asansor" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Var">Var</option><option value="Yok">Yok</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">5. Otopark</label><select id="daire_otopark" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Açık Otopark">Açık Otopark</option><option value="Kapalı Otopark">Kapalı Otopark</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">6. Eşyalı</label><select id="daire_esyali" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">7. Kullanım Durumu</label><select id="daire_kullanimdurumu" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Boş">Boş</option><option value="Kiracılı">Kiracılı</option><option value="Mülk Sahibi">Mülk Sahibi</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">8. Site İçerisinde</label><select id="daire_siteicinde" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+              <div class="col-span-2"><label class="block text-xs font-semibold text-gray-600 mb-1">9. Site Adı</label><input type="text" id="daire_siteadi" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: Park Konakları"></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">10. Krediye Uygun</label><select id="daire_krediyegun" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">11. Tapu Durumu</label><select id="daire_tapudurumu" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Kat Mülkiyeti">Kat Mülkiyeti</option><option value="Kat İrtifakı">Kat İrtifakı</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">12. Takas</label><select id="daire_takas" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
             </div>
           </div>
         `;
       } else if (tur === 'mustakilev') {
         html += `
-          <div class="grid grid-cols-2 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">1. Açık Alan m² (Arsa vb.)</label><input type="text" id="fAcikAlan" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">2. Bina Yaşı</label><input type="text" id="fYas" class="w-full border rounded-lg p-2.5 text-sm" placeholder="3"></div>
+          <div class="grid grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label><input type="text" id="mustakil_brut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="200"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label><input type="text" id="mustakil_net" class="w-full border rounded-lg p-2.5 text-sm" placeholder="180"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label><input type="text" id="mustakil_oda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4+1"></div>
           </div>
           <div class="grid grid-cols-3 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">3. Isıtma</label><input type="text" id="fIsitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Yerden Isıtma"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">4. Banyo Sayısı</label><input type="text" id="fBanyo" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2"></div>
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Müstakil Kat / Daire Sayısı</label>
-              <select id="fKatSayisiSecim" onchange="katAlanlariniGuncelle(this.value)" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                <option value="1">1 Katlı</option>
-                <option value="2">2 Katlı</option>
-                <option value="3">3 Katlı</option>
-                <option value="4">4 Katlı</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Dinamik Kat / Daire m² Alanları -->
-          <div id="katMetrekareKutusu" class="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 bg-blue-50/50 rounded-xl border border-blue-100">
-            <div><label class="block text-xs font-semibold text-blue-900 mb-1">1. Daire m²</label><input type="text" id="fKat1M2" class="w-full border rounded-lg p-2 text-sm bg-white" placeholder="Örn: 150"></div>
-          </div>
-
-          <!-- Müstakil Ev İçin İstediğin 12 Kriter -->
-          <div class="p-4 bg-gray-50 rounded-xl border space-y-4">
-            <h4 class="text-xs font-bold text-gray-700 uppercase">Müstakil Ev Ek Detayları</h4>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">5. Mutfak</label><select id="fMutfak" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Kapalı Mutfak">Kapalı Mutfak</option><option value="Amerikan Mutfak">Amerikan Mutfak</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">6. Balkon</label><select id="fBalkon" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Var">Var</option><option value="Yok">Yok</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">7. Eşyalı</label><select id="fEsyali" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">8. Kullanım Durumu</label><select id="fKullanim" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Boş">Boş</option><option value="Kiracılı">Kiracılı</option><option value="Mülk Sahibi">Mülk Sahibi</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">9. Site İçerisinde</label><select id="fSiteIci" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">10. Krediye Uygun</label><select id="fKredi" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">11. Tapu Durumu</label><select id="fTapu" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Kat Mülkiyeti">Kat Mülkiyeti</option><option value="Kat İrtifakı">Kat İrtifakı</option></select></div>
-              <div><label class="block text-xs font-semibold text-gray-600 mb-1">12. Takas</label><select id="fTakas" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
-            </div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Arsa Alanı (m²)</label><input type="text" id="mustakil_arsaalan" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Kat Sayısı</label><input type="text" id="mustakil_katsayisi" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label><input type="text" id="mustakil_isitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Yerden Isıtma"></div>
           </div>
         `;
       } else if (tur === 'arsa') {
         html += `
           <div class="grid grid-cols-2 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Toplam m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="1000"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">m² Fiyatı (TL)</label><input type="text" id="fM2Fiyat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2.500"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Toplam m²</label><input type="text" id="arsa_brut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="1000"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">m² Fiyatı (TL)</label><input type="text" id="arsa_m2fiyat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2.500"></div>
           </div>
           <div class="grid grid-cols-2 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İmar Durumu</label><input type="text" id="fImar" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Konut İmarlı"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Ada / Parsel</label><input type="text" id="fAdaParsel" class="w-full border rounded-lg p-2.5 text-sm" placeholder="124 / 5"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İmar Durumu</label><input type="text" id="arsa_imardurumu" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Konut İmarlı"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Ada / Parsel</label><input type="text" id="arsa_adaparsel" class="w-full border rounded-lg p-2.5 text-sm" placeholder="124 / 5"></div>
           </div>
         `;
       } else if (tur === 'isyeri') {
         html += `
           <div class="grid grid-cols-3 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İş Yeri Türü</label><input type="text" id="fIsTuru" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Dükkan / Mağaza"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="90"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bölüm / Oda Sayısı</label><input type="text" id="fOda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2 Bölüm"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İş Yeri Türü</label><input type="text" id="isyeri_isyturu" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Dükkan / Mağaza"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">m²</label><input type="text" id="isyeri_brut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="90"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bölüm / Oda Sayısı</label><input type="text" id="isyeri_oda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2 Bölüm"></div>
           </div>
           <div class="grid grid-cols-2 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Aidat (TL)</label><input type="text" id="fAidat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bulunduğu Kat</label><input type="text" id="fKat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Giriş Kat"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Aidat (TL)</label><input type="text" id="isyeri_aidat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bulunduğu Kat</label><input type="text" id="isyeri_kat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Giriş Kat"></div>
           </div>
         `;
       }
@@ -472,17 +444,6 @@
       `;
 
       document.getElementById('panelForm').innerHTML = html;
-    }
-
-    // Müstakil ev için seçilen kat sayısına göre dinamik m² alanları üretme fonksiyonu
-    function katAlanlariniGuncelle(sayi) {
-      const kutu = document.getElementById('katMetrekareKutusu');
-      kutu.innerHTML = '';
-      for (let i = 1; i <= parseInt(sayi); i++) {
-        const div = document.createElement('div');
-        div.innerHTML = `<label class="block text-xs font-semibold text-blue-900 mb-1">${i}. Daire m²</label><input type="text" id="fKat${i}M2" class="w-full border rounded-lg p-2 text-sm bg-white" placeholder="Örn: 120">`;
-        kutu.appendChild(div);
-      }
     }
 
     function resimEkleyin(input) {
@@ -534,11 +495,11 @@
     }
 
     async function ilaniGitHubaKaydet(tur) {
-      const baslik = document.getElementById('fBaslik').value;
-      const no = document.getElementById('fNo').value || 'ALA-100';
-      const durum = document.getElementById('fDurum').value;
-      const fiyat = document.getElementById('fFiyat').value;
-      const mahalle = document.getElementById('fMahalle').value;
+      const baslik = document.getElementById(`${tur}_baslik`)?.value || '';
+      const no = document.getElementById(`${tur}_ilanno`)?.value || 'ALA-100';
+      const durum = document.getElementById(`${tur}_durum`)?.value || 'Satılık';
+      const fiyat = document.getElementById(`${tur}_fiyat`)?.value || '';
+      const mahalle = document.getElementById(`${tur}_mahalle`)?.value || '';
       const dAdi = document.getElementById('dAdi').value;
       const dTel = document.getElementById('dTel').value;
       const aciklama = document.getElementById('fAciklama').value;
@@ -583,71 +544,28 @@
         danismanResimYolu = `/${dYol}`;
       }
 
-      let ekKriterlerYaml = '';
+      // Kategoriye özel benzersiz ID'lere göre değerleri topluyoruz
+      let alanlarYaml = '';
+      let aktifIdler = [];
+
       if (tur === 'daire') {
-        const fBanyo = document.getElementById('fBanyo')?.value || '';
-        const fMutfak = document.getElementById('fMutfak')?.value || '';
-        const fBalkon = document.getElementById('fBalkon')?.value || '';
-        const fAsansor = document.getElementById('fAsansor')?.value || '';
-        const fOtopark = document.getElementById('fOtopark')?.value || '';
-        const fEsyali = document.getElementById('fEsyali')?.value || '';
-        const fKullanim = document.getElementById('fKullanim')?.value || '';
-        const fSiteIci = document.getElementById('fSiteIci')?.value || '';
-        const fSiteAdi = document.getElementById('fSiteAdi')?.value || '';
-        const fKredi = document.getElementById('fKredi')?.value || '';
-        const fTapu = document.getElementById('fTapu')?.value || '';
-        const fTakas = document.getElementById('fTakas')?.value || '';
-
-        ekKriterlerYaml = `
-banyo: "${fBanyo}"
-mutfak: "${fMutfak}"
-balkon: "${fBalkon}"
-asansor: "${fAsansor}"
-otopark: "${fOtopark}"
-esyali: "${fEsyali}"
-kullanimdurumu: "${fKullanim}"
-siteicinde: "${fSiteIci}"
-siteadi: "${fSiteAdi}"
-krediyegun: "${fKredi}"
-tapudurumu: "${fTapu}"
-takas: "${fTakas}"`;
+        aktifIdler = ['daire_brut', 'daire_net', 'daire_oda', 'daire_yas', 'daire_kat', 'daire_katsayisi', 'daire_isitma', 'daire_banyo', 'daire_mutfak', 'daire_balkon', 'daire_asansor', 'daire_otopark', 'daire_esyali', 'daire_kullanimdurumu', 'daire_siteicinde', 'daire_siteadi', 'daire_krediyegun', 'daire_tapudurumu', 'daire_takas'];
       } else if (tur === 'mustakilev') {
-        const fAcikAlan = document.getElementById('fAcikAlan')?.value || '';
-        const fYas = document.getElementById('fYas')?.value || '';
-        const fIsitma = document.getElementById('fIsitma')?.value || '';
-        const fBanyo = document.getElementById('fBanyo')?.value || '';
-        const fKatSayisiSecim = document.getElementById('fKatSayisiSecim')?.value || '1';
-        
-        let katM2Yaml = '';
-        for (let i = 1; i <= parseInt(fKatSayisiSecim); i++) {
-          const m2Val = document.getElementById(`fKat${i}M2`)?.value || '';
-          katM2Yaml += `kat${i}m2: "${m2Val}"\n`;
-        }
-
-        const fMutfak = document.getElementById('fMutfak')?.value || '';
-        const fBalkon = document.getElementById('fBalkon')?.value || '';
-        const fEsyali = document.getElementById('fEsyali')?.value || '';
-        const fKullanim = document.getElementById('fKullanim')?.value || '';
-        const fSiteIci = document.getElementById('fSiteIci')?.value || '';
-        const fKredi = document.getElementById('fKredi')?.value || '';
-        const fTapu = document.getElementById('fTapu')?.value || '';
-        const fTakas = document.getElementById('fTakas')?.value || '';
-
-        ekKriterlerYaml = `
-acikalan: "${fAcikAlan}"
-binayasi: "${fYas}"
-isitma: "${fIsitma}"
-banyo: "${fBanyo}"
-katsayisi: "${fKatSayisiSecim}"
-${katM2Yaml}mutfak: "${fMutfak}"
-balkon: "${fBalkon}"
-esyali: "${fEsyali}"
-kullanimdurumu: "${fKullanim}"
-siteicinde: "${fSiteIci}"
-krediyegun: "${fKredi}"
-tapudurumu: "${fTapu}"
-takas: "${fTakas}"`;
+        aktifIdler = ['mustakil_brut', 'mustakil_net', 'mustakil_oda', 'mustakil_arsaalan', 'mustakil_katsayisi', 'mustakil_isitma'];
+      } else if (tur === 'arsa') {
+        aktifIdler = ['arsa_brut', 'arsa_m2fiyat', 'arsa_imardurumu', 'arsa_adaparsel'];
+      } else if (tur === 'isyeri') {
+        aktifIdler = ['isyeri_isyturu', 'isyeri_brut', 'isyeri_oda', 'isyeri_aidat', 'isyeri_kat'];
       }
+
+      aktifIdler.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.value) {
+          // YAML için temiz anahtar adı (örn: daire_brut yerine doğrudan brut veya anahtar olarak kaydedelim)
+          const safAnahtar = id.split('_')[1];
+          alanlarYaml += `${safAnahtar}: "${el.value}"\n`;
+        }
+      });
 
       const dosyaAdi = `content/${tur}/${slug}.md`;
       const resimlerYaml = yuklenenResimler.map(r => `  - "${r}"`).join('\n');
@@ -666,7 +584,7 @@ danisman:
   adi: "${dAdi}"
   telefon: "${dTel}"
   fotograf: "${danismanResimYolu}"
-${ekKriterlerYaml}
+${alanlarYaml}
 ---
 ${aciklama}`;
 
@@ -700,5 +618,3 @@ ${aciklama}`;
   </script>
 </body>
 </html>
-
-```
