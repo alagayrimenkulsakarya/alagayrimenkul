@@ -95,6 +95,7 @@
 
   <script>
     let githubToken = localStorage.getItem('ala_github_token') || '';
+    let secilenDosyalarListesi = []; // Seçilen fotoğrafları tutan global dizi
 
     window.onload = function() {
       if (githubToken) {
@@ -315,6 +316,7 @@
     }
 
     function kategoriSec(tur) {
+      secilenDosyalarListesi = []; // Kategori değiştiğinde listeyi sıfırla
       const basliklar = {
         'daire': 'Yeni Daire İlanı Ekle',
         'mustakilev': 'Yeni Müstakil Ev / Villa Ekle',
@@ -351,100 +353,76 @@
             <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label><input type="text" id="fIsitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Kombi (Doğalgaz)"></div>
           </div>
 
-          <!-- DAİRE İÇİN İSTEDİĞİN 12 YENİ KRİTER -->
-          <div class="p-4 bg-slate-50 rounded-xl border space-y-4">
-            <h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Daire Ek Detayları</h4>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">1. Banyo Sayısı</label>
-                <input type="text" id="fBanyo" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: 2">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">2. Mutfak</label>
-                <select id="fMutfak" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                  <option value="Kapalı Mutfak">Kapalı Mutfak</option>
-                  <option value="Amerikan Mutfak">Amerikan Mutfak</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">3. Balkon</label>
-                <select id="fBalkon" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                  <option value="Var">Var</option>
-                  <option value="Yok">Yok</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">4. Asansör</label>
-                <select id="fAsansor" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                  <option value="Var">Var</option>
-                  <option value="Yok">Yok</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">5. Otopark</label>
-                <select id="fOtopark" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                  <option value="Açık Otopark">Açık Otopark</option>
-                  <option value="Kapalı Otopark">Kapalı Otopark</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">6. Eşyalı</label>
-                <select id="fEsyali" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                  <option value="Evet">Evet</option>
-                  <option value="Hayır">Hayır</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">7. Kullanım Durumu</label>
-                <select id="fKullanim" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                  <option value="Boş">Boş</option>
-                  <option value="Kiracılı">Kiracılı</option>
-                  <option value="Mülk Sahibi">Mülk Sahibi</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">8. Site İçerisinde</label>
-                <select id="fSiteIci" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                  <option value="Evet">Evet</option>
-                  <option value="Hayır">Hayır</option>
-                </select>
-              </div>
-              <div class="col-span-2">
-                <label class="block text-xs font-semibold text-gray-600 mb-1">9. Site Adı</label>
-                <input type="text" id="fSiteAdi" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: Serdivan Park Konakları">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">10. Krediye Uygun</label>
-                <select id="fKredi" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                  <option value="Evet">Evet</option>
-                  <option value="Hayır">Hayır</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">11. Tapu Durumu</label>
-                <select id="fTapu" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                  <option value="Kat Mülkiyeti">Kat Mülkiyeti</option>
-                  <option value="Kat İrtifakı">Kat İrtifakı</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-gray-600 mb-1">12. Takas</label>
-                <select id="fTakas" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-                  <option value="Evet">Evet</option>
-                  <option value="Hayır">Hayır</option>
-                </select>
-              </div>
+          <!-- Daire 12 Kriter -->
+          <div class="p-4 bg-gray-50 rounded-xl border space-y-4">
+            <h4 class="text-xs font-bold text-gray-700 uppercase">Daire Ek Detayları</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">1. Banyo Sayısı</label><input type="text" id="fBanyo" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="2"></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">2. Mutfak</label><select id="fMutfak" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Kapalı Mutfak">Kapalı Mutfak</option><option value="Amerikan Mutfak">Amerikan Mutfak</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">3. Balkon</label><select id="fBalkon" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Var">Var</option><option value="Yok">Yok</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">4. Asansör</label><select id="fAsansor" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Var">Var</option><option value="Yok">Yok</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">5. Otopark</label><select id="fOtopark" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Açık Otopark">Açık Otopark</option><option value="Kapalı Otopark">Kapalı Otopark</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">6. Eşyalı</label><select id="fEsyali" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">7. Kullanım Durumu</label><select id="fKullanim" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Boş">Boş</option><option value="Kiracılı">Kiracılı</option><option value="Mülk Sahibi">Mülk Sahibi</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">8. Site İçerisinde</label><select id="fSiteIci" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+              <div class="col-span-2"><label class="block text-xs font-semibold text-gray-600 mb-1">9. Site Adı</label><input type="text" id="fSiteAdi" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: Park Konakları"></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">10. Krediye Uygun</label><select id="fKredi" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">11. Tapu Durumu</label><select id="fTapu" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Kat Mülkiyeti">Kat Mülkiyeti</option><option value="Kat İrtifakı">Kat İrtifakı</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">12. Takas</label><select id="fTakas" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
             </div>
+          </div>
+        `;
+      } else if (tur === 'mustakilev') {
+        html += `
+          <div class="grid grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="200"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label><input type="text" id="fNet" class="w-full border rounded-lg p-2.5 text-sm" placeholder="180"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label><input type="text" id="fOda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4+1"></div>
+          </div>
+          <div class="grid grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Arsa Alanı (m²)</label><input type="text" id="fArsaAlan" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Kat Sayısı</label><input type="text" id="fKatSayisi" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label><input type="text" id="fIsitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Yerden Isıtma"></div>
+          </div>
+        `;
+      } else if (tur === 'arsa') {
+        html += `
+          <div class="grid grid-cols-2 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Toplam m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="1000"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">m² Fiyatı (TL)</label><input type="text" id="fM2Fiyat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2.500"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İmar Durumu</label><input type="text" id="fImar" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Konut İmarlı"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Ada / Parsel</label><input type="text" id="fAdaParsel" class="w-full border rounded-lg p-2.5 text-sm" placeholder="124 / 5"></div>
+          </div>
+        `;
+      } else if (tur === 'isyeri') {
+        html += `
+          <div class="grid grid-cols-3 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">İş Yeri Türü</label><input type="text" id="fIsTuru" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Dükkan / Mağaza"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="90"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bölüm / Oda Sayısı</label><input type="text" id="fOda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2 Bölüm"></div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Aidat (TL)</label><input type="text" id="fAidat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Bulunduğu Kat</label><input type="text" id="fKat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Giriş Kat"></div>
           </div>
         `;
       }
 
+      // TÜM KATEGORİLER İÇİN PROFESYONEL ÖNİZLEMELİ FOTOĞRAF YÜKLEME ALANI
       html += `
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">İlan Fotoğrafları Seç</label>
-              <input type="file" id="fResimlerDosya" multiple accept="image/*" class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700">
+          <div class="space-y-3 p-4 bg-slate-50 border rounded-xl">
+            <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">İlan Fotoğrafları (Önizlemeli & Çoklu Seçim)</label>
+            <input type="file" id="fResimlerDosya" multiple accept="image/*" onchange="resimOnizlemeleriniGoster(this)" class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
+            
+            <!-- Seçilen Fotoğrafların Önizleme Izgarası -->
+            <div id="resimOnizlemeKutusu" class="grid grid-cols-3 sm:grid-cols-6 gap-3 pt-2">
+              <div class="text-xs text-gray-400 col-span-full italic">Henüz fotoğraf seçilmedi. İlk seçtiğiniz fotoğraf kapak resmi olacaktır.</div>
             </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="block text-xs font-semibold text-gray-600 mb-1">Tanıtım Videosu Seç</label>
               <input type="file" id="fVideoDosya" accept="video/*" class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700">
@@ -469,6 +447,42 @@
       `;
 
       document.getElementById('panelForm').innerHTML = html;
+    }
+
+    // Seçilen fotoğrafları anında ekranda küçük kareler halinde gösteren fonksiyon
+    function resimOnizlemeleriniGoster(input) {
+      const kutu = document.getElementById('resimOnizlemeKutusu');
+      kutu.innerHTML = '';
+      secilenDosyalarListesi = Array.from(input.files);
+
+      if (secilenDosyalarListesi.length === 0) {
+        kutu.innerHTML = `<div class="text-xs text-gray-400 col-span-full italic">Henüz fotoğraf seçilmedi.</div>`;
+        return;
+      }
+
+      secilenDosyalarListesi.forEach((dosya, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const div = document.createElement('div');
+          div.className = "relative group h-24 rounded-xl overflow-hidden border bg-white shadow-sm flex items-center justify-center";
+          div.innerHTML = `
+            <img src="${e.target.result}" class="w-full h-full object-cover">
+            ${index === 0 ? '<span class="absolute top-1 left-1 bg-amber-500 text-slate-950 text-[9px] font-bold px-1.5 py-0.5 rounded shadow">Kapak</span>' : ''}
+            <button type="button" onclick="fotografCikar(${index})" class="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center opacity-80 group-hover:opacity-100 transition shadow">×</button>
+          `;
+          kutu.appendChild(div);
+        }
+        reader.readAsDataURL(dosya);
+      });
+    }
+
+    // Listeden fotoğraf çıkarma
+    function fotografCikar(index) {
+      secilenDosyalarListesi.splice(index, 1);
+      const dt = new DataTransfer();
+      secilenDosyalarListesi.forEach(file => dt.items.add(file));
+      document.getElementById('fResimlerDosya').files = dt.files;
+      resimOnizlemeleriniGoster(document.getElementById('fResimlerDosya'));
     }
 
     function dosyaToBase64(file) {
@@ -500,10 +514,9 @@
       let videoYolu = '';
       let danismanResimYolu = '';
 
-      const resimlerInput = document.getElementById('fResimlerDosya');
-      if (resimlerInput && resimlerInput.files.length > 0) {
-        for (let i = 0; i < resimlerInput.files.length; i++) {
-          const dosya = resimlerInput.files[i];
+      if (secilenDosyalarListesi.length > 0) {
+        for (let i = 0; i < secilenDosyalarListesi.length; i++) {
+          const dosya = secilenDosyalarListesi[i];
           const base64Data = await dosyaToBase64(dosya);
           const yol = `images/${slug}-${i}-${Date.now()}-${dosya.name}`;
           await githubDosyaYukle(yol, base64Data, `İlan görseli yüklendi: ${dosya.name}`);
@@ -531,8 +544,7 @@
         danismanResimYolu = `/${dYol}`;
       }
 
-      // Daireye ait ek 12 kriterin değerlerini alıyoruz
-      let ekDaireYaml = '';
+      let ekKriterlerYaml = '';
       if (tur === 'daire') {
         const fBanyo = document.getElementById('fBanyo')?.value || '';
         const fMutfak = document.getElementById('fMutfak')?.value || '';
@@ -547,7 +559,7 @@
         const fTapu = document.getElementById('fTapu')?.value || '';
         const fTakas = document.getElementById('fTakas')?.value || '';
 
-        ekDaireYaml = `
+        ekKriterlerYaml = `
 banyo: "${fBanyo}"
 mutfak: "${fMutfak}"
 balkon: "${fBalkon}"
@@ -579,7 +591,7 @@ danisman:
   adi: "${dAdi}"
   telefon: "${dTel}"
   fotograf: "${danismanResimYolu}"
-${ekDaireYaml}
+${ekKriterlerYaml}
 ---
 ${aciklama}`;
 
