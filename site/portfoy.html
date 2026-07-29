@@ -70,7 +70,7 @@
 
     <!-- SAYFA BAŞLIĞI -->
     <section class="page-hero py-14 border-b border-slate-800">
-        <div class="max-w-6xl mx-auto px-4 text-center">
+        <div class="max-w-[1400px] mx-auto px-4 text-center">
             <span class="inline-block bg-amber-500/10 text-amber-400 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-3">
                 Güncel Gayrimenkul Portföyümüz
             </span>
@@ -84,7 +84,7 @@
     </section>
 
     <!-- KATEGORİ FİLTRELERİ -->
-    <main class="max-w-6xl mx-auto px-4 py-12 w-full space-y-8">
+    <main class="max-w-[1400px] mx-auto px-4 py-12 w-full space-y-8">
         <div class="flex flex-wrap justify-center gap-3">
             <button onclick="filtrele('hepsi')" class="filter-btn active bg-amber-500 text-slate-950 font-bold px-6 py-2.5 rounded-xl text-xs transition shadow-lg">Tüm Portföyler</button>
             <button onclick="filtrele('daire')" class="filter-btn bg-[#131b2e] text-slate-300 hover:bg-slate-800 font-bold px-6 py-2.5 rounded-xl text-xs transition border border-slate-800">Daire</button>
@@ -152,16 +152,36 @@
             if (!frontmatterMatch) return { aciklama: md };
             const fm = frontmatterMatch[1];
             const data = {};
-            fm.split('\n').forEach(line => {
-                const parts = line.split(':');
-                if (parts.length >= 2) {
-                    const key = parts[0].trim();
-                    let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
-                    data[key] = val;
+            const lines = fm.split('\n');
+            let currentArrayKey = null;
+
+            lines.forEach(line => {
+                if (line.trim().startsWith('-') && currentArrayKey) {
+                    if (!data[currentArrayKey]) data[currentArrayKey] = [];
+                    data[currentArrayKey].push(line.trim().replace(/^-\s*['"](.*)['"]$/, '$1').replace(/^-\s*/, ''));
+                } else {
+                    const parts = line.split(':');
+                    if (parts.length >= 2) {
+                        const key = parts[0].trim();
+                        let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
+                        if (val === '') {
+                            currentArrayKey = key;
+                        } else {
+                            currentArrayKey = null;
+                            data[key] = val;
+                        }
+                    }
                 }
             });
             data.aciklama = md.replace(/---\s*([\s\S]*?)\s*---/, '').trim();
             return data;
+        }
+
+        function duzeltResimYolu(yol, owner, repo) {
+            if (!yol) return 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800';
+            if (yol.startsWith('http')) return yol;
+            if (yol.startsWith('/')) yol = yol.substring(1);
+            return `https://raw.githubusercontent.com/${owner}/${repo}/main/${yol}`;
         }
 
         function goster(ilanlar) {
@@ -171,12 +191,22 @@
                 return;
             }
 
+            const repoOwner = "alagayrimenkulsakarya";
+            const repoName = "alagayrimenkul";
+
             container.innerHTML = ilanlar.map(ilan => {
+                let kapakFoto = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800';
+                if (Array.isArray(ilan.images) && ilan.images.length > 0) {
+                    kapakFoto = duzeltResimYolu(ilan.images[0], repoOwner, repoName);
+                } else if (ilan.image) {
+                    kapakFoto = duzeltResimYolu(ilan.image, repoOwner, repoName);
+                }
+
                 return `
                     <div class="bg-[#131b2e] border border-slate-800 rounded-3xl overflow-hidden shadow-xl hover:border-amber-500/50 transition flex flex-col justify-between">
                         <div>
                             <div class="relative h-52">
-                                <img src="${ilan.image || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800'}" alt="${ilan.title}" class="w-full h-full object-cover">
+                                <img src="${kapakFoto}" alt="${ilan.title}" class="w-full h-full object-cover">
                                 <span class="absolute top-3 right-3 bg-amber-600 text-slate-950 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider shadow-lg">
                                     ${ilan.durum || 'Satılık'}
                                 </span>
@@ -186,7 +216,7 @@
                                     <span>İlan No: ${ilan.ilanno || 'ALA-100'}</span>
                                 </div>
                                 <h3 class="text-base font-extrabold text-white line-clamp-1">${ilan.title || 'İlan Başlığı'}</h3>
-                                <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> Sakarya / ${ilan.mahalle || 'Merkez'}</p>
+                                <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> Sakarya / ${ilan.mahalle || ''}</p>
                             </div>
                         </div>
                         <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-800/60 mt-4">
