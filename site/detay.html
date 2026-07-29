@@ -25,7 +25,7 @@
                     <a href="index.html" class="hover:text-amber-400 transition">Ana Sayfa</a>
                     <a href="hakkimizda.html" class="hover:text-amber-400 transition">Hakkımızda</a>
                     <a href="neden-biz.html" class="hover:text-amber-400 transition">Neden Biz?</a>
-                    <a href="portfoy.html" class="hover:text-amber-400 transition">Portföylerimiz</a>
+                    <a href="portfoy.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Portföylerimiz</a>
                     <a href="degerleme.html" class="hover:text-amber-400 transition">Değerleme Alın</a>
                     <a href="blog.html" class="hover:text-amber-400 transition">Blog & Videolar</a>
                     <a href="danisman-ol.html" class="hover:text-amber-400 transition text-amber-300 font-semibold">Danışman Ol</a>
@@ -42,7 +42,7 @@
     </header>
 
     <!-- İLAN DETAY ALANI (Tam Genişlik) -->
-    <main class="max-w-[1400px] mx-auto px-4 py-10 w-full space-y-8">
+    <main class="max-w-[1400px] mx-auto px-4 py-10 w-full space-y-6">
         <div id="detay-icerik" class="space-y-6">
             <div class="text-center py-20 text-slate-400">
                 <i class="fa-solid fa-spinner fa-spin text-amber-500 text-3xl mb-3"></i>
@@ -81,7 +81,7 @@
                 const res = await fetch(url);
                 if (res.ok) {
                     const md = await res.text();
-                    const ilan = parseMarkdown(md);
+                    const ilan = parseMarkdownAdvanced(md);
                     ilan.kategori = kategori;
                     detayiEkranaBas(ilan, repoOwner, repoName);
                 } else {
@@ -96,38 +96,65 @@
             }
         }
 
-        function parseMarkdown(md) {
+        // Gelişmiş ve kusursuz Markdown / YAML Okuyucu
+        function parseMarkdownAdvanced(md) {
             const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
-            if (!frontmatterMatch) return { aciklama: md };
+            const data = { images: [] };
+            if (!frontmatterMatch) {
+                data.aciklama = md;
+                return data;
+            }
+
             const fm = frontmatterMatch[1];
-            const data = {};
             const lines = fm.split('\n');
-            let currentArrayKey = null;
+            let inDanisman = false;
+            let inImages = false;
 
             lines.forEach(line => {
-                if (line.trim().startsWith('-') && currentArrayKey) {
-                    if (!data[currentArrayKey]) data[currentArrayKey] = [];
-                    data[currentArrayKey].push(line.trim().replace(/^-\s*['"](.*)['"]$/, '$1').replace(/^-\s*/, ''));
-                } else {
-                    const parts = line.split(':');
-                    if (parts.length >= 2) {
-                        const key = parts[0].trim();
-                        let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
-                        if (val === '') {
-                            currentArrayKey = key;
-                        } else {
-                            currentArrayKey = null;
-                            data[key] = val;
-                        }
+                const trimmed = line.trim();
+                if (!trimmed) return;
+
+                if (trimmed.startsWith('danisman:')) {
+                    inDanisman = true;
+                    inImages = false;
+                    data.danisman = {};
+                    return;
+                }
+                if (trimmed.startsWith('images:')) {
+                    inImages = true;
+                    inDanisman = false;
+                    return;
+                }
+
+                if (inImages && trimmed.startsWith('-')) {
+                    let val = trimmed.replace(/^-\s*['"](.*)['"]$/, '$1').replace(/^-\s*/, '');
+                    if (val) data.images.push(val);
+                    return;
+                }
+
+                const parts = trimmed.split(':');
+                if (parts.length >= 2) {
+                    const key = parts[0].trim();
+                    let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
+
+                    if (inDanisman && !trimmed.startsWith(' ')) {
+                        inDanisman = false;
+                    }
+
+                    if (inDanisman) {
+                        data.danisman[key] = val;
+                    } else {
+                        data[key] = val;
                     }
                 }
             });
+
             data.aciklama = md.replace(/---\s*([\s\S]*?)\s*---/, '').trim();
             return data;
         }
 
         function duzeltResimYolu(yol, owner, repo) {
-            if (!yol) return 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200';
+            if (!yol) return '';
             if (yol.startsWith('http')) return yol;
             if (yol.startsWith('/')) yol = yol.substring(1);
             return `https://raw.githubusercontent.com/${owner}/${repo}/main/${yol}`;
@@ -137,10 +164,12 @@
             document.title = `${ilan.title || 'İlan Detayı'} | Ala Gayrimenkul`;
 
             let resimler = [];
-            if (Array.isArray(ilan.images)) {
+            if (Array.isArray(ilan.images) && ilan.images.length > 0) {
                 resimler = ilan.images.map(r => duzeltResimYolu(r, owner, repo));
-            } else {
+            } else if (ilan.image) {
                 resimler = [duzeltResimYolu(ilan.image, owner, repo)];
+            } else {
+                resimler = ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200'];
             }
 
             const danismanFoto = duzeltResimYolu(ilan.danisman?.fotograf, owner, repo);
@@ -201,22 +230,22 @@
                     </div>
                 </div>
 
-                <!-- Sahibinden Tarzı 3 Kolonlu Tam Genişlik Yerleşim -->
+                <!-- Sahibinden Tarzı 2 Kolonlu Üst Bölüm (Fotoğraflar + Özellikler Tablosu) -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     <!-- Sol Kolon (Fotoğraflar): 7 Birim -->
                     <div class="lg:col-span-7 bg-[#131b2e] border border-slate-800 p-4 rounded-3xl space-y-4 shadow-xl">
-                        <div class="relative h-[420px] rounded-2xl overflow-hidden">
+                        <div class="relative h-[400px] rounded-2xl overflow-hidden bg-black">
                             <img id="ana-foto" src="${resimler[0]}" alt="${ilan.title}" class="w-full h-full object-cover">
                         </div>
                         <div class="flex gap-2 overflow-x-auto pb-2">
-                            ${resimler.map((img, idx) => `
+                            ${resimler.map((img) => `
                                 <img src="${img}" onclick="document.getElementById('ana-foto').src='${img}'" class="w-20 h-16 object-cover rounded-xl cursor-pointer border-2 border-slate-700 hover:border-amber-500 transition shrink-0">
                             `).join('')}
                         </div>
                     </div>
 
-                    <!-- Orta Kolon (Özellikler Tablosu): 5 Birim -->
-                    <div class="lg:col-span-5 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-4">
+                    <!-- Sağ Kolon (Özellikler Tablosu): 5 Birim -->
+                    <div class="lg:col-span-5 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-3">
                         <h3 class="text-sm font-extrabold text-white border-b border-slate-800 pb-3">İlan Özellikleri</h3>
                         <ul class="space-y-1 text-xs text-slate-300">
                             ${ozelliklerHtml}
@@ -224,8 +253,8 @@
                     </div>
                 </div>
 
-                <!-- Alt Bölüm: Açıklama ve Danışman Kartı (Yan Yana) -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Alt Bölüm: Açıklama ve Sabit Boyutlu Danışman Kartı (Yan Yana) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                     <!-- Sol: Açıklama (8 Birim) -->
                     <div class="lg:col-span-8 bg-[#131b2e] border border-slate-800 p-8 rounded-3xl space-y-6">
                         <h2 class="text-lg font-extrabold text-white border-b border-slate-800 pb-3">İlan Açıklaması</h2>
@@ -234,16 +263,16 @@
                         </div>
                     </div>
 
-                    <!-- Sağ: Danışman Kartı (4 Birim) -->
-                    <div class="lg:col-span-4 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl flex flex-col justify-between space-y-6">
+                    <!-- Sağ: Danışman Kartı (4 Birim - Sabit ve Şık) -->
+                    <div class="lg:col-span-4 bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-6">
                         <div>
                             <div class="flex items-center space-x-4">
-                                <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/30 overflow-hidden flex items-center justify-center text-amber-400 font-bold">
-                                    ${ilan.danisman?.fotograf ? `<img src="${danismanFoto}" class="w-full h-full object-cover">` : 'ALA'}
+                                <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/30 overflow-hidden flex items-center justify-center text-amber-400 font-bold shrink-0">
+                                    ${danismanFoto ? `<img src="${danismanFoto}" class="w-full h-full object-cover">` : 'ALA'}
                                 </div>
-                                <div>
-                                    <h3 class="font-extrabold text-white text-base">${ilan.danisman?.adi || 'Yusuf İşçi'}</h3>
-                                    <p class="text-xs text-amber-400 font-medium">ALA GAYRİMENKUL DANIŞMANI</p>
+                                <div class="overflow-hidden">
+                                    <h3 class="font-extrabold text-white text-base truncate">${ilan.danisman?.adi || 'Yusuf İşçi'}</h3>
+                                    <p class="text-xs text-amber-400 font-medium truncate">ALA GAYRİMENKUL DANIŞMANI</p>
                                 </div>
                             </div>
                             <div class="mt-6 space-y-3 text-xs">
@@ -253,7 +282,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="space-y-2">
+                        <div class="space-y-2 pt-2">
                             <a href="tel:${ilan.danisman?.telefon || '+905324075338'}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-center text-xs transition shadow-md">
                                 <i class="fa-solid fa-phone mr-2"></i> Danışmanı Ara
                             </a>
