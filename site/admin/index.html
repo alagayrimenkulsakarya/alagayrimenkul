@@ -37,6 +37,7 @@
       <div class="flex gap-2 border-b pb-4 overflow-x-auto">
         <button onclick="sekmeDegis('portfoy')" id="btnPortfoy" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap">Yeni İlan Ekle</button>
         <button onclick="sekmeDegis('ilanListesi')" id="btnIlanListesi" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Mevcut İlanlar & Düzenle / Sil</button>
+        <button onclick="sekmeDegis('videoYonetimi')" id="btnVideoYonetimi" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Blog & Video Ekle</button>
         <button onclick="sekmeDegis('yorumlar')" id="btnYorumlar" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Ziyaretçi Yorumları</button>
       </div>
 
@@ -76,6 +77,42 @@
         </div>
         <div id="aktifIlanlarListesi" class="space-y-3">
           <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">İlanlar yükleniyor...</div>
+        </div>
+      </div>
+
+      <!-- GELİŞMİŞ VİDEO YÖNETİMİ SEKMESİ -->
+      <div id="tabVideoYonetimi" class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100 space-y-6">
+        <div>
+          <h3 class="text-lg font-bold text-gray-800">Blog & Video Ekleme Paneli</h3>
+          <p class="text-sm text-gray-500">Blog sayfasına yeni bir video veya analiz ekleyin.</p>
+        </div>
+
+        <div class="space-y-4 bg-gray-50 p-6 rounded-2xl border">
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Video / İçerik Başlığı</label>
+            <input type="text" id="videoBaslik" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: Serdivan Bölge Analizi ve Yatırım Rehberi">
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Kategori Etiketi</label>
+              <input type="text" id="videoKategori" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: Piyasa Analizi">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">YouTube Video Linki (Opsiyonel)</label>
+              <input type="text" id="videoYoutubeUrl" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="https://youtube.com/watch?v=...">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Kapak Fotoğrafı Seç</label>
+            <input type="file" id="videoKapakDosya" accept="image/*" class="w-full border rounded-lg p-2 text-sm bg-white">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">Video Açıklaması</label>
+            <textarea id="videoAciklama" rows="3" class="w-full border rounded-lg p-3 text-sm bg-white" placeholder="Video içeriği hakkında kısa özet..."></textarea>
+          </div>
+          <button onclick="videoYukleVeKaydet()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-sm">
+            Videoyu Blog Sayfasında Yayınla
+          </button>
         </div>
       </div>
 
@@ -132,10 +169,12 @@
     function sekmeDegis(sekme) {
       document.getElementById('tabPortfoy').classList.add('hidden');
       document.getElementById('tabIlanListesi').classList.add('hidden');
+      document.getElementById('tabVideoYonetimi').classList.add('hidden');
       document.getElementById('tabYorumlar').classList.add('hidden');
       
       document.getElementById('btnPortfoy').className = "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
       document.getElementById('btnIlanListesi').className = "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
+      document.getElementById('btnVideoYonetimi').className = "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
       document.getElementById('btnYorumlar').className = "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
 
       if (sekme === 'portfoy') {
@@ -145,10 +184,60 @@
         document.getElementById('tabIlanListesi').classList.remove('hidden');
         document.getElementById('btnIlanListesi').className = "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
         tumIlanlariYukle();
+      } else if (sekme === 'videoYonetimi') {
+        document.getElementById('tabVideoYonetimi').classList.remove('hidden');
+        document.getElementById('btnVideoYonetimi').className = "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
       } else if (sekme === 'yorumlar') {
         document.getElementById('tabYorumlar').classList.remove('hidden');
         document.getElementById('btnYorumlar').className = "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
         yorumlarıYukle();
+      }
+    }
+
+    async function videoYukleVeKaydet() {
+      const baslik = document.getElementById('videoBaslik').value.trim();
+      const kategori = document.getElementById('videoKategori').value.trim();
+      const youtubeUrl = document.getElementById('videoYoutubeUrl').value.trim() || 'https://youtube.com';
+      const aciklama = document.getElementById('videoAciklama').value.trim();
+      const kapakInput = document.getElementById('videoKapakDosya');
+
+      if (!baslik) {
+        alert('Lütfen video başlığını giriniz.');
+        return;
+      }
+
+      let kapakYolu = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop';
+      
+      if (kapakInput && kapakInput.files[0]) {
+        const file = kapakInput.files[0];
+        const base64 = await dosyaToBase64(file);
+        const yol = `images/video-${Date.now()}-${file.name}`;
+        await githubDosyaYukle(yol, base64, `Video kapağı yüklendi: ${file.name}`);
+        kapakYolu = `/${yol}`;
+      }
+
+      const slug = baslik.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      const dosyaAdi = `content/videolar/${slug}.md`;
+
+      const icerikYaml = `---
+title: "${baslik}"
+kategori: "${kategori || 'Piyasa Analizi'}"
+youtube_url: "${youtubeUrl}"
+kapak: "${kapakYolu}"
+tarih: "${new Date().toLocaleDateString('tr-TR')}"
+---
+${aciklama}`;
+
+      const encoded = btoa(unescape(encodeURIComponent(icerikYaml)));
+      const sonuc = await githubDosyaYukle(dosyaAdi, encoded, `Yeni video eklendi: ${baslik}`);
+
+      if (sonuc) {
+        alert('Tebrikler! Video başarıyla blog sayfasına eklendi.');
+        document.getElementById('videoBaslik').value = '';
+        document.getElementById('videoKategori').value = '';
+        document.getElementById('videoYoutubeUrl').value = '';
+        document.getElementById('videoAciklama').value = '';
+        if (kapakInput) kapakInput.value = '';
       }
     }
 
@@ -312,7 +401,7 @@
           container.innerHTML = `<div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">Henüz gelen yeni bir yorum bulunmuyor.</div>`;
         }
       } catch (e) {
-        container.innerHTML = `<div class="p-4 border rounded-lg bg-gray-50 text-sm text-red-600">Yorumlar yüklenirken hata oluştu: ${e.message}</div>`;
+        container.innerHTML = `<div class="p-4 border rounded-lg bg-red-50 text-sm text-red-600">Yorumlar yüklenirken hata oluştu: ${e.message}</div>`;
       }
     }
 
@@ -691,6 +780,10 @@ ${aciklama}`;
         alert('Bağlantı hatası: ' + e.message);
         return false;
       }
+    }
+
+    async function githubDosyaYukle(dosyaYolu, base64Icerik, mesaj) {
+      return await githubDosyaGuncelleVeyaYukle(dosyaYolu, base64Icerik, mesaj, null);
     }
   </script>
 </body>
