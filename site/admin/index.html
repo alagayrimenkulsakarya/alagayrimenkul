@@ -1,3 +1,4 @@
+```html
 <!doctype html>
 <html lang="tr">
 <head>
@@ -373,15 +374,42 @@
         `;
       } else if (tur === 'mustakilev') {
         html += `
-          <div class="grid grid-cols-3 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label><input type="text" id="fBrut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="200"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label><input type="text" id="fNet" class="w-full border rounded-lg p-2.5 text-sm" placeholder="180"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label><input type="text" id="fOda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4+1"></div>
+          <div class="grid grid-cols-2 gap-4">
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">1. Açık Alan m² (Arsa vb.)</label><input type="text" id="fAcikAlan" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">2. Bina Yaşı</label><input type="text" id="fYas" class="w-full border rounded-lg p-2.5 text-sm" placeholder="3"></div>
           </div>
           <div class="grid grid-cols-3 gap-4">
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Arsa Alanı (m²)</label><input type="text" id="fArsaAlan" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Kat Sayısı</label><input type="text" id="fKatSayisi" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2"></div>
-            <div><label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label><input type="text" id="fIsitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Yerden Isıtma"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">3. Isıtma</label><input type="text" id="fIsitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Yerden Isıtma"></div>
+            <div><label class="block text-xs font-semibold text-gray-600 mb-1">4. Banyo Sayısı</label><input type="text" id="fBanyo" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2"></div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Müstakil Kat / Daire Sayısı</label>
+              <select id="fKatSayisiSecim" onchange="katAlanlariniGuncelle(this.value)" class="w-full border rounded-lg p-2.5 text-sm bg-white">
+                <option value="1">1 Katlı</option>
+                <option value="2">2 Katlı</option>
+                <option value="3">3 Katlı</option>
+                <option value="4">4 Katlı</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dinamik Kat / Daire m² Alanları -->
+          <div id="katMetrekareKutusu" class="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 bg-blue-50/50 rounded-xl border border-blue-100">
+            <div><label class="block text-xs font-semibold text-blue-900 mb-1">1. Daire m²</label><input type="text" id="fKat1M2" class="w-full border rounded-lg p-2 text-sm bg-white" placeholder="Örn: 150"></div>
+          </div>
+
+          <!-- Müstakil Ev İçin İstediğin 12 Kriter -->
+          <div class="p-4 bg-gray-50 rounded-xl border space-y-4">
+            <h4 class="text-xs font-bold text-gray-700 uppercase">Müstakil Ev Ek Detayları</h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">5. Mutfak</label><select id="fMutfak" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Kapalı Mutfak">Kapalı Mutfak</option><option value="Amerikan Mutfak">Amerikan Mutfak</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">6. Balkon</label><select id="fBalkon" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Var">Var</option><option value="Yok">Yok</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">7. Eşyalı</label><select id="fEsyali" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">8. Kullanım Durumu</label><select id="fKullanim" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Boş">Boş</option><option value="Kiracılı">Kiracılı</option><option value="Mülk Sahibi">Mülk Sahibi</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">9. Site İçerisinde</label><select id="fSiteIci" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">10. Krediye Uygun</label><select id="fKredi" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">11. Tapu Durumu</label><select id="fTapu" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Kat Mülkiyeti">Kat Mülkiyeti</option><option value="Kat İrtifakı">Kat İrtifakı</option></select></div>
+              <div><label class="block text-xs font-semibold text-gray-600 mb-1">12. Takas</label><select id="fTakas" class="w-full border rounded-lg p-2.5 text-sm bg-white"><option value="Evet">Evet</option><option value="Hayır">Hayır</option></select></div>
+            </div>
           </div>
         `;
       } else if (tur === 'arsa') {
@@ -409,7 +437,6 @@
         `;
       }
 
-      // TÜM KATEGORİLER İÇİN HATASIZ ÇOKLU FOTOĞRAF SEÇİMİ VE ÖNİZLEME IZGARASI
       html += `
           <div class="space-y-3 p-4 bg-slate-50 border rounded-xl">
             <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">İlan Fotoğrafları (Çoklu Seçim & Önizleme)</label>
@@ -447,7 +474,17 @@
       document.getElementById('panelForm').innerHTML = html;
     }
 
-    // Hatasız bir şekilde üst üste veya toplu dosya eklemeyi sağlayan güncellenmiş fonksiyon
+    // Müstakil ev için seçilen kat sayısına göre dinamik m² alanları üretme fonksiyonu
+    function katAlanlariniGuncelle(sayi) {
+      const kutu = document.getElementById('katMetrekareKutusu');
+      kutu.innerHTML = '';
+      for (let i = 1; i <= parseInt(sayi); i++) {
+        const div = document.createElement('div');
+        div.innerHTML = `<label class="block text-xs font-semibold text-blue-900 mb-1">${i}. Daire m²</label><input type="text" id="fKat${i}M2" class="w-full border rounded-lg p-2 text-sm bg-white" placeholder="Örn: 120">`;
+        kutu.appendChild(div);
+      }
+    }
+
     function resimEkleyin(input) {
       if (input.files) {
         for (let i = 0; i < input.files.length; i++) {
@@ -574,6 +611,42 @@ siteadi: "${fSiteAdi}"
 krediyegun: "${fKredi}"
 tapudurumu: "${fTapu}"
 takas: "${fTakas}"`;
+      } else if (tur === 'mustakilev') {
+        const fAcikAlan = document.getElementById('fAcikAlan')?.value || '';
+        const fYas = document.getElementById('fYas')?.value || '';
+        const fIsitma = document.getElementById('fIsitma')?.value || '';
+        const fBanyo = document.getElementById('fBanyo')?.value || '';
+        const fKatSayisiSecim = document.getElementById('fKatSayisiSecim')?.value || '1';
+        
+        let katM2Yaml = '';
+        for (let i = 1; i <= parseInt(fKatSayisiSecim); i++) {
+          const m2Val = document.getElementById(`fKat${i}M2`)?.value || '';
+          katM2Yaml += `kat${i}m2: "${m2Val}"\n`;
+        }
+
+        const fMutfak = document.getElementById('fMutfak')?.value || '';
+        const fBalkon = document.getElementById('fBalkon')?.value || '';
+        const fEsyali = document.getElementById('fEsyali')?.value || '';
+        const fKullanim = document.getElementById('fKullanim')?.value || '';
+        const fSiteIci = document.getElementById('fSiteIci')?.value || '';
+        const fKredi = document.getElementById('fKredi')?.value || '';
+        const fTapu = document.getElementById('fTapu')?.value || '';
+        const fTakas = document.getElementById('fTakas')?.value || '';
+
+        ekKriterlerYaml = `
+acikalan: "${fAcikAlan}"
+binayasi: "${fYas}"
+isitma: "${fIsitma}"
+banyo: "${fBanyo}"
+katsayisi: "${fKatSayisiSecim}"
+${katM2Yaml}mutfak: "${fMutfak}"
+balkon: "${fBalkon}"
+esyali: "${fEsyali}"
+kullanimdurumu: "${fKullanim}"
+siteicinde: "${fSiteIci}"
+krediyegun: "${fKredi}"
+tapudurumu: "${fTapu}"
+takas: "${fTakas}"`;
       }
 
       const dosyaAdi = `content/${tur}/${slug}.md`;
@@ -627,3 +700,5 @@ ${aciklama}`;
   </script>
 </body>
 </html>
+
+```
