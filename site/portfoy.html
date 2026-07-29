@@ -123,7 +123,6 @@
 
             for (const klasor of klasorler) {
                 try {
-                    // GitHub API kullanarak doğrudan klasör içeriğini çekiyoruz (index.json derdine son)
                     const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${klasor}`);
                     if (res.ok) {
                         const dosyalar = await res.json();
@@ -134,6 +133,7 @@
                                     const markdownText = await detayRes.text();
                                     const parsed = parseMarkdown(markdownText);
                                     parsed.kategori = klasor;
+                                    parsed.dosyaAdi = dosya.name;
                                     liste.push(parsed);
                                 }
                             }
@@ -149,7 +149,7 @@
 
         function parseMarkdown(md) {
             const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
-            if (!frontmatterMatch) return {};
+            if (!frontmatterMatch) return { aciklama: md };
             const fm = frontmatterMatch[1];
             const data = {};
             fm.split('\n').forEach(line => {
@@ -160,6 +160,7 @@
                     data[key] = val;
                 }
             });
+            data.aciklama = md.replace(/---\s*([\s\S]*?)\s*---/, '').trim();
             return data;
         }
 
@@ -171,37 +172,27 @@
             }
 
             container.innerHTML = ilanlar.map(ilan => {
-                let goruntulenmeKey = `goruntulenme_${ilan.ilanno || ilan.title}`;
-                let sayac = localStorage.getItem(goruntulenmeKey);
-                if (!sayac) {
-                    sayac = Math.floor(Math.random() * 50) + 120;
-                } else {
-                    sayac = parseInt(sayac) + 1;
-                }
-                localStorage.setItem(goruntulenmeKey, sayac);
-
                 return `
                     <div class="bg-[#131b2e] border border-slate-800 rounded-3xl overflow-hidden shadow-xl hover:border-amber-500/50 transition flex flex-col justify-between">
                         <div>
                             <div class="relative h-52">
                                 <img src="${ilan.image || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800'}" alt="${ilan.title}" class="w-full h-full object-cover">
-                                <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md text-amber-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border border-amber-500/30">
+                                <span class="absolute top-3 right-3 bg-amber-600 text-slate-950 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider shadow-lg">
                                     ${ilan.durum || 'Satılık'}
                                 </span>
                             </div>
                             <div class="p-5 space-y-3">
                                 <div class="flex justify-between items-center text-[11px] text-slate-400">
-                                    <span>İlan No: ${ilan.ilanno || 'N/A'}</span>
-                                    <span class="flex items-center space-x-1 text-amber-400"><i class="fa-solid fa-eye"></i> <span>${sayac} kez bakıldı</span></span>
+                                    <span>İlan No: ${ilan.ilanno || 'ALA-100'}</span>
                                 </div>
-                                <h3 class="text-base font-extrabold text-white line-clamp-1">${ilan.title}</h3>
-                                <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> ${ilan.ilce || 'Sakarya'} / ${ilan.mahalle || ''}</p>
+                                <h3 class="text-base font-extrabold text-white line-clamp-1">${ilan.title || 'İlan Başlığı'}</h3>
+                                <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> Sakarya / ${ilan.mahalle || 'Merkez'}</p>
                             </div>
                         </div>
                         <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-800/60 mt-4">
                             <span class="text-lg font-black text-amber-400">${ilan.fiyat ? ilan.fiyat + ' TL' : 'Fiyat Belirtilmemiş'}</span>
                             <div class="flex space-x-2">
-                                <a href="detay.html?ilan=${ilan.ilanno}" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md">İlanı İncele</a>
+                                <a href="detay.html?kategori=${ilan.kategori}&dosya=${ilan.dosyaAdi}" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md">İlanı İncele</a>
                                 <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-2.5 rounded-xl text-xs transition shadow-md" title="Hemen Ara">
                                     <i class="fa-solid fa-phone"></i>
                                 </a>
