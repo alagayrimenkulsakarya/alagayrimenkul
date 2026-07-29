@@ -41,7 +41,7 @@
         </div>
     </header>
 
-    <!-- İLAN DETAY ALANI (Tam Genişlik) -->
+    <!-- İLAN DETAY ALANI -->
     <main class="max-w-[1400px] mx-auto px-4 py-10 w-full space-y-6">
         <div id="detay-icerik" class="space-y-6">
             <div class="text-center py-20 text-slate-400">
@@ -81,7 +81,7 @@
                 const res = await fetch(url);
                 if (res.ok) {
                     const md = await res.text();
-                    const ilan = parseMarkdownAdvanced(md);
+                    const ilan = parseMarkdownSimple(md);
                     ilan.kategori = kategori;
                     detayiEkranaBas(ilan, repoOwner, repoName);
                 } else {
@@ -96,10 +96,9 @@
             }
         }
 
-        // Gelişmiş ve kusursuz Markdown / YAML Okuyucu
-        function parseMarkdownAdvanced(md) {
+        function parseMarkdownSimple(md) {
             const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
-            const data = { images: [] };
+            const data = { images: [], danisman: {} };
             if (!frontmatterMatch) {
                 data.aciklama = md;
                 return data;
@@ -107,26 +106,15 @@
 
             const fm = frontmatterMatch[1];
             const lines = fm.split('\n');
-            let inDanisman = false;
-            let inImages = false;
+            let section = '';
 
             lines.forEach(line => {
                 const trimmed = line.trim();
                 if (!trimmed) return;
+                if (trimmed.startsWith('danisman:')) { section = 'danisman'; return; }
+                if (trimmed.startsWith('images:')) { section = 'images'; return; }
 
-                if (trimmed.startsWith('danisman:')) {
-                    inDanisman = true;
-                    inImages = false;
-                    data.danisman = {};
-                    return;
-                }
-                if (trimmed.startsWith('images:')) {
-                    inImages = true;
-                    inDanisman = false;
-                    return;
-                }
-
-                if (inImages && trimmed.startsWith('-')) {
+                if (section === 'images' && trimmed.startsWith('-')) {
                     let val = trimmed.replace(/^-\s*['"](.*)['"]$/, '$1').replace(/^-\s*/, '');
                     if (val) data.images.push(val);
                     return;
@@ -137,14 +125,15 @@
                     const key = parts[0].trim();
                     let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
 
-                    if (inDanisman && !trimmed.startsWith(' ')) {
-                        inDanisman = false;
-                    }
-
-                    if (inDanisman) {
+                    if (section === 'danisman') {
                         data.danisman[key] = val;
                     } else {
-                        data[key] = val;
+                        if (trimmed.startsWith('  ') && section === 'danisman') {
+                            data.danisman[key] = val;
+                        } else {
+                            section = '';
+                            data[key] = val;
+                        }
                     }
                 }
             });
