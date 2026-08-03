@@ -120,15 +120,20 @@
             let liste = [];
             const repoOwner = "alagayrimenkulsakarya";
             const repoName = "alagayrimenkul";
+            const token = localStorage.getItem('ala_github_token') || '';
+
+            const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
 
             for (const klasor of klasorler) {
                 try {
-                    const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${klasor}`);
+                    const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${klasor}`, { headers });
                     if (res.ok) {
                         const dosyalar = await res.json();
                         for (const dosya of dosyalar) {
                             if (dosya.name.endsWith('.md')) {
-                                const detayRes = await fetch(dosya.download_url);
+                                // Cache önleyici eklenerek güncel verinin gelmesi sağlanıyor
+                                const cacheBuster = `?t=${Date.now()}`;
+                                const detayRes = await fetch(dosya.download_url + cacheBuster);
                                 if (detayRes.ok) {
                                     const markdownText = await detayRes.text();
                                     const parsed = parseMarkdown(markdownText);
