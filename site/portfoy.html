@@ -107,6 +107,9 @@
         <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
     </footer>
 
+    <!-- Otomatik Güncellenen İlan Verileri (Cache Engellemek İçin Zaman Damgası) -->
+    <script src="tum-ilanlar.js?t=9999"></script>
+
     <!-- SCRIPT -->
     <script>
         const btn = document.getElementById('menu-btn');
@@ -115,67 +118,14 @@
 
         let tumIlanlar = [];
 
-        async function ilanlariCek() {
-            const klasorler = ['daire', 'mustakilev', 'arsa', 'isyeri', 'ilanlar'];
-            let liste = [];
-            const repoOwner = "alagayrimenkulsakarya";
-            const repoName = "alagayrimenkul";
-
-            for (const klasor of klasorler) {
-                try {
-                    const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${klasor}`);
-                    if (!res.ok) continue;
-                    
-                    const dosyalar = await res.json();
-                    if (Array.isArray(dosyalar)) {
-                        for (const dosya of dosyalar) {
-                            if (dosya.name && dosya.name.endsWith('.md')) {
-                                try {
-                                    const detayRes = await fetch(dosya.download_url + `?t=${Date.now()}`);
-                                    if (detayRes.ok) {
-                                        const markdownText = await detayRes.text();
-                                        const parsed = parseMarkdown(markdownText);
-                                        parsed.kategori = klasor === 'ilanlar' ? 'daire' : klasor;
-                                        parsed.dosyaAdi = dosya.name;
-                                        liste.push(parsed);
-                                    }
-                                } catch (err) {}
-                            }
-                        }
-                    }
-                } catch (e) {}
+        window.onload = function() {
+            if (typeof siteIlanVerileri !== 'undefined' && Array.isArray(siteIlanVerileri)) {
+                tumIlanlar = siteIlanVerileri;
+                goster(tumIlanlar);
+            } else {
+                document.getElementById('ilan-listesi').innerHTML = `<div class="text-center py-12 text-slate-400 col-span-full text-sm">Henüz eklenmiş ilan bulunmuyor.</div>`;
             }
-            tumIlanlar = liste;
-            goster(tumIlanlar);
-        }
-
-        function parseMarkdown(md) {
-            const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
-            const data = { images: [] };
-            if (!frontmatterMatch) return data;
-
-            const fm = frontmatterMatch[1];
-            const lines = fm.split('\n');
-            let inImages = false;
-
-            lines.forEach(line => {
-                const trimmed = line.trim();
-                if (!trimmed) return;
-                if (trimmed.startsWith('images:')) { inImages = true; return; }
-                if (inImages && trimmed.startsWith('-')) {
-                    let val = trimmed.replace(/^-\s*['"](.*)['"]$/, '$1').replace(/^-\s*/, '');
-                    if (val) data.images.push(val);
-                    return;
-                }
-                const parts = trimmed.split(':');
-                if (parts.length >= 2) {
-                    const key = parts[0].trim();
-                    let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
-                    data[key] = val;
-                }
-            });
-            return data;
-        }
+        };
 
         function duzeltResimYolu(yol, owner, repo) {
             if (!yol) return '';
@@ -245,8 +195,6 @@
                 goster(tumIlanlar.filter(i => i.kategori === kategori));
             }
         }
-
-        window.onload = ilanlariCek;
     </script>
 </body>
 </html>
