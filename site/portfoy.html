@@ -123,29 +123,28 @@
 
             for (const klasor of klasorler) {
                 try {
+                    // GitHub deposunun ana kök dizinindeki content klasörüne doğru yol ile bağlanıyoruz
                     const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${klasor}`);
-                    if (res.ok) {
-                        const dosyalar = await res.json();
-                        if (Array.isArray(dosyalar)) {
-                            for (const dosya of dosyalar) {
-                                if (dosya.name && dosya.name.endsWith('.md')) {
-                                    try {
-                                        const detayRes = await fetch(dosya.download_url);
-                                        if (detayRes.ok) {
-                                            const markdownText = await detayRes.text();
-                                            const parsed = parseMarkdown(markdownText);
-                                            parsed.kategori = klasor;
-                                            parsed.dosyaAdi = dosya.name;
-                                            liste.push(parsed);
-                                        }
-                                    } catch (err) {}
-                                }
+                    if (!res.ok) continue;
+                    
+                    const dosyalar = await res.json();
+                    if (Array.isArray(dosyalar)) {
+                        for (const dosya of dosyalar) {
+                            if (dosya.name && dosya.name.endsWith('.md')) {
+                                try {
+                                    const detayRes = await fetch(dosya.download_url + `?t=${Date.now()}`);
+                                    if (detayRes.ok) {
+                                        const markdownText = await detayRes.text();
+                                        const parsed = parseMarkdown(markdownText);
+                                        parsed.kategori = klasor;
+                                        parsed.dosyaAdi = dosya.name;
+                                        liste.push(parsed);
+                                    }
+                                } catch (err) {}
                             }
                         }
                     }
-                } catch (e) {
-                    // Klasör henüz yoksa veya boşsa hatayı yut ve devam et
-                }
+                } catch (e) {}
             }
             tumIlanlar = liste;
             goster(tumIlanlar);
@@ -244,7 +243,7 @@
             if (kategori === 'hepsi') {
                 goster(tumIlanlar);
             } else {
-                goster(tumIlanlar.filter(i => i.kategori === kategori));
+                goster(tumIlarlar.filter(i => i.kategori === kategori));
             }
         }
 
