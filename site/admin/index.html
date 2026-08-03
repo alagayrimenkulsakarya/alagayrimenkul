@@ -37,7 +37,6 @@
       <div class="flex gap-2 border-b pb-4 overflow-x-auto">
         <button onclick="sekmeDegis('portfoy')" id="btnPortfoy" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap">Yeni İlan Ekle</button>
         <button onclick="sekmeDegis('ilanListesi')" id="btnIlanListesi" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Mevcut İlanlar & Düzenle / Sil</button>
-        <button onclick="sekmeDegis('videoYonetimi')" id="btnVideoYonetimi" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Blog & Video Ekle</button>
         <button onclick="sekmeDegis('yorumlar')" id="btnYorumlar" class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">Ziyaretçi Yorumları</button>
       </div>
 
@@ -77,42 +76,6 @@
         </div>
         <div id="aktifIlanlarListesi" class="space-y-3">
           <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">İlanlar yükleniyor...</div>
-        </div>
-      </div>
-
-      <!-- GELİŞMİŞ VİDEO YÖNETİMİ SEKMESİ -->
-      <div id="tabVideoYonetimi" class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100 space-y-6">
-        <div>
-          <h3 class="text-lg font-bold text-gray-800">Blog & Video Ekleme Paneli</h3>
-          <p class="text-sm text-gray-500">Blog sayfasına yeni bir video veya analiz ekleyin.</p>
-        </div>
-
-        <div class="space-y-4 bg-gray-50 p-6 rounded-2xl border">
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">Video / İçerik Başlığı</label>
-            <input type="text" id="videoBaslik" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: Serdivan Bölge Analizi ve Yatırım Rehberi">
-          </div>
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Kategori Etiketi</label>
-              <input type="text" id="videoKategori" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: Piyasa Analizi">
-            </div>
-            <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">YouTube Video Linki (Opsiyonel)</label>
-              <input type="text" id="videoYoutubeUrl" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="https://youtube.com/watch?v=...">
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">Kapak Fotoğrafı Seç</label>
-            <input type="file" id="videoKapakDosya" accept="image/*" class="w-full border rounded-lg p-2 text-sm bg-white">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">Video Açıklaması</label>
-            <textarea id="videoAciklama" rows="3" class="w-full border rounded-lg p-3 text-sm bg-white" placeholder="Video içeriği hakkında kısa özet..."></textarea>
-          </div>
-          <button onclick="videoYukleVeKaydet()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-sm">
-            Videoyu Blog Sayfasında Yayınla
-          </button>
         </div>
       </div>
 
@@ -169,12 +132,10 @@
     function sekmeDegis(sekme) {
       document.getElementById('tabPortfoy').classList.add('hidden');
       document.getElementById('tabIlanListesi').classList.add('hidden');
-      document.getElementById('tabVideoYonetimi').classList.add('hidden');
       document.getElementById('tabYorumlar').classList.add('hidden');
       
       document.getElementById('btnPortfoy').className = "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
       document.getElementById('btnIlanListesi').className = "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
-      document.getElementById('btnVideoYonetimi').className = "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
       document.getElementById('btnYorumlar').className = "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
 
       if (sekme === 'portfoy') {
@@ -184,60 +145,10 @@
         document.getElementById('tabIlanListesi').classList.remove('hidden');
         document.getElementById('btnIlanListesi').className = "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
         tumIlanlariYukle();
-      } else if (sekme === 'videoYonetimi') {
-        document.getElementById('tabVideoYonetimi').classList.remove('hidden');
-        document.getElementById('btnVideoYonetimi').className = "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
       } else if (sekme === 'yorumlar') {
         document.getElementById('tabYorumlar').classList.remove('hidden');
         document.getElementById('btnYorumlar').className = "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
         yorumlarıYukle();
-      }
-    }
-
-    async function videoYukleVeKaydet() {
-      const baslik = document.getElementById('videoBaslik').value.trim();
-      const kategori = document.getElementById('videoKategori').value.trim();
-      const youtubeUrl = document.getElementById('videoYoutubeUrl').value.trim() || 'https://youtube.com';
-      const aciklama = document.getElementById('videoAciklama').value.trim();
-      const kapakInput = document.getElementById('videoKapakDosya');
-
-      if (!baslik) {
-        alert('Lütfen video başlığını giriniz.');
-        return;
-      }
-
-      let kapakYolu = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop';
-      
-      if (kapakInput && kapakInput.files[0]) {
-        const file = kapakInput.files[0];
-        const base64 = await dosyaToBase64(file);
-        const yol = `images/video-${Date.now()}-${file.name}`;
-        await githubDosyaYukle(yol, base64, `Video kapağı yüklendi: ${file.name}`);
-        kapakYolu = `/${yol}`;
-      }
-
-      const slug = baslik.toLowerCase().replace(/[^a-z0-9]/g, '-');
-      const dosyaAdi = `content/videolar/${slug}.md`;
-
-      const icerikYaml = `---
-title: "${baslik}"
-kategori: "${kategori || 'Piyasa Analizi'}"
-youtube_url: "${youtubeUrl}"
-kapak: "${kapakYolu}"
-tarih: "${new Date().toLocaleDateString('tr-TR')}"
----
-${aciklama}`;
-
-      const encoded = btoa(unescape(encodeURIComponent(icerikYaml)));
-      const sonuc = await githubDosyaYukle(dosyaAdi, encoded, `Yeni video eklendi: ${baslik}`);
-
-      if (sonuc) {
-        alert('Tebrikler! Video başarıyla blog sayfasına eklendi.');
-        document.getElementById('videoBaslik').value = '';
-        document.getElementById('videoKategori').value = '';
-        document.getElementById('videoYoutubeUrl').value = '';
-        document.getElementById('videoAciklama').value = '';
-        if (kapakInput) kapakInput.value = '';
       }
     }
 
@@ -353,7 +264,6 @@ ${aciklama}`;
       });
 
       if (resDel.ok) {
-        await ilanlarJsonGuncelle();
         alert('İlan başarıyla kaldırıldı ve siteden silindi!');
         tumIlanlariYukle();
       } else {
@@ -648,81 +558,6 @@ ${aciklama}`;
       });
     }
 
-    async function ilanlarJsonGuncelle() {
-      const repoOwner = "alagayrimenkulsakarya";
-      const repoName = "alagayrimenkul";
-      const kategoriler = ['daire', 'mustakilev', 'arsa', 'isyeri'];
-      let tumIlanlarListesi = [];
-
-      for (const kat of kategoriler) {
-        try {
-          const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${kat}`;
-          const res = await fetch(url, { headers: { 'Authorization': `Bearer ${githubToken}` } });
-          if (res.ok) {
-            const files = await res.json();
-            for (const file of files) {
-              if (file.name.endsWith('.md')) {
-                const detRes = await fetch(file.download_url);
-                if (detRes.ok) {
-                  const mdText = await detRes.text();
-                  const parsed = parseMarkdownBasit(mdText);
-                  parsed.kategori = kat;
-                  parsed.dosyaAdi = file.name;
-                  tumIlanlarListesi.push(parsed);
-                }
-              }
-            }
-          }
-        } catch(e) {}
-      }
-
-      // ilanlar.json dosyasını güncelle
-      const jsonDosyaYolu = 'content/ilanlar.json';
-      const jsonIcerik = JSON.stringify(tumIlanlarListesi, null, 2);
-      const encodedJson = btoa(unescape(encodeURIComponent(jsonIcerik)));
-
-      let sha = null;
-      try {
-        const getRes = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${jsonDosyaYolu}`, {
-          headers: { 'Authorization': `Bearer ${githubToken}` }
-        });
-        if (getRes.ok) {
-          const d = await getRes.json();
-          sha = d.sha;
-        }
-      } catch(e) {}
-
-      await githubDosyaGuncelleVeyaYukle(jsonDosyaYolu, encodedJson, 'ilanlar.json güncellendi', sha);
-    }
-
-    function parseMarkdownBasit(md) {
-      const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
-      const data = { images: [] };
-      if (!frontmatterMatch) return data;
-
-      const fm = frontmatterMatch[1];
-      const lines = fm.split('\n');
-      let inImages = false;
-
-      lines.forEach(line => {
-        const trimmed = line.trim();
-        if (!trimmed) return;
-        if (trimmed.startsWith('images:')) { inImages = true; return; }
-        if (inImages && trimmed.startsWith('-')) {
-          let val = trimmed.replace(/^-\s*['"](.*)['"]$/, '$1').replace(/^-\s*/, '');
-          if (val) data.images.push(val);
-          return;
-        }
-        const parts = trimmed.split(':');
-        if (parts.length >= 2) {
-          const key = parts[0].trim();
-          let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
-          data[key] = val;
-        }
-      });
-      return data;
-    }
-
     async function ilaniGitHubaKaydet(tur) {
       const baslik = document.getElementById(`${tur}_baslik`)?.value || '';
       const no = document.getElementById(`${tur}_ilanno`)?.value || 'ALA-100';
@@ -830,8 +665,6 @@ ${aciklama}`;
       const sonuc = await githubDosyaGuncelleVeyaYukle(dosyaAdi, encodedContent, `İlan güncellendi/eklendi: ${baslik}`, sha);
 
       if (sonuc) {
-        // İlan listesini JSON olarak da güncelliyoruz
-        await ilanlarJsonGuncelle();
         alert('Tebrikler! İlanınız başarıyla kaydedildi ve sitede yayınlandı.');
         duzenlenenDosyaYolu = null;
         kategoriSec(tur);
