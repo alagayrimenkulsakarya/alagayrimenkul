@@ -116,23 +116,67 @@
         let tumIlanlar = [];
 
         async function ilanlariCek() {
+            const klasorler = ['daire', 'mustakilev', 'arsa', 'isyeri'];
+            let liste = [];
             const repoOwner = "alagayrimenkulsakarya";
             const repoName = "alagayrimenkul";
-            // Cache önleyici ile güncel JSON dosyasını anında çekiyoruz
-            const jsonUrl = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/content/ilanlar.json?t=${Date.now()}`;
 
-            try {
-                const res = await fetch(jsonUrl);
-                if (res.ok) {
-                    const data = await res.json();
-                    tumIlanlar = Array.isArray(data) ? data : [];
-                    goster(tumIlanlar);
-                } else {
-                    document.getElementById('ilan-listesi').innerHTML = `<div class="text-center py-12 text-slate-400 col-span-full text-sm">Henüz eklenmiş ilan bulunmuyor.</div>`;
+            for (const klasor of klasorler) {
+                try {
+                    const res = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${klasor}`);
+                    if (res.ok) {
+                        const dosyalar = await res.json();
+                        if (Array.isArray(dosyalar)) {
+                            for (const dosya of dosyalar) {
+                                if (dosya.name && dosya.name.endsWith('.md')) {
+                                    try {
+                                        const detayRes = await fetch(dosya.download_url);
+                                        if (detayRes.ok) {
+                                            const markdownText = await detayRes.text();
+                                            const parsed = parseMarkdown(markdownText);
+                                            parsed.kategori = klasor;
+                                            parsed.dosyaAdi = dosya.name;
+                                            liste.push(parsed);
+                                        }
+                                    } catch (err) {}
+                                }
+                            }
+                        }
+                    }
+                } catch (e) {
+                    // Klasör henüz yoksa veya boşsa hatayı yut ve devam et
                 }
-            } catch (e) {
-                document.getElementById('ilan-listesi').innerHTML = `<div class="text-center py-12 text-slate-400 col-span-full text-sm">İlanlar yüklenirken hata oluştu.</div>`;
             }
+            tumIlanlar = liste;
+            goster(tumIlanlar);
+        }
+
+        function parseMarkdown(md) {
+            const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
+            const data = { images: [] };
+            if (!frontmatterMatch) return data;
+
+            const fm = frontmatterMatch[1];
+            const lines = fm.split('\n');
+            let inImages = false;
+
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                if (!trimmed) return;
+                if (trimmed.startsWith('images:')) { inImages = true; return; }
+                if (inImages && trimmed.startsWith('-')) {
+                    let val = trimmed.replace(/^-\s*['"](.*)['"]$/, '$1').replace(/^-\s*/, '');
+                    if (val) data.images.push(val);
+                    return;
+                }
+                const parts = trimmed.split(':');
+                if (parts.length >= 2) {
+                    const key = parts[0].trim();
+                    let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
+                    data[key] = val;
+                }
+            });
+            return data;
         }
 
         function duzeltResimYolu(yol, owner, repo) {
