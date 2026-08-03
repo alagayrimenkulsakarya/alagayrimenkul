@@ -264,6 +264,7 @@
       });
 
       if (resDel.ok) {
+        await siteIlanlariniOtomatikGuncelle();
         alert('İlan başarıyla kaldırıldı ve siteden silindi!');
         tumIlanlariYukle();
       } else {
@@ -558,6 +559,80 @@
       });
     }
 
+    async function siteIlanlariniOtomatikGuncelle() {
+      const repoOwner = "alagayrimenkulsakarya";
+      const repoName = "alagayrimenkul";
+      const kategoriler = ['daire', 'mustakilev', 'arsa', 'isyeri', 'ilanlar'];
+      let tumIlanlarListesi = [];
+
+      for (const kat of kategoriler) {
+        try {
+          const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${kat}`;
+          const res = await fetch(url, { headers: { 'Authorization': `Bearer ${githubToken}` } });
+          if (res.ok) {
+            const files = await res.json();
+            for (const file of files) {
+              if (file.name.endsWith('.md')) {
+                const detRes = await fetch(file.download_url);
+                if (detRes.ok) {
+                  const mdText = await detRes.text();
+                  const parsed = parseMarkdownBasit(mdText);
+                  parsed.kategori = kat === 'ilanlar' ? 'daire' : kat;
+                  parsed.dosyaAdi = file.name;
+                  tumIlanlarListesi.push(parsed);
+                }
+              }
+            }
+          }
+        } catch(e) {}
+      }
+
+      const jsDosyaYolu = 'site/tum-ilanlar.js';
+      const jsIcerik = `const siteIlanVerileri = ${JSON.stringify(tumIlanlarListesi, null, 2)};`;
+      const encodedJs = btoa(unescape(encodeURIComponent(jsIcerik)));
+
+      let sha = null;
+      try {
+        const getRes = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${jsDosyaYolu}`, {
+          headers: { 'Authorization': `Bearer ${githubToken}` }
+        });
+        if (getRes.ok) {
+          const d = await getRes.json();
+          sha = d.sha;
+        }
+      } catch(e) {}
+
+      await githubDosyaGuncelleVeyaYukle(jsDosyaYolu, encodedJs, 'site tum-ilanlar.js otomatik güncellendi', sha);
+    }
+
+    function parseMarkdownBasit(md) {
+      const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
+      const data = { images: [] };
+      if (!frontmatterMatch) return data;
+
+      const fm = frontmatterMatch[1];
+      const lines = fm.split('\n');
+      let inImages = false;
+
+      lines.forEach(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return;
+        if (trimmed.startsWith('images:')) { inImages = true; return; }
+        if (inImages && trimmed.startsWith('-')) {
+          let val = trimmed.replace(/^-\s*['"](.*)['"]$/, '$1').replace(/^-\s*/, '');
+          if (val) data.images.push(val);
+          return;
+        }
+        const parts = trimmed.split(':');
+        if (parts.length >= 2) {
+          const key = parts[0].trim();
+          let val = parts.slice(1).join(':').trim().replace(/^['"](.*)['"]$/, '$1');
+          data[key] = val;
+        }
+      });
+      return data;
+    }
+
     async function ilaniGitHubaKaydet(tur) {
       const baslik = document.getElementById(`${tur}_baslik`)?.value || '';
       const no = document.getElementById(`${tur}_ilanno`)?.value || 'ALA-100';
@@ -652,19 +727,19 @@ ${aciklama}`;
 
       let sha = null;
       if (duzenlenenDosyaYolu) {
-        const getRes = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${duzenlenenDosyaYolu}`, {
-          headers: { 'Authorization': `Bearer ${githubToken}` }
-        });
-        if (getRes.ok) {
-          const fileData = await getRes.json();
+        const getRes = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${duzenlenenDosyaYolu}`;
+        const fetchRes = await fetch(getRes, { headers: { 'Authorization': `Bearer ${githubToken}` } });
+        if (fetchRes.ok) {
+          const fileData = await fetchRes.json();
           sha = fileData.sha;
         }
       }
 
-      const encodedContent = bota(unescape(encodeURIComponent(icerikYaml)));
+      const encodedContent = btoa(unescape(encodeURIComponent(icerikYaml)));
       const sonuc = await githubDosyaGuncelleVeyaYukle(dosyaAdi, encodedContent, `İlan güncellendi/eklendi: ${baslik}`, sha);
 
       if (sonuc) {
+        await siteIlanlariniOtomatikGuncelle();
         alert('Tebrikler! İlanınız başarıyla kaydedildi ve sitede yayınlandı.');
         duzenlenenDosyaYolu = null;
         kategoriSec(tur);
