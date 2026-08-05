@@ -587,7 +587,8 @@
         } catch(e) {}
       }
 
-      const jsDosyaYolu = 'site/tum-ilanlar.js';
+      // Dosya ana kök dizine (tum-ilanlar.js) kaydediliyor
+      const jsDosyaYolu = 'tum-ilanlar.js';
       const jsIcerik = `const siteIlanVerileri = ${JSON.stringify(tumIlanlarListesi, null, 2)};`;
       const encodedJs = btoa(unescape(encodeURIComponent(jsIcerik)));
 
@@ -602,7 +603,7 @@
         }
       } catch(e) {}
 
-      await githubDosyaGuncelleVeyaYukle(jsDosyaYolu, encodedJs, 'site tum-ilanlar.js otomatik güncellendi', sha);
+      await githubDosyaGuncelleVeyaYukle(jsDosyaYolu, encodedJs, 'tum-ilanlar.js ana dizinde güncellendi', sha);
     }
 
     function parseMarkdownBasit(md) {
