@@ -1,0 +1,33 @@
+---
+title: "adapazarında muhteşem 3+1 Daire"
+ilanno: "Ala-10231"
+durum: "Satılık"
+fiyat: "2.250.000"
+mahalle: "Tepekum"
+image: "/images/adapazar-nda-muhte-em-3-1-daire-0-1785933282673-WhatsApp Image 2026-07-24 at 13.03.37.jpeg"
+images:
+  - "/images/adapazar-nda-muhte-em-3-1-daire-0-1785933282673-WhatsApp Image 2026-07-24 at 13.03.37.jpeg"
+video_url: ""
+danisman:
+  adi: "Yusuf İşçi"
+  telefon: "0 (532) 407 53 38"
+  fotograf: ""
+brut: "135"
+net: "125"
+oda: "3+1"
+yas: "30 ve üzeri"
+kat: "4"
+katsayisi: "4"
+isitma: "kombi"
+mutfak: "Kapalı Mutfak"
+balkon: "Var"
+asansor: "Var"
+otopark: "Açık Otopark"
+esyali: "Evet"
+kullanimdurumu: "Boş"
+siteicinde: "Evet"
+krediyegun: "Evet"
+tapudurumu: "Kat Mülkiyeti"
+takas: "Evet"
+
+---
