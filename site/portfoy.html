@@ -107,7 +107,7 @@
         <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
     </footer>
 
-    <!-- Doğru Konumdaki tum-ilanlar.js Dosyası Bağlantısı -->
+    <!-- tum-ilanlar.js Bağlantısı -->
     <script src="tum-ilanlar.js?t=9999"></script>
 
     <!-- SCRIPT -->
@@ -156,6 +156,17 @@
                     kapakFoto = duzeltResimYolu(ilan.image, repoOwner, repoName);
                 }
 
+                // Fiyatı güvenli bir şekilde biçimlendirme
+                let fiyatMetni = 'Fiyat Belirtilmemiş';
+                if (ilan.fiyat) {
+                    let temizFiyat = String(ilan.fiyat).replace(/[^\d]/g, '');
+                    if (temizFiyat) {
+                        fiyatMetni = Number(temizFiyat).toLocaleString('tr-TR') + ' TL';
+                    } else {
+                        fiyatMetni = ilan.fiyat + ' TL';
+                    }
+                }
+
                 return `
                     <div class="bg-[#131b2e] border border-slate-800 rounded-3xl overflow-hidden shadow-xl hover:border-amber-500/50 transition flex flex-col justify-between">
                         <div>
@@ -175,7 +186,7 @@
                             </div>
                         </div>
                         <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-800/60 mt-4">
-                            <span class="text-lg font-black text-amber-400">${ilan.fiyat ? Number(ilan.fiyat).toLocaleString('tr-TR') + ' TL' : 'Fiyat Belirtilmemiş'}</span>
+                            <span class="text-lg font-black text-amber-400">${fiyatMetni}</span>
                             <div class="flex space-x-2">
                                 <a href="detay.html?kategori=${ilan.kategori}&dosya=${ilan.dosyaAdi}" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md">İlanı İncele</a>
                                 <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-2.5 rounded-xl text-xs transition shadow-md" title="Hemen Ara">
