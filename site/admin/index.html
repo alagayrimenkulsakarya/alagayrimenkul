@@ -586,7 +586,7 @@
         } catch(e) {}
       }
 
-      // DÜZELTME: tum-ilanlar.js dosyası artık doğrudan portföy sayfasının okuyabileceği 'site/tum-ilanlar.js' konumuna kaydediliyor!
+      // KESİN ÇÖZÜM: tum-ilanlar.js dosyası artık doğrudan portföy sayfasının olduğu 'site/' klasörünün içine kaydediliyor!
       const jsDosyaYolu = 'site/tum-ilanlar.js';
       const jsIcerik = `const siteIlanVerileri = ${JSON.stringify(tumIlanlarListesi, null, 2)};`;
       const encodedJs = btoa(unescape(encodeURIComponent(jsIcerik)));
