@@ -107,14 +107,16 @@
         <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
     </footer>
 
-    <!-- Ana Kök Dizindeki tum-ilanlar.js Dosyasını Doğru Çağırma Yolu -->
-    <script src="../tum-ilanlar.js?t=9999"></script>
+    <!-- Doğru Konumdaki tum-ilanlar.js Dosyası Bağlantısı -->
+    <script src="tum-ilanlar.js?t=9999"></script>
 
     <!-- SCRIPT -->
     <script>
         const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
-        btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+        if(btn && menu) {
+            btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+        }
 
         let tumIlanlar = [];
 
@@ -123,7 +125,7 @@
                 tumIlanlar = siteIlanVerileri;
                 goster(tumIlanlar);
             } else {
-                document.getElementById('ilan-listesi').innerHTML = `<div class="text-center py-12 text-slate-400 col-span-full text-sm">Henüz eklenmiş ilan bulunmuyor.</div>`;
+                document.getElementById('ilan-listesi').innerHTML = `<div class="text-center py-12 text-slate-400 col-span-full text-sm">Henüz eklenmiş ilan bulunmuyor veya veriler yüklenemedi.</div>`;
             }
         };
 
@@ -136,8 +138,10 @@
 
         function goster(ilanlar) {
             const container = document.getElementById('ilan-listesi');
+            if (!container) return;
+
             if (ilanlar.length === 0) {
-                container.innerHTML = `<div class="text-center py-12 text-slate-400 col-span-full text-sm">Henüz eklenmiş ilan bulunmuyor.</div>`;
+                container.innerHTML = `<div class="text-center py-12 text-slate-400 col-span-full text-sm">Bu kategoride henüz ilan bulunmuyor.</div>`;
                 return;
             }
 
@@ -156,7 +160,7 @@
                     <div class="bg-[#131b2e] border border-slate-800 rounded-3xl overflow-hidden shadow-xl hover:border-amber-500/50 transition flex flex-col justify-between">
                         <div>
                             <div class="relative h-52 bg-slate-900">
-                                <img src="${kapakFoto}" alt="${ilan.title}" class="w-full h-full object-cover">
+                                <img src="${kapakFoto}" alt="${ilan.title || 'İlan'}" class="w-full h-full object-cover">
                                 <span class="absolute top-3 right-3 bg-amber-600 text-slate-950 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider shadow-lg">
                                     ${ilan.durum || 'Satılık'}
                                 </span>
@@ -164,13 +168,14 @@
                             <div class="p-5 space-y-3">
                                 <div class="flex justify-between items-center text-[11px] text-slate-400">
                                     <span>İlan No: ${ilan.ilanno || 'ALA-100'}</span>
+                                    <span class="uppercase text-[9px] bg-slate-800 px-2 py-0.5 rounded text-amber-400 font-bold">${ilan.kategori || 'Genel'}</span>
                                 </div>
                                 <h3 class="text-base font-extrabold text-white line-clamp-1">${ilan.title || 'İlan Başlığı'}</h3>
                                 <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> Sakarya / ${ilan.mahalle || ''}</p>
                             </div>
                         </div>
                         <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-800/60 mt-4">
-                            <span class="text-lg font-black text-amber-400">${ilan.fiyat ? ilan.fiyat + ' TL' : 'Fiyat Belirtilmemiş'}</span>
+                            <span class="text-lg font-black text-amber-400">${ilan.fiyat ? Number(ilan.fiyat).toLocaleString('tr-TR') + ' TL' : 'Fiyat Belirtilmemiş'}</span>
                             <div class="flex space-x-2">
                                 <a href="detay.html?kategori=${ilan.kategori}&dosya=${ilan.dosyaAdi}" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md">İlanı İncele</a>
                                 <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-2.5 rounded-xl text-xs transition shadow-md" title="Hemen Ara">
