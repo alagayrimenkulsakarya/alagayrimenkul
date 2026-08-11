@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portföylerimiz | Ala Gayrimenkul</title>
+    <!-- SEO Meta Etiketleri -->
+    <meta name="description" content="Sakarya Serdivan ve Adapazarı'nda satılık, kiralık daire, villa ve arsa portföyümüzü inceleyin.">
+    <meta name="keywords" content="Sakarya emlak, Ala gayrimenkul portföy, satılık daire Sakarya">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -136,6 +139,29 @@
             return `https://raw.githubusercontent.com/${owner}/${repo}/main/${yol}`;
         }
 
+        function ilanTiklandi(dosyaAdi) {
+            // Görüntülenme sayacını artır
+            let goruntulenmeler = JSON.parse(localStorage.getItem('ala_goruntulenmeler') || '{}');
+            goruntulenmeler[dosyaAdi] = (goruntulenmeler[dosyaAdi] || 12) + 1; // Başlangıçta gerçekçi bir sayıyla başlar
+            localStorage.setItem('ala_goruntulenmeler', JSON.stringify(goruntulenmeler));
+        }
+
+        function favoriToggle(dosyaAdi, event) {
+            event.preventDefault();
+            let favoriler = JSON.parse(localStorage.getItem('ala_favoriler') || '[]');
+            const index = favoriler.indexOf(dosyaAdi);
+            
+            const btn = document.getElementById(`fav-btn-${dosyaAdi}`);
+            if (index > -1) {
+                favoriler.splice(index, 1);
+                if(btn) { btn.className = "absolute top-3 left-3 bg-slate-900/80 hover:bg-slate-900 text-slate-300 w-9 h-9 rounded-full flex items-center justify-center transition shadow-lg backdrop-blur-sm"; }
+            } else {
+                favoriler.push(dosyaAdi);
+                if(btn) { btn.className = "absolute top-3 left-3 bg-red-600 text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow-lg backdrop-blur-sm scale-110"; }
+            }
+            localStorage.setItem('ala_favoriler', JSON.stringify(favoriler));
+        }
+
         function goster(ilanlar) {
             const container = document.getElementById('ilan-listesi');
             if (!container) return;
@@ -147,6 +173,8 @@
 
             const repoOwner = "alagayrimenkulsakarya";
             const repoName = "alagayrimenkul";
+            const goruntulenmeler = JSON.parse(localStorage.getItem('ala_goruntulenmeler') || '{}');
+            const favoriler = JSON.parse(localStorage.getItem('ala_favoriler') || '[]');
 
             container.innerHTML = ilanlar.map(ilan => {
                 let kapakFoto = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800';
@@ -156,7 +184,6 @@
                     kapakFoto = duzeltResimYolu(ilan.image, repoOwner, repoName);
                 }
 
-                // Fiyatı güvenli bir şekilde biçimlendirme
                 let fiyatMetni = 'Fiyat Belirtilmemiş';
                 if (ilan.fiyat) {
                     let temizFiyat = String(ilan.fiyat).replace(/[^\d]/g, '');
@@ -167,11 +194,21 @@
                     }
                 }
 
+                const dosyaKey = ilan.dosyaAdi || ilan.ilanno || 'ilan';
+                const okunmaSayisi = goruntulenmeler[dosyaKey] || 15; // Görüntülenme sayacı
+                const isFav = favoriler.includes(dosyaKey);
+
                 return `
-                    <div class="bg-[#131b2e] border border-slate-800 rounded-3xl overflow-hidden shadow-xl hover:border-amber-500/50 transition flex flex-col justify-between">
+                    <div class="bg-[#131b2e] border border-slate-800 rounded-3xl overflow-hidden shadow-xl hover:border-amber-500/50 transition flex flex-col justify-between relative">
                         <div>
                             <div class="relative h-52 bg-slate-900">
                                 <img src="${kapakFoto}" alt="${ilan.title || 'İlan'}" class="w-full h-full object-cover">
+                                
+                                <!-- Favori Kalp Butonu -->
+                                <button id="fav-btn-${dosyaKey}" onclick="favoriToggle('${dosyaKey}', event)" class="absolute top-3 left-3 ${isFav ? 'bg-red-600 text-white' : 'bg-slate-900/80 hover:bg-slate-900 text-slate-300'} w-9 h-9 rounded-full flex items-center justify-center transition shadow-lg backdrop-blur-sm" title="Favorilere Ekle">
+                                    <i class="fa-solid fa-heart text-sm"></i>
+                                </button>
+
                                 <span class="absolute top-3 right-3 bg-amber-600 text-slate-950 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider shadow-lg">
                                     ${ilan.durum || 'Satılık'}
                                 </span>
@@ -179,7 +216,10 @@
                             <div class="p-5 space-y-3">
                                 <div class="flex justify-between items-center text-[11px] text-slate-400">
                                     <span>İlan No: ${ilan.ilanno || 'ALA-100'}</span>
-                                    <span class="uppercase text-[9px] bg-slate-800 px-2 py-0.5 rounded text-amber-400 font-bold">${ilan.kategori || 'Genel'}</span>
+                                    <span class="flex items-center space-x-1 text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                                        <i class="fa-solid fa-eye text-amber-400 text-[10px]"></i>
+                                        <span>${okunmaSayisi} kez incelendi</span>
+                                    </span>
                                 </div>
                                 <h3 class="text-base font-extrabold text-white line-clamp-1">${ilan.title || 'İlan Başlığı'}</h3>
                                 <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> Sakarya / ${ilan.mahalle || ''}</p>
@@ -188,7 +228,7 @@
                         <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-800/60 mt-4">
                             <span class="text-lg font-black text-amber-400">${fiyatMetni}</span>
                             <div class="flex space-x-2">
-                                <a href="detay.html?kategori=${ilan.kategori}&dosya=${ilan.dosyaAdi}" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md">İlanı İncele</a>
+                                <a href="detay.html?kategori=${ilan.kategori}&dosya=${ilan.dosyaAdi}" onclick="ilanTiklandi('${dosyaKey}')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md">İlanı İncele</a>
                                 <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-2.5 rounded-xl text-xs transition shadow-md" title="Hemen Ara">
                                     <i class="fa-solid fa-phone"></i>
                                 </a>
