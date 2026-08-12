@@ -252,7 +252,7 @@ const siteIlanVerileri = [
     "telefon": "0 (532) 407 53 38",
     "fotograf": "/images/danisman-1786514191335-IMG_7655.jpeg",
     "brut": "125",
-    "net": "11”",
+    "net": "110",
     "oda": "3+1",
     "yas": "25",
     "kat": "3",
