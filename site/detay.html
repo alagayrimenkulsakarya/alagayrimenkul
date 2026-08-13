@@ -4,191 +4,576 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>İlan Detayı | Ala Gayrimenkul</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Leaflet Harita -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
+
 <body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
 
     <!-- HEADER -->
     <header class="bg-[#0b0f19]/95 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
         <div class="w-full px-4 sm:px-6 lg:px-8">
+
             <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex items-center space-x-2.5 shrink-0 pl-2">
-                    <div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold text-lg tracking-wider">ALA</div>
-                    <div>
-                        <span class="block font-extrabold text-lg text-white tracking-tight">ALA GAYRİMENKUL</span>
-                        <span class="text-[9px] text-amber-500/80 font-medium tracking-widest uppercase">DANIŞMANLIK HİZMETLERİ</span>
+
+                <a href="index.html"
+                   class="flex items-center space-x-2.5 shrink-0 pl-2">
+
+                    <div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold text-lg tracking-wider">
+                        ALA
                     </div>
+
+                    <div>
+                        <span class="block font-extrabold text-lg text-white tracking-tight">
+                            ALA GAYRİMENKUL
+                        </span>
+
+                        <span class="text-[9px] text-amber-500/80 font-medium tracking-widest uppercase">
+                            DANIŞMANLIK HİZMETLERİ
+                        </span>
+                    </div>
+
                 </a>
 
                 <nav class="hidden 2xl:flex items-center space-x-6 font-medium text-slate-300 text-sm">
-                    <a href="index.html" class="hover:text-amber-400 transition">Ana Sayfa</a>
-                    <a href="hakkimizda.html" class="hover:text-amber-400 transition">Hakkımızda</a>
-                    <a href="neden-biz.html" class="hover:text-amber-400 transition">Neden Biz?</a>
-                    <a href="portfoy.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Portföylerimiz</a>
-                    <a href="degerleme.html" class="hover:text-amber-400 transition">Değerleme Alın</a>
-                    <a href="blog.html" class="hover:text-amber-400 transition">Blog & Videolar</a>
-                    <a href="danisman-ol.html" class="hover:text-amber-400 transition text-amber-300 font-semibold">Danışman Ol</a>
-                    <a href="iletisim.html" class="hover:text-amber-400 transition">İletişim & Konum</a>
+
+                    <a href="index.html"
+                       class="hover:text-amber-400 transition">
+                        Ana Sayfa
+                    </a>
+
+                    <a href="hakkimizda.html"
+                       class="hover:text-amber-400 transition">
+                        Hakkımızda
+                    </a>
+
+                    <a href="neden-biz.html"
+                       class="hover:text-amber-400 transition">
+                        Neden Biz?
+                    </a>
+
+                    <a href="portfoy.html"
+                       class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">
+                        Portföylerimiz
+                    </a>
+
+                    <a href="degerleme.html"
+                       class="hover:text-amber-400 transition">
+                        Değerleme Alın
+                    </a>
+
+                    <a href="blog.html"
+                       class="hover:text-amber-400 transition">
+                        Blog & Videolar
+                    </a>
+
+                    <a href="danisman-ol.html"
+                       class="hover:text-amber-400 transition text-amber-300 font-semibold">
+                        Danışman Ol
+                    </a>
+
+                    <a href="iletisim.html"
+                       class="hover:text-amber-400 transition">
+                        İletişim & Konum
+                    </a>
+
                 </nav>
 
                 <div class="flex items-center space-x-2.5 pr-2 shrink-0">
-                    <a href="portfoy.html" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
+
+                    <a href="portfoy.html"
+                       class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
+
                         <i class="fa-solid fa-arrow-left"></i>
+
                         <span>Portföye Dön</span>
+
                     </a>
+
                 </div>
+
             </div>
+
         </div>
     </header>
 
+
     <!-- İLAN DETAY İÇERİK -->
     <main class="max-w-[1400px] mx-auto px-4 py-10 w-full space-y-6">
+
         <div id="detay-icerik" class="space-y-6">
+
             <div class="text-center py-20 text-slate-400">
+
                 <i class="fa-solid fa-spinner fa-spin text-amber-500 text-3xl mb-3"></i>
-                <p>İlan detayları yükleniyor...</p>
+
+                <p>
+                    İlan detayları yükleniyor...
+                </p>
+
             </div>
+
         </div>
+
     </main>
+
 
     <!-- FOOTER -->
     <footer class="bg-[#070a11] text-slate-500 py-6 border-t border-slate-800 text-center text-xs mt-12">
-        <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
+
+        <p>
+            ©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.
+        </p>
+
     </footer>
+
 
     <!-- SCRIPT -->
     <script>
+
+        let aktifHarita = null;
+
+
         async function ilanDetayiniGetir() {
+
             const params = new URLSearchParams(window.location.search);
+
             const kategori = params.get('kategori');
             const dosya = params.get('dosya');
 
+
             if (!kategori || !dosya) {
+
                 document.getElementById('detay-icerik').innerHTML = `
+
                     <div class="text-center py-20 text-slate-400">
-                        <p class="text-lg font-bold text-white mb-2">Aradığınız ilan bulunamadı veya yayından kaldırıldı.</p>
-                        <a href="portfoy.html" class="text-amber-400 underline text-sm">Portföye dön</a>
+
+                        <p class="text-lg font-bold text-white mb-2">
+                            Aradığınız ilan bulunamadı veya yayından kaldırıldı.
+                        </p>
+
+                        <a href="portfoy.html"
+                           class="text-amber-400 underline text-sm">
+                            Portföye dön
+                        </a>
+
                     </div>
+
                 `;
+
                 return;
             }
 
+
             const repoOwner = "alagayrimenkulsakarya";
             const repoName = "alagayrimenkul";
-            const url = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/content/${kategori}/${dosya}`;
+
+
+            const url =
+                `https://raw.githubusercontent.com/${repoOwner}/${repoName}/main/content/${kategori}/${dosya}`;
+
 
             try {
+
                 const res = await fetch(url);
+
+
                 if (res.ok) {
+
                     const md = await res.text();
+
                     const ilan = parseMarkdownKusursuz(md);
+
                     ilan.kategori = kategori;
-                    detayiEkranaBas(ilan, repoOwner, repoName);
+
+                    detayiEkranaBas(
+                        ilan,
+                        repoOwner,
+                        repoName
+                    );
+
                 } else {
-                    throw new Error('İlan dosyasına ulaşılamadı.');
+
+                    throw new Error(
+                        'İlan dosyasına ulaşılamadı.'
+                    );
+
                 }
+
             } catch (e) {
+
                 document.getElementById('detay-icerik').innerHTML = `
+
                     <div class="text-center py-20 text-red-400">
-                        <p>İlan yüklenirken hata oluştu: ${e.message}</p>
+
+                        <p>
+                            İlan yüklenirken hata oluştu:
+                            ${e.message}
+                        </p>
+
                     </div>
+
                 `;
+
             }
+
         }
+
 
         function parseMarkdownKusursuz(md) {
-            const frontmatterMatch = md.match(/---\s*([\s\S]*?)\s*---/);
-            const data = { images: [], danisman: {} };
-            if (!frontmatterMatch) {
-                data.aciklama = md;
-                return data;
-            }
 
-            const fm = frontmatterMatch[1];
-            const lines = fm.split('\n');
-            let currentContext = 'root';
+            const frontmatterMatch =
+                md.match(/---\s*([\s\S]*?)\s*---/);
 
-            lines.forEach(line => {
-                const trimmed = line.trim();
-                if (!trimmed) return;
 
-                if (trimmed.startsWith('danisman:')) {
-                    currentContext = 'danisman';
-                    return;
-                }
-                if (trimmed.startsWith('images:')) {
-                    currentContext = 'images';
-                    return;
-                }
-
-                if (currentContext === 'images' && trimmed.startsWith('-')) {
-                    let val = trimmed.replace(/^-\s*['"](.*)['"]$/, '$1').replace(/^-\s*/, '');
-                    if (val) data.images.push(val);
-                    return;
-                }
-
-                const colonIndex = trimmed.indexOf(':');
-                if (colonIndex !== -1) {
-                    const key = trimmed.substring(0, colonIndex).trim();
-                    let val = trimmed.substring(colonIndex + 1).trim().replace(/^['"](.*)['"]$/, '$1');
-
-                    if (line.startsWith('  ') || line.startsWith('    ')) {
-                        if (currentContext === 'danisman') {
-                            data.danisman[key] = val;
-                        }
-                    } else {
-                        if (key === 'danisman') {
-                            currentContext = 'danisman';
-                        } else if (key === 'images') {
-                            currentContext = 'images';
-                        } else {
-                            currentContext = 'root';
-                            data[key] = val;
-                        }
-                    }
-                }
-            });
-
-            data.aciklama = md.replace(/---\s*([\s\S]*?)\s*---/, '').trim();
-            return data;
-        }
-
-        function duzeltResimYolu(yol, owner, repo) {
-            if (!yol) return '';
-            if (yol.startsWith('http')) return yol;
-            if (yol.startsWith('/')) yol = yol.substring(1);
-            return `https://raw.githubusercontent.com/${owner}/${repo}/main/${yol}`;
-        }
-
-        function detayiEkranaBas(ilan, owner, repo) {
-            document.title = `${ilan.title || 'İlan Detayı'} | Ala Gayrimenkul`;
-
-            let resimler = [];
-            if (Array.isArray(ilan.images) && ilan.images.length > 0) {
-                resimler = ilan.images.map(r => duzeltResimYolu(r, owner, repo));
-            } else if (ilan.image) {
-                resimler = [duzeltResimYolu(ilan.image, owner, repo)];
-            } else {
-                resimler = ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200'];
-            }
-
-            const danismanFoto = duzeltResimYolu(ilan.danisman?.fotograf, owner, repo);
-
-            let ozelliklerHtml = `
-                <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">İl / İlçe</span><span class="font-bold text-white">Sakarya / Serdivan</span></li>
-                <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Mahalle</span><span class="font-bold text-white">${ilan.mahalle || '-'}</span></li>
-                <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">İlan No</span><span class="font-bold text-white">${ilan.ilanno || '-'}</span></li>
-                <li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">Emlak Tipi</span><span class="font-bold text-white">${ilan.durum || '-'}</span></li>
-            `;
-
-            const alanEkle = (etiket, deger) => {
-                if (deger && deger !== '' && deger !== 'undefined' && deger !== 'null') {
-                    ozelliklerHtml += `<li class="flex justify-between py-2 border-b border-slate-800"><span class="text-slate-400">${etiket}</span><span class="font-bold text-white">${deger}</span></li>`;
-                }
+            const data = {
+                images: [],
+                danisman: {}
             };
 
-            // Admin panelinden kaydedilen tüm standart anahtarları eksiksiz çağırıyoruz
+
+            if (!frontmatterMatch) {
+
+                data.aciklama = md;
+
+                return data;
+
+            }
+
+
+            const fm = frontmatterMatch[1];
+
+            const lines = fm.split('\n');
+
+            let currentContext = 'root';
+
+
+            lines.forEach(line => {
+
+                const trimmed = line.trim();
+
+
+                if (!trimmed)
+                    return;
+
+
+                if (trimmed.startsWith('danisman:')) {
+
+                    currentContext = 'danisman';
+
+                    return;
+
+                }
+
+
+                if (trimmed.startsWith('images:')) {
+
+                    currentContext = 'images';
+
+                    return;
+
+                }
+
+
+                if (
+                    currentContext === 'images' &&
+                    trimmed.startsWith('-')
+                ) {
+
+                    let val =
+                        trimmed
+                            .replace(/^-\s*['"](.*)['"]$/, '$1')
+                            .replace(/^-\s*/, '');
+
+
+                    if (val)
+                        data.images.push(val);
+
+
+                    return;
+
+                }
+
+
+                const colonIndex =
+                    trimmed.indexOf(':');
+
+
+                if (colonIndex !== -1) {
+
+                    const key =
+                        trimmed.substring(
+                            0,
+                            colonIndex
+                        ).trim();
+
+
+                    let val =
+                        trimmed
+                            .substring(colonIndex + 1)
+                            .trim()
+                            .replace(
+                                /^['"](.*)['"]$/,
+                                '$1'
+                            );
+
+
+                    if (
+                        line.startsWith('  ') ||
+                        line.startsWith('    ')
+                    ) {
+
+                        if (
+                            currentContext === 'danisman'
+                        ) {
+
+                            data.danisman[key] = val;
+
+                        }
+
+                    } else {
+
+                        if (key === 'danisman') {
+
+                            currentContext = 'danisman';
+
+                        } else if (key === 'images') {
+
+                            currentContext = 'images';
+
+                        } else {
+
+                            currentContext = 'root';
+
+                            data[key] = val;
+
+                        }
+
+                    }
+
+                }
+
+            });
+
+
+            data.aciklama =
+                md
+                    .replace(
+                        /---\s*([\s\S]*?)\s*---/,
+                        ''
+                    )
+                    .trim();
+
+
+            return data;
+
+        }
+
+
+        function duzeltResimYolu(yol, owner, repo) {
+
+            if (!yol)
+                return '';
+
+
+            if (yol.startsWith('http'))
+                return yol;
+
+
+            if (yol.startsWith('/'))
+                yol = yol.substring(1);
+
+
+            return `https://raw.githubusercontent.com/${owner}/${repo}/main/${yol}`;
+
+        }
+
+
+        function detayiEkranaBas(ilan, owner, repo) {
+
+            document.title =
+                `${ilan.title || 'İlan Detayı'} | Ala Gayrimenkul`;
+
+
+            let resimler = [];
+
+
+            if (
+                Array.isArray(ilan.images) &&
+                ilan.images.length > 0
+            ) {
+
+                resimler =
+                    ilan.images.map(
+                        r =>
+                            duzeltResimYolu(
+                                r,
+                                owner,
+                                repo
+                            )
+                    );
+
+            } else if (ilan.image) {
+
+                resimler = [
+                    duzeltResimYolu(
+                        ilan.image,
+                        owner,
+                        repo
+                    )
+                ];
+
+            } else {
+
+                resimler = [
+                    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200'
+                ];
+
+            }
+
+
+            const danismanFoto =
+                duzeltResimYolu(
+                    ilan.danisman?.fotograf,
+                    owner,
+                    repo
+                );
+
+
+            /*
+             * KONUM BİLGİLERİ
+             *
+             * Admin panelinde haritadan seçilen konum
+             * farklı isimlerle kaydedilmiş olsa bile
+             * mümkün olduğunca otomatik yakalanır.
+             */
+
+            const konumAdres =
+                ilan.konum ||
+                ilan.adres ||
+                ilan.konum_adres ||
+                ilan.location ||
+                '';
+
+
+            const latitude =
+                parseFloat(
+                    ilan.latitude ||
+                    ilan.lat ||
+                    ilan.enlem ||
+                    ilan.konum_lat ||
+                    ilan.location_lat ||
+                    ilan.harita_lat
+                );
+
+
+            const longitude =
+                parseFloat(
+                    ilan.longitude ||
+                    ilan.lng ||
+                    ilan.lon ||
+                    ilan.boylam ||
+                    ilan.konum_lng ||
+                    ilan.location_lng ||
+                    ilan.harita_lng
+                );
+
+
+            let ozelliklerHtml = `
+
+                <li class="flex justify-between py-2 border-b border-slate-800">
+
+                    <span class="text-slate-400">
+                        İl / İlçe
+                    </span>
+
+                    <span class="font-bold text-white">
+                        Sakarya / Serdivan
+                    </span>
+
+                </li>
+
+
+                <li class="flex justify-between py-2 border-b border-slate-800">
+
+                    <span class="text-slate-400">
+                        Mahalle
+                    </span>
+
+                    <span class="font-bold text-white">
+                        ${ilan.mahalle || '-'}
+                    </span>
+
+                </li>
+
+
+                <li class="flex justify-between py-2 border-b border-slate-800">
+
+                    <span class="text-slate-400">
+                        İlan No
+                    </span>
+
+                    <span class="font-bold text-white">
+                        ${ilan.ilanno || '-'}
+                    </span>
+
+                </li>
+
+
+                <li class="flex justify-between py-2 border-b border-slate-800">
+
+                    <span class="text-slate-400">
+                        Emlak Tipi
+                    </span>
+
+                    <span class="font-bold text-white">
+                        ${ilan.durum || '-'}
+                    </span>
+
+                </li>
+
+            `;
+
+
+            const alanEkle = (etiket, deger) => {
+
+                if (
+                    deger &&
+                    deger !== '' &&
+                    deger !== 'undefined' &&
+                    deger !== 'null'
+                ) {
+
+                    ozelliklerHtml += `
+
+                        <li class="flex justify-between py-2 border-b border-slate-800">
+
+                            <span class="text-slate-400">
+                                ${etiket}
+                            </span>
+
+                            <span class="font-bold text-white text-right ml-4">
+                                ${deger}
+                            </span>
+
+                        </li>
+
+                    `;
+
+                }
+
+            };
+
+
             alanEkle('Brüt m²', ilan.brut);
             alanEkle('Net m²', ilan.net);
             alanEkle('Oda Sayısı', ilan.oda);
@@ -215,108 +600,640 @@
             alanEkle('İş Yeri Türü', ilan.isyturu);
             alanEkle('Aidat', ilan.aidat);
 
-            const container = document.getElementById('detay-icerik');
+
+            const container =
+                document.getElementById(
+                    'detay-icerik'
+                );
+
+
             container.innerHTML = `
-                <!-- Üst Başlık ve Fiyat -->
+
+                <!-- ÜST BAŞLIK VE FİYAT -->
+
                 <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-xl">
+
                     <div>
+
                         <span class="bg-amber-600 text-slate-950 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
+
                             ${ilan.durum || 'Satılık'}
+
                         </span>
-                        <h1 class="text-2xl sm:text-3xl font-black text-white mt-2">${ilan.title || ''}</h1>
-                        <p class="text-xs text-slate-400 mt-1"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> Sakarya / ${ilan.mahalle || ''}</p>
+
+
+                        <h1 class="text-2xl sm:text-3xl font-black text-white mt-2">
+
+                            ${ilan.title || ''}
+
+                        </h1>
+
+
+                        <p class="text-xs text-slate-400 mt-1">
+
+                            <i class="fa-solid fa-location-dot text-amber-500 mr-1"></i>
+
+                            Sakarya / ${ilan.mahalle || ''}
+
+                        </p>
+
                     </div>
+
+
                     <div class="text-right">
-                        <div class="text-2xl sm:text-3xl font-black text-amber-400">${ilan.fiyat ? ilan.fiyat + ' TL' : 'Fiyat Belirtilmemiş'}</div>
-                        <p class="text-[11px] text-slate-400 mt-1">İlan No: ${ilan.ilanno || 'ALA-100'}</p>
+
+                        <div class="text-2xl sm:text-3xl font-black text-amber-400">
+
+                            ${ilan.fiyat ? ilan.fiyat + ' TL' : 'Fiyat Belirtilmemiş'}
+
+                        </div>
+
+
+                        <p class="text-[11px] text-slate-400 mt-1">
+
+                            İlan No:
+                            ${ilan.ilanno || 'ALA-100'}
+
+                        </p>
+
                     </div>
+
                 </div>
+
 
                 <!-- ANA YERLEŞİM -->
+
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                    
-                    <!-- SOL KOLON (7 Birim) -->
+
+
+                    <!-- SOL KOLON -->
+
                     <div class="lg:col-span-7 space-y-6">
+
+
+                        <!-- FOTOĞRAF GALERİSİ -->
+
                         <div class="bg-[#131b2e] border border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
+
                             <div class="relative h-[400px] rounded-2xl overflow-hidden bg-black border border-slate-800">
-                                <img id="ana-foto" src="${resimler[0]}" alt="${ilan.title}" class="w-full h-full object-cover transition duration-300">
+
+                                <img
+                                    id="ana-foto"
+                                    src="${resimler[0]}"
+                                    alt="${ilan.title}"
+                                    class="w-full h-full object-cover transition duration-300"
+                                >
+
                             </div>
+
+
                             <div class="flex gap-2.5 overflow-x-auto pb-1">
+
                                 ${resimler.map((img, index) => `
-                                    <img src="${img}" onclick="resimDegistir('${img}', this)" class="galeri-thumb w-20 h-16 object-cover rounded-xl cursor-pointer border-2 ${index === 0 ? 'border-amber-500 scale-95' : 'border-slate-700 opacity-70'} hover:opacity-100 hover:border-amber-400 transition shrink-0">
+
+                                    <img
+                                        src="${img}"
+                                        onclick="resimDegistir('${img}', this)"
+                                        class="galeri-thumb w-20 h-16 object-cover rounded-xl cursor-pointer border-2 ${index === 0 ? 'border-amber-500 scale-95' : 'border-slate-700 opacity-70'} hover:opacity-100 hover:border-amber-400 transition shrink-0"
+                                    >
+
                                 `).join('')}
+
                             </div>
+
                         </div>
 
-                        <div class="bg-[#131b2e] border border-slate-800 p-8 rounded-3xl space-y-4 shadow-xl">
-                            <h2 class="text-lg font-extrabold text-white border-b border-slate-800 pb-3 flex items-center space-x-2">
-                                <i class="fa-solid fa-align-left text-amber-500"></i>
-                                <span>İlan Açıklaması</span>
-                            </h2>
-                            <div class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap font-normal">
-                                ${ilan.aciklama || 'Bu ilan için henüz açıklama girilmemiş.'}
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- SAĞ KOLON (5 Birim) -->
-                    <div class="lg:col-span-5 space-y-6">
-                        <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
-                            <h3 class="text-sm font-extrabold text-white border-b border-slate-800 pb-3 flex items-center justify-between">
-                                <span>İlan Özellikleri</span>
-                                <i class="fa-solid fa-list-check text-amber-500"></i>
-                            </h3>
-                            <ul class="space-y-0 text-xs text-slate-300">
-                                ${ozelliklerHtml}
-                            </ul>
-                        </div>
+                        <!-- DANIŞMAN BİLGİLERİ -->
 
                         <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-6 shadow-xl">
+
                             <div>
+
                                 <div class="flex items-center space-x-4">
+
                                     <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/30 overflow-hidden flex items-center justify-center text-amber-400 font-bold shrink-0">
-                                        ${danismanFoto ? `<img src="${danismanFoto}" class="w-full h-full object-cover">` : '<i class="fa-solid fa-user text-xl"></i>'}
+
+                                        ${
+                                            danismanFoto
+                                            ?
+                                            `<img src="${danismanFoto}" class="w-full h-full object-cover">`
+                                            :
+                                            '<i class="fa-solid fa-user text-xl"></i>'
+                                        }
+
                                     </div>
+
+
                                     <div class="overflow-hidden">
-                                        <h3 class="font-extrabold text-white text-base truncate">${ilan.danisman?.adi || 'Yusuf İşçi'}</h3>
-                                        <p class="text-[11px] text-amber-400 font-bold tracking-wide uppercase truncate">ALA GAYRİMENKUL DANIŞMANI</p>
+
+                                        <h3 class="font-extrabold text-white text-base truncate">
+
+                                            ${ilan.danisman?.adi || 'Yusuf İşçi'}
+
+                                        </h3>
+
+
+                                        <p class="text-[11px] text-amber-400 font-bold tracking-wide uppercase truncate">
+
+                                            ALA GAYRİMENKUL DANIŞMANI
+
+                                        </p>
+
                                     </div>
+
                                 </div>
+
+
                                 <div class="mt-6 space-y-2 text-xs">
+
                                     <div class="flex justify-between py-2 border-b border-slate-800">
-                                        <span class="text-slate-400">Cep Telefonu</span>
-                                        <span class="font-bold text-white">${ilan.danisman?.telefon || '0 (532) 407 53 38'}</span>
+
+                                        <span class="text-slate-400">
+                                            Cep Telefonu
+                                        </span>
+
+                                        <span class="font-bold text-white">
+
+                                            ${ilan.danisman?.telefon || '0 (532) 407 53 38'}
+
+                                        </span>
+
                                     </div>
+
                                 </div>
+
                             </div>
+
+
                             <div class="space-y-2.5 pt-1">
-                                <a href="tel:${ilan.danisman?.telefon || '+905324075338'}" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-center text-xs transition shadow-lg flex items-center justify-center space-x-2">
+
+                                <a
+                                    href="tel:${ilan.danisman?.telefon || '+905324075338'}"
+                                    class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-center text-xs transition shadow-lg flex items-center justify-center space-x-2"
+                                >
+
                                     <i class="fa-solid fa-phone-alt"></i>
-                                    <span>Danışmanı Ara</span>
+
+                                    <span>
+                                        Danışmanı Ara
+                                    </span>
+
                                 </a>
-                                <a href="https://wa.me/${(ilan.danisman?.telefon || '905324075338').replace(/[^0-9]/g, '')}" target="_blank" class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-center text-xs transition shadow-lg flex items-center justify-center space-x-2">
+
+
+                                <a
+                                    href="https://wa.me/${(ilan.danisman?.telefon || '905324075338').replace(/[^0-9]/g, '')}"
+                                    target="_blank"
+                                    class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-center text-xs transition shadow-lg flex items-center justify-center space-x-2"
+                                >
+
                                     <i class="fa-brands fa-whatsapp text-base"></i>
-                                    <span>WhatsApp İletişim</span>
+
+                                    <span>
+                                        WhatsApp İletişim
+                                    </span>
+
                                 </a>
+
                             </div>
+
                         </div>
+
+
+                        <!-- İLAN AÇIKLAMASI + KONUM BUTONLARI -->
+
+                        <div class="bg-[#131b2e] border border-slate-800 rounded-3xl shadow-xl overflow-hidden">
+
+
+                            <!-- BUTONLAR -->
+
+                            <div class="flex border-b border-slate-800">
+
+                                <button
+                                    id="btnAciklama"
+                                    onclick="sekmeAc('aciklama')"
+                                    class="flex-1 px-5 py-4 text-sm font-extrabold text-amber-400 bg-[#182238] border-b-2 border-amber-500 transition"
+                                >
+
+                                    <i class="fa-solid fa-align-left mr-2"></i>
+
+                                    İlan Açıklaması
+
+                                </button>
+
+
+                                <button
+                                    id="btnKonum"
+                                    onclick="sekmeAc('konum')"
+                                    class="flex-1 px-5 py-4 text-sm font-extrabold text-slate-400 hover:text-white hover:bg-[#182238] transition"
+                                >
+
+                                    <i class="fa-solid fa-location-dot mr-2"></i>
+
+                                    Konumu ve Bölge Bilgisi
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- AÇIKLAMA -->
+
+                            <div
+                                id="panelAciklama"
+                                class="p-8"
+                            >
+
+                                <h2 class="text-lg font-extrabold text-white border-b border-slate-800 pb-3 flex items-center space-x-2 mb-5">
+
+                                    <i class="fa-solid fa-align-left text-amber-500"></i>
+
+                                    <span>
+                                        İlan Açıklaması
+                                    </span>
+
+                                </h2>
+
+
+                                <div class="text-sm text-slate-300 leading-relaxed whitespace-pre-wrap font-normal">
+
+                                    ${ilan.aciklama || 'Bu ilan için henüz açıklama girilmemiş.'}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- KONUM -->
+
+                            <div
+                                id="panelKonum"
+                                class="hidden p-6"
+                            >
+
+                                <div class="mb-4">
+
+                                    <h2 class="text-lg font-extrabold text-white flex items-center">
+
+                                        <i class="fa-solid fa-location-dot text-amber-500 mr-2"></i>
+
+                                        Konumu ve Bölge Bilgisi
+
+                                    </h2>
+
+
+                                    <p class="text-xs text-slate-400 mt-2">
+
+                                        İlanın harita üzerindeki yaklaşık konumunu
+                                        aşağıdaki haritadan inceleyebilirsiniz.
+
+                                    </p>
+
+                                </div>
+
+
+                                <div
+                                    id="ilanHaritasi"
+                                    class="w-full h-[420px] rounded-2xl overflow-hidden border border-slate-700 bg-slate-900"
+                                >
+
+                                    ${
+                                        !isNaN(latitude) &&
+                                        !isNaN(longitude)
+                                        ?
+                                        ''
+                                        :
+                                        `
+                                        <div class="w-full h-full flex flex-col items-center justify-center text-slate-400">
+
+                                            <i class="fa-solid fa-map-location-dot text-4xl text-amber-500 mb-4"></i>
+
+                                            <p class="font-bold text-white">
+                                                Bu ilan için konum bilgisi bulunmuyor.
+                                            </p>
+
+                                            <p class="text-xs mt-2">
+                                                Konum admin panelinden harita üzerinden seçilebilir.
+                                            </p>
+
+                                        </div>
+                                        `
+                                    }
+
+                                </div>
+
+
+                                ${
+                                    !isNaN(latitude) &&
+                                    !isNaN(longitude)
+                                    ?
+                                    `
+                                    <div class="mt-4">
+
+                                        <a
+                                            href="https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}"
+                                            target="_blank"
+                                            class="inline-flex items-center justify-center bg-amber-600 hover:bg-amber-500 text-slate-950 font-extrabold px-5 py-3 rounded-xl text-xs transition shadow-lg"
+                                        >
+
+                                            <i class="fa-solid fa-route mr-2"></i>
+
+                                            Yol Tarifi Al
+
+                                        </a>
+
+                                    </div>
+                                    `
+                                    :
+                                    ''
+                                }
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SAĞ KOLON -->
+
+                    <div class="lg:col-span-5 space-y-6">
+
+
+                        <!-- İLAN ÖZELLİKLERİ -->
+
+                        <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+
+                            <h3 class="text-sm font-extrabold text-white border-b border-slate-800 pb-3 flex items-center justify-between">
+
+                                <span>
+                                    İlan Özellikleri
+                                </span>
+
+                                <i class="fa-solid fa-list-check text-amber-500"></i>
+
+                            </h3>
+
+
+                            <ul class="space-y-0 text-xs text-slate-300">
+
+                                ${ozelliklerHtml}
+
+                            </ul>
+
+                        </div>
+
                     </div>
 
                 </div>
+
             `;
+
+
+            /*
+             * HARİTA
+             *
+             * Harita sadece geçerli koordinat varsa oluşturulur.
+             */
+
+            if (
+                !isNaN(latitude) &&
+                !isNaN(longitude)
+            ) {
+
+                setTimeout(() => {
+
+                    try {
+
+                        aktifHarita =
+                            L.map('ilanHaritasi')
+                                .setView(
+                                    [
+                                        latitude,
+                                        longitude
+                                    ],
+                                    16
+                                );
+
+
+                        L.tileLayer(
+                            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            {
+                                attribution:
+                                    '&copy; OpenStreetMap katkıcıları'
+                            }
+                        ).addTo(
+                            aktifHarita
+                        );
+
+
+                        const marker =
+                            L.marker([
+                                latitude,
+                                longitude
+                            ]).addTo(
+                                aktifHarita
+                            );
+
+
+                        marker.bindPopup(`
+
+                            <div style="font-weight:bold;">
+                                ${ilan.title || 'Ala Gayrimenkul İlanı'}
+                            </div>
+
+                        `);
+
+
+                        /*
+                         * Sekme ilk başta gizli olduğu için
+                         * harita görünür hale geldiğinde
+                         * boyutunu tekrar hesaplatıyoruz.
+                         */
+
+                    } catch (e) {
+
+                        console.error(
+                            'Harita oluşturulamadı:',
+                            e
+                        );
+
+                    }
+
+                }, 300);
+
+            }
+
         }
 
-        function resimDegistir( yeniSrc, element ) {
-            document.getElementById('ana-foto').src = yeniSrc;
-            document.querySelectorAll('.galeri-thumb').forEach(thumb => {
-                thumb.classList.remove('border-amber-500', 'scale-95');
-                thumb.classList.add('border-slate-700', 'opacity-70');
-            });
-            element.classList.remove('border-slate-700', 'opacity-70');
-            element.classList.add('border-amber-500', 'scale-95');
+
+        function sekmeAc(sekme) {
+
+            const panelAciklama =
+                document.getElementById(
+                    'panelAciklama'
+                );
+
+
+            const panelKonum =
+                document.getElementById(
+                    'panelKonum'
+                );
+
+
+            const btnAciklama =
+                document.getElementById(
+                    'btnAciklama'
+                );
+
+
+            const btnKonum =
+                document.getElementById(
+                    'btnKonum'
+                );
+
+
+            if (sekme === 'aciklama') {
+
+                panelAciklama.classList.remove(
+                    'hidden'
+                );
+
+                panelKonum.classList.add(
+                    'hidden'
+                );
+
+
+                btnAciklama.classList.add(
+                    'text-amber-400',
+                    'bg-[#182238]',
+                    'border-b-2',
+                    'border-amber-500'
+                );
+
+                btnAciklama.classList.remove(
+                    'text-slate-400'
+                );
+
+
+                btnKonum.classList.remove(
+                    'text-amber-400',
+                    'bg-[#182238]',
+                    'border-b-2',
+                    'border-amber-500'
+                );
+
+                btnKonum.classList.add(
+                    'text-slate-400'
+                );
+
+            }
+
+
+            if (sekme === 'konum') {
+
+                panelAciklama.classList.add(
+                    'hidden'
+                );
+
+                panelKonum.classList.remove(
+                    'hidden'
+                );
+
+
+                btnKonum.classList.add(
+                    'text-amber-400',
+                    'bg-[#182238]',
+                    'border-b-2',
+                    'border-amber-500'
+                );
+
+                btnKonum.classList.remove(
+                    'text-slate-400'
+                );
+
+
+                btnAciklama.classList.remove(
+                    'text-amber-400',
+                    'bg-[#182238]',
+                    'border-b-2',
+                    'border-amber-500'
+                );
+
+                btnAciklama.classList.add(
+                    'text-slate-400'
+                );
+
+
+                /*
+                 * Leaflet haritası gizli bir alanda
+                 * oluşturulduysa görünür olduğunda
+                 * yeniden boyutlandırılır.
+                 */
+
+                if (aktifHarita) {
+
+                    setTimeout(() => {
+
+                        aktifHarita.invalidateSize();
+
+                    }, 150);
+
+                }
+
+            }
+
         }
 
-        window.onload = ilanDetayiniGetir;
+
+        function resimDegistir(
+            yeniSrc,
+            element
+        ) {
+
+            document.getElementById(
+                'ana-foto'
+            ).src = yeniSrc;
+
+
+            document
+                .querySelectorAll(
+                    '.galeri-thumb'
+                )
+                .forEach(thumb => {
+
+                    thumb.classList.remove(
+                        'border-amber-500',
+                        'scale-95'
+                    );
+
+                    thumb.classList.add(
+                        'border-slate-700',
+                        'opacity-70'
+                    );
+
+                });
+
+
+            element.classList.remove(
+                'border-slate-700',
+                'opacity-70'
+            );
+
+
+            element.classList.add(
+                'border-amber-500',
+                'scale-95'
+            );
+
+        }
+
+
+        window.onload =
+            ilanDetayiniGetir;
+
     </script>
+
 </body>
 </html>
