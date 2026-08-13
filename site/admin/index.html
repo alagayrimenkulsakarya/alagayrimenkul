@@ -4,185 +4,325 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ALA Gayrimenkul Yönetim Paneli</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- HARİTA -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+  </script>
+
+  <style>
+    #ilanHaritasi {
+      width: 100%;
+      height: 380px;
+      border-radius: 14px;
+      z-index: 1;
+    }
+
+    .leaflet-container {
+      font-family: inherit;
+    }
+  </style>
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col justify-between">
 
-<div class="max-w-5xl mx-auto w-full p-6">
+  <div class="max-w-5xl mx-auto w-full p-6">
 
-<header class="bg-white rounded-xl shadow-sm p-6 mb-6 flex justify-between items-center border border-gray-100">
-  <div>
-    <h1 class="text-xl font-bold text-gray-800">ALA Gayrimenkul Yönetim Paneli</h1>
-    <p class="text-sm text-gray-500">alagayrimenkulsakarya/alagayrimenkul</p>
-  </div>
-  <div id="authStatus" class="text-sm font-medium text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200">
-    GitHub Bağlantısı Bekleniyor
-  </div>
-</header>
-
-<div id="loginScreen" class="bg-white rounded-xl shadow-sm p-8 text-center border border-gray-100">
-  <div class="max-w-md mx-auto">
-    <h2 class="text-lg font-semibold text-gray-800 mb-2">Yönetim Paneline Hoş Geldiniz</h2>
-    <p class="text-gray-500 text-sm mb-6">GitHub Personal Access Token ile sisteme bağlanın.</p>
-
-    <input
-      type="password"
-      id="githubTokenInput"
-      placeholder="GitHub Token giriniz"
-      class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-4 outline-none focus:ring-2 focus:ring-blue-500">
-
-    <button
-      onclick="githubGirisYap()"
-      class="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-sm">
-      Sisteme Bağlan ve Hatırla
-    </button>
-  </div>
-</div>
-
-<div id="dashboardScreen" class="hidden space-y-6">
-
-  <div class="flex gap-2 border-b pb-4 overflow-x-auto">
-
-    <button
-      onclick="sekmeDegis('portfoy')"
-      id="btnPortfoy"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap">
-      Yeni İlan Ekle
-    </button>
-
-    <button
-      onclick="sekmeDegis('ilanListesi')"
-      id="btnIlanListesi"
-      class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">
-      Mevcut İlanlar & Düzenle / Sil
-    </button>
-
-    <button
-      onclick="sekmeDegis('yorumlar')"
-      id="btnYorumlar"
-      class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">
-      Ziyaretçi Yorumları
-    </button>
-
-  </div>
-
-  <div id="tabPortfoy" class="space-y-6">
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-
-      <div onclick="kategoriSec('daire')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-        <h3 class="font-semibold text-gray-800 text-sm">Daire</h3>
-      </div>
-
-      <div onclick="kategoriSec('mustakilev')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-        <h3 class="font-semibold text-gray-800 text-sm">Müstakil Ev / Villa</h3>
-      </div>
-
-      <div onclick="kategoriSec('arsa')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-        <h3 class="font-semibold text-gray-800 text-sm">İmarlı Arsa / Tarla</h3>
-      </div>
-
-      <div onclick="kategoriSec('isyeri')" class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-        <h3 class="font-semibold text-gray-800 text-sm">İş Yeri (Dükkan / Büro)</h3>
-      </div>
-
-    </div>
-
-    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-
-      <h3 id="panelBaslik" class="text-lg font-bold text-gray-800 mb-4">
-        Lütfen yukarıdan bir kategori seçin
-      </h3>
-
-      <div id="panelForm" class="space-y-4">
-        <p class="text-gray-500 text-sm">
-          Seçtiğiniz kategoriye özel tüm detaylar burada açılacaktır.
-        </p>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div id="tabIlanListesi" class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-
-    <div class="flex justify-between items-center mb-4">
-
+    <header class="bg-white rounded-xl shadow-sm p-6 mb-6 flex justify-between items-center border border-gray-100">
       <div>
-        <h3 class="text-lg font-bold text-gray-800">Sitedeki Mevcut İlanlar</h3>
+        <h1 class="text-xl font-bold text-gray-800">
+          ALA Gayrimenkul Yönetim Paneli
+        </h1>
+
         <p class="text-sm text-gray-500">
-          İlanları düzenleyebilir veya yayından kaldırıp silebilirsiniz.
+          alagayrimenkulsakarya/alagayrimenkul
         </p>
       </div>
 
-      <button
-        onclick="tumIlanlariYukle()"
-        class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded-lg font-medium transition">
-        Listeyi Yenile
-      </button>
+      <div
+        id="authStatus"
+        class="text-sm font-medium text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200">
+        GitHub Bağlantısı Bekleniyor
+      </div>
+    </header>
 
+
+    <!-- Giriş Ekranı -->
+
+    <div
+      id="loginScreen"
+      class="bg-white rounded-xl shadow-sm p-8 text-center border border-gray-100">
+
+      <div class="max-w-md mx-auto">
+
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">
+          Yönetim Paneline Hoş Geldiniz
+        </h2>
+
+        <p class="text-gray-500 text-sm mb-6">
+          GitHub Personal Access Token ile sisteme bağlanın.
+        </p>
+
+        <input
+          type="password"
+          id="githubTokenInput"
+          placeholder="GitHub Token giriniz"
+          class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-4 outline-none focus:ring-2 focus:ring-blue-500">
+
+        <button
+          onclick="githubGirisYap()"
+          class="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-sm">
+
+          Sisteme Bağlan ve Hatırla
+
+        </button>
+
+      </div>
     </div>
 
-    <div id="aktifIlanlarListesi" class="space-y-3">
-      <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
-        İlanlar yükleniyor...
+
+    <!-- ANA PANEL -->
+
+    <div id="dashboardScreen" class="hidden space-y-6">
+
+      <div class="flex gap-2 border-b pb-4 overflow-x-auto">
+
+        <button
+          onclick="sekmeDegis('portfoy')"
+          id="btnPortfoy"
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap">
+
+          Yeni İlan Ekle
+
+        </button>
+
+        <button
+          onclick="sekmeDegis('ilanListesi')"
+          id="btnIlanListesi"
+          class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">
+
+          Mevcut İlanlar & Düzenle / Sil
+
+        </button>
+
+        <button
+          onclick="sekmeDegis('yorumlar')"
+          id="btnYorumlar"
+          class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">
+
+          Ziyaretçi Yorumları
+
+        </button>
+
       </div>
+
+
+      <!-- YENİ İLAN -->
+
+      <div id="tabPortfoy" class="space-y-6">
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+
+          <div
+            onclick="kategoriSec('daire')"
+            class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+
+            <h3 class="font-semibold text-gray-800 text-sm">
+              Daire
+            </h3>
+
+          </div>
+
+          <div
+            onclick="kategoriSec('mustakilev')"
+            class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+
+            <h3 class="font-semibold text-gray-800 text-sm">
+              Müstakil Ev / Villa
+            </h3>
+
+          </div>
+
+          <div
+            onclick="kategoriSec('arsa')"
+            class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+
+            <h3 class="font-semibold text-gray-800 text-sm">
+              İmarlı Arsa / Tarla
+            </h3>
+
+          </div>
+
+          <div
+            onclick="kategoriSec('isyeri')"
+            class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+
+            <h3 class="font-semibold text-gray-800 text-sm">
+              İş Yeri (Dükkan / Büro)
+            </h3>
+
+          </div>
+
+        </div>
+
+
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+
+          <h3
+            id="panelBaslik"
+            class="text-lg font-bold text-gray-800 mb-4">
+
+            Lütfen yukarıdan bir kategori seçin
+
+          </h3>
+
+          <div
+            id="panelForm"
+            class="space-y-4">
+
+            <p class="text-gray-500 text-sm">
+              Seçtiğiniz kategoriye özel tüm detaylar burada açılacaktır.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- MEVCUT İLANLAR -->
+
+      <div
+        id="tabIlanListesi"
+        class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+
+        <div class="flex justify-between items-center mb-4">
+
+          <div>
+
+            <h3 class="text-lg font-bold text-gray-800">
+              Sitedeki Mevcut İlanlar
+            </h3>
+
+            <p class="text-sm text-gray-500">
+              İlanları düzenleyebilir veya yayından kaldırıp silebilirsiniz.
+            </p>
+
+          </div>
+
+          <button
+            onclick="tumIlanlariYukle()"
+            class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded-lg font-medium transition">
+
+            Listeyi Yenile
+
+          </button>
+
+        </div>
+
+        <div
+          id="aktifIlanlarListesi"
+          class="space-y-3">
+
+          <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
+            İlanlar yükleniyor...
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- YORUMLAR -->
+
+      <div
+        id="tabYorumlar"
+        class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+
+        <div class="flex justify-between items-center mb-4">
+
+          <div>
+
+            <h3 class="text-lg font-bold text-gray-800">
+              Ziyaretçi Yorumları Yönetimi
+            </h3>
+
+            <p class="text-sm text-gray-500">
+              Gelen yorumları onaylayarak sitede yayınlayabilir veya silebilirsiniz.
+            </p>
+
+          </div>
+
+          <button
+            onclick="yorumlarıYukle()"
+            class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded-lg font-medium transition">
+
+            Yorumları Yenile
+
+          </button>
+
+        </div>
+
+        <div
+          id="yorumListesi"
+          class="space-y-3">
+
+          <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
+            Yorumlar yükleniyor...
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>
 
-  <div id="tabYorumlar" class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
 
-    <div class="flex justify-between items-center mb-4">
+  <footer class="text-center py-6 text-xs text-gray-400">
+    ALA Gayrimenkul Özel Yönetim Sistemi
+  </footer>
 
-      <div>
-        <h3 class="text-lg font-bold text-gray-800">Ziyaretçi Yorumları Yönetimi</h3>
-        <p class="text-sm text-gray-500">
-          Gelen yorumları onaylayarak sitede yayınlayabilir veya silebilirsiniz.
-        </p>
-      </div>
-
-      <button
-        onclick="yorumlarıYukle()"
-        class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded-lg font-medium transition">
-        Yorumları Yenile
-      </button>
-
-    </div>
-
-    <div id="yorumListesi" class="space-y-3">
-      <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
-        Yorumlar yükleniyor...
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-</div>
-
-<footer class="text-center py-6 text-xs text-gray-400">
-  ALA Gayrimenkul Özel Yönetim Sistemi
-</footer>
 
 <script>
 
-let githubToken = localStorage.getItem('ala_github_token') || '';
+let githubToken =
+  localStorage.getItem('ala_github_token') || '';
+
 let secilenDosyalarListesi = [];
+
 let duzenlenenDosyaYolu = null;
 
-const repoOwner = "alagayrimenkulsakarya";
-const repoName = "alagayrimenkul";
-const branch = "main";
+
+/* HARİTA DEĞİŞKENLERİ */
+
+let ilanHaritasi = null;
+
+let secilenKonum = null;
+
+let konumIsareti = null;
+
+
+/* SAYFA AÇILIŞI */
 
 window.onload = function() {
 
   if (githubToken) {
 
-    document.getElementById('githubTokenInput').value = githubToken;
+    document.getElementById('githubTokenInput').value =
+      githubToken;
 
     panelAc();
 
@@ -190,43 +330,66 @@ window.onload = function() {
 
 };
 
+
+/* GITHUB GİRİŞ */
+
 function githubGirisYap() {
 
-  const token = document.getElementById('githubTokenInput').value.trim();
+  const token =
+    document.getElementById('githubTokenInput').value.trim();
 
   if (!token) {
 
     alert('Lütfen geçerli bir GitHub Token giriniz.');
+
     return;
 
   }
 
   githubToken = token;
 
-  localStorage.setItem('ala_github_token', token);
+  localStorage.setItem(
+    'ala_github_token',
+    token
+  );
 
   panelAc();
 
 }
 
+
+/* PANELİ AÇ */
+
 function panelAc() {
 
-  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('loginScreen')
+    .classList.add('hidden');
 
-  document.getElementById('dashboardScreen').classList.remove('hidden');
+  document.getElementById('dashboardScreen')
+    .classList.remove('hidden');
 
-  document.getElementById('authStatus').innerText = "Bağlantı Kuruldu (Admin)";
+  document.getElementById('authStatus').innerText =
+    "Bağlantı Kuruldu (Admin)";
 
   document.getElementById('authStatus').className =
     "text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200";
 
 }
 
+
+/* SEKME DEĞİŞTİR */
+
 function sekmeDegis(sekme) {
 
-  document.getElementById('tabPortfoy').classList.add('hidden');
-  document.getElementById('tabIlanListesi').classList.add('hidden');
-  document.getElementById('tabYorumlar').classList.add('hidden');
+  document.getElementById('tabPortfoy')
+    .classList.add('hidden');
+
+  document.getElementById('tabIlanListesi')
+    .classList.add('hidden');
+
+  document.getElementById('tabYorumlar')
+    .classList.add('hidden');
+
 
   document.getElementById('btnPortfoy').className =
     "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
@@ -237,18 +400,22 @@ function sekmeDegis(sekme) {
   document.getElementById('btnYorumlar').className =
     "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
 
+
   if (sekme === 'portfoy') {
 
-    document.getElementById('tabPortfoy').classList.remove('hidden');
+    document.getElementById('tabPortfoy')
+      .classList.remove('hidden');
 
     document.getElementById('btnPortfoy').className =
       "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
 
   }
 
+
   else if (sekme === 'ilanListesi') {
 
-    document.getElementById('tabIlanListesi').classList.remove('hidden');
+    document.getElementById('tabIlanListesi')
+      .classList.remove('hidden');
 
     document.getElementById('btnIlanListesi').className =
       "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
@@ -257,9 +424,11 @@ function sekmeDegis(sekme) {
 
   }
 
+
   else if (sekme === 'yorumlar') {
 
-    document.getElementById('tabYorumlar').classList.remove('hidden');
+    document.getElementById('tabYorumlar')
+      .classList.remove('hidden');
 
     document.getElementById('btnYorumlar').className =
       "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
@@ -271,77 +440,7 @@ function sekmeDegis(sekme) {
 }
 
 
-/* =========================================================
-   OTOMATİK İLAN NUMARASI
-   11000 -> 11001 -> 11002 ...
-========================================================= */
-
-async function siradakiIlanNumarasiniBul() {
-
-  let enBuyuk = 10999;
-
-  const kategoriler = ['daire', 'mustakilev', 'arsa', 'isyeri', 'ilanlar'];
-
-  for (const kat of kategoriler) {
-
-    try {
-
-      const url =
-        `https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${kat}`;
-
-      const response = await fetch(url, {
-        headers: {
-          'Authorization': `Bearer ${githubToken}`
-        }
-      });
-
-      if (!response.ok) continue;
-
-      const files = await response.json();
-
-      for (const file of files) {
-
-        if (!file.name.endsWith('.md')) continue;
-
-        try {
-
-          const detRes = await fetch(file.download_url);
-
-          if (!detRes.ok) continue;
-
-          const md = await detRes.text();
-
-          const match = md.match(/ilanno:\s*["']?([A-Za-z-]*\s*\d+)["']?/i);
-
-          if (match) {
-
-            const sadeceSayi = parseInt(
-              match[1].replace(/\D/g, ''),
-              10
-            );
-
-            if (!isNaN(sadeceSayi) && sadeceSayi > enBuyuk) {
-              enBuyuk = sadeceSayi;
-            }
-
-          }
-
-        } catch(e) {}
-
-      }
-
-    } catch(e) {}
-
-  }
-
-  return Math.max(11000, enBuyuk + 1);
-
-}
-
-
-/* =========================================================
-   TÜM İLANLARI YÜKLE
-========================================================= */
+/* TÜM İLANLARI YÜKLE */
 
 async function tumIlanlariYukle() {
 
@@ -353,10 +452,24 @@ async function tumIlanlariYukle() {
       Tüm kategorilerdeki ilanlar taranıyor...
     </div>`;
 
-  const kategoriler =
-    ['daire', 'mustakilev', 'arsa', 'isyeri'];
+
+  const kategoriler = [
+    'daire',
+    'mustakilev',
+    'arsa',
+    'isyeri'
+  ];
+
+
+  const repoOwner =
+    "alagayrimenkulsakarya";
+
+  const repoName =
+    "alagayrimenkul";
+
 
   let toplamIlanHtml = '';
+
 
   try {
 
@@ -365,42 +478,27 @@ async function tumIlanlariYukle() {
       const url =
         `https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${kat}`;
 
-      const response = await fetch(url, {
-        headers: {
-          'Authorization': `Bearer ${githubToken}`
-        }
-      });
+
+      const response =
+        await fetch(url, {
+          headers: {
+            'Authorization':
+              `Bearer ${githubToken}`
+          }
+        });
+
 
       if (response.ok) {
 
-        const files = await response.json();
+        const files =
+          await response.json();
+
 
         for (let file of files) {
 
-          if (!file.name.endsWith('.md')) continue;
-
-          let ilanNo = '';
-
-          try {
-
-            const detay = await fetch(file.download_url);
-
-            if (detay.ok) {
-
-              const text = await detay.text();
-
-              const m =
-                text.match(/ilanno:\s*["']?([^"'\n]+)["']?/i);
-
-              if (m) ilanNo = m[1];
-
-            }
-
-          } catch(e) {}
-
           toplamIlanHtml += `
 
-            <div class="p-4 border rounded-lg bg-white shadow-sm flex justify-between items-center gap-4">
+            <div class="p-4 border rounded-lg bg-white shadow-sm flex justify-between items-center">
 
               <div>
 
@@ -411,14 +509,6 @@ async function tumIlanlariYukle() {
                 <h4 class="font-bold text-sm text-gray-800 mt-1">
                   ${file.name}
                 </h4>
-
-                ${
-                  ilanNo
-                    ? `<p class="text-xs text-emerald-600 font-bold mt-1">
-                        İlan No: ${ilanNo}
-                       </p>`
-                    : ''
-                }
 
                 <p class="text-xs text-gray-400">
                   ${file.path}
@@ -431,13 +521,17 @@ async function tumIlanlariYukle() {
                 <button
                   onclick="ilaniDuzenleIcinYukle('${kat}', '${file.download_url}', '${file.path}')"
                   class="bg-amber-600 hover:bg-amber-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition whitespace-nowrap">
+
                   Düzenle
+
                 </button>
 
                 <button
                   onclick="ilanSil('${file.path}')"
                   class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition whitespace-nowrap">
+
                   Kaldır / Sil
+
                 </button>
 
               </div>
@@ -452,6 +546,7 @@ async function tumIlanlariYukle() {
 
     }
 
+
     if (!toplamIlanHtml) {
 
       container.innerHTML =
@@ -459,13 +554,18 @@ async function tumIlanlariYukle() {
           Sistemde kayıtlı hiç ilan bulunamadı.
         </div>`;
 
-    } else {
+    }
 
-      container.innerHTML = toplamIlanHtml;
+    else {
+
+      container.innerHTML =
+        toplamIlanHtml;
 
     }
 
-  } catch (e) {
+  }
+
+  catch (e) {
 
     container.innerHTML =
       `<div class="p-4 border rounded-lg bg-red-50 text-sm text-red-600">
@@ -477,42 +577,56 @@ async function tumIlanlariYukle() {
 }
 
 
-/* =========================================================
-   İLAN DÜZENLE
-========================================================= */
+/* İLAN DÜZENLE */
 
-async function ilaniDuzenleIcinYukle(kat, downloadUrl, dosyaYolu) {
+async function ilaniDuzenleIcinYukle(
+  kat,
+  downloadUrl,
+  dosyaYolu
+) {
 
   try {
 
-    const res = await fetch(downloadUrl);
+    const res =
+      await fetch(downloadUrl);
 
-    const mdText = await res.text();
+    const mdText =
+      await res.text();
+
 
     sekmeDegis('portfoy');
 
     kategoriSec(kat);
 
-    duzenlenenDosyaYolu = dosyaYolu;
+    duzenlenenDosyaYolu =
+      dosyaYolu;
+
 
     document.getElementById('kaydetBtn').innerText =
       "İlanı Güncelle";
 
+
     const fmMatch =
       mdText.match(/---\s*([\s\S]*?)\s*---/);
+
 
     if (fmMatch) {
 
       const lines =
         fmMatch[1].split('\n');
 
+
       lines.forEach(line => {
 
-        const parts = line.split(':');
+        const parts =
+          line.split(':');
+
 
         if (parts.length >= 2) {
 
-          const key = parts[0].trim();
+          const key =
+            parts[0].trim();
+
 
           let val =
             parts
@@ -520,6 +634,7 @@ async function ilaniDuzenleIcinYukle(kat, downloadUrl, dosyaYolu) {
               .join(':')
               .trim()
               .replace(/^['"](.*)['"]$/, '$1');
+
 
           if (key === 'title') {
 
@@ -530,6 +645,7 @@ async function ilaniDuzenleIcinYukle(kat, downloadUrl, dosyaYolu) {
 
           }
 
+
           if (key === 'ilanno') {
 
             const el =
@@ -538,6 +654,7 @@ async function ilaniDuzenleIcinYukle(kat, downloadUrl, dosyaYolu) {
             if (el) el.value = val;
 
           }
+
 
           if (key === 'durum') {
 
@@ -548,6 +665,7 @@ async function ilaniDuzenleIcinYukle(kat, downloadUrl, dosyaYolu) {
 
           }
 
+
           if (key === 'fiyat') {
 
             const el =
@@ -556,6 +674,7 @@ async function ilaniDuzenleIcinYukle(kat, downloadUrl, dosyaYolu) {
             if (el) el.value = val;
 
           }
+
 
           if (key === 'mahalle') {
 
@@ -566,30 +685,81 @@ async function ilaniDuzenleIcinYukle(kat, downloadUrl, dosyaYolu) {
 
           }
 
+
           const elUniq =
             document.getElementById(`${kat}_${key}`) ||
             document.getElementById(`${key}`);
 
-          if (elUniq) elUniq.value = val;
+
+          if (elUniq) {
+
+            elUniq.value = val;
+
+          }
 
         }
 
       });
+
 
       const aciklamaKismi =
         mdText
           .replace(/---\s*([\s\S]*?)\s*---/, '')
           .trim();
 
+
       const aciklamaDiv =
         document.getElementById('fAciklama');
 
-      if (aciklamaDiv)
-        aciklamaDiv.innerHTML = aciklamaKismi;
+
+      if (aciklamaDiv) {
+
+        aciklamaDiv.innerHTML =
+          aciklamaKismi;
+
+      }
+
+
+      /* KAYITLI KONUMU BUL */
+
+      const konumMatch =
+        mdText.match(/konum:\s*"([^"]+)"/);
+
+
+      if (konumMatch && konumMatch[1]) {
+
+        const parcalar =
+          konumMatch[1].split(',');
+
+
+        if (parcalar.length === 2) {
+
+          const lat =
+            parseFloat(parcalar[0]);
+
+          const lng =
+            parseFloat(parcalar[1]);
+
+
+          if (!isNaN(lat) && !isNaN(lng)) {
+
+            setTimeout(() => {
+
+              konumSec(lat, lng);
+
+            }, 500);
+
+          }
+
+        }
+
+      }
 
     }
 
-  } catch(e) {
+  }
+
+  catch(e) {
 
     alert(
       'İlan bilgileri yüklenirken hata oluştu: ' +
@@ -601,26 +771,37 @@ async function ilaniDuzenleIcinYukle(kat, downloadUrl, dosyaYolu) {
 }
 
 
-/* =========================================================
-   İLAN SİL
-========================================================= */
+/* İLAN SİL */
 
 async function ilanSil(dosyaYolu) {
 
-  if (
-    !confirm(
-      `"${dosyaYolu}" adlı ilanı kalıcı olarak silmek istediğinize emin misiniz?`
-    )
-  ) return;
+  if (!confirm(
+    `Dikkat: "${dosyaYolu}" adlı ilanı kalıcı olarak silmek istediğinize emin misiniz?`
+  )) return;
+
+
+  const repoOwner =
+    "alagayrimenkulsakarya";
+
+  const repoName =
+    "alagayrimenkul";
+
+  const branch =
+    "main";
+
 
   const urlGet =
     `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dosyaYolu}`;
 
-  const resGet = await fetch(urlGet, {
-    headers: {
-      'Authorization': `Bearer ${githubToken}`
-    }
-  });
+
+  const resGet =
+    await fetch(urlGet, {
+      headers: {
+        'Authorization':
+          `Bearer ${githubToken}`
+      }
+    });
+
 
   if (!resGet.ok) {
 
@@ -630,29 +811,41 @@ async function ilanSil(dosyaYolu) {
 
   }
 
-  const fileData = await resGet.json();
 
-  const resDel = await fetch(urlGet, {
+  const fileData =
+    await resGet.json();
 
-    method: 'DELETE',
 
-    headers: {
-      'Authorization': `Bearer ${githubToken}`,
-      'Content-Type': 'application/json'
-    },
+  const resDel =
+    await fetch(urlGet, {
 
-    body: JSON.stringify({
+      method: 'DELETE',
 
-      message:
-        `İlan kaldırıldı / silindi: ${dosyaYolu}`,
+      headers: {
 
-      sha: fileData.sha,
+        'Authorization':
+          `Bearer ${githubToken}`,
 
-      branch: branch
+        'Content-Type':
+          'application/json',
 
-    })
+      },
 
-  });
+      body: JSON.stringify({
+
+        message:
+          `İlan kaldırıldı / silindi: ${dosyaYolu}`,
+
+        sha:
+          fileData.sha,
+
+        branch:
+          branch
+
+      })
+
+    });
+
 
   if (resDel.ok) {
 
@@ -664,7 +857,9 @@ async function ilanSil(dosyaYolu) {
 
     tumIlanlariYukle();
 
-  } else {
+  }
+
+  else {
 
     alert(
       'İlan silinirken bir hata oluştu.'
@@ -675,34 +870,49 @@ async function ilanSil(dosyaYolu) {
 }
 
 
-/* =========================================================
-   YORUMLAR
-========================================================= */
+/* YORUMLARI YÜKLE */
 
 async function yorumlarıYukle() {
 
   const container =
     document.getElementById('yorumListesi');
 
+
   container.innerHTML =
     `<div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
       Yorumlar kontrol ediliyor...
     </div>`;
 
+
   try {
+
+    const repoOwner =
+      "alagayrimenkulsakarya";
+
+    const repoName =
+      "alagayrimenkul";
+
 
     const url =
       `https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/yorumlar`;
 
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${githubToken}`
-      }
-    });
+
+    const response =
+      await fetch(url, {
+
+        headers: {
+          'Authorization':
+            `Bearer ${githubToken}`
+        }
+
+      });
+
 
     if (response.ok) {
 
-      const files = await response.json();
+      const files =
+        await response.json();
+
 
       if (files.length === 0) {
 
@@ -715,7 +925,9 @@ async function yorumlarıYukle() {
 
       }
 
+
       let htmlContent = '';
+
 
       for (let file of files) {
 
@@ -724,6 +936,7 @@ async function yorumlarıYukle() {
 
         const markdownText =
           await fileRes.text();
+
 
         htmlContent += `
 
@@ -746,13 +959,17 @@ async function yorumlarıYukle() {
               <button
                 onclick="yorumOnayla('${file.path}', '${file.name}', \`${btoa(encodeURIComponent(markdownText))}\`)"
                 class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition">
+
                 Onayla & Yayınla
+
               </button>
 
               <button
                 onclick="yorumSilTek('${file.path}')"
                 class="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-2 rounded-lg font-medium transition">
+
                 Sil
+
               </button>
 
             </div>
@@ -763,9 +980,13 @@ async function yorumlarıYukle() {
 
       }
 
-      container.innerHTML = htmlContent;
 
-    } else {
+      container.innerHTML =
+        htmlContent;
+
+    }
+
+    else {
 
       container.innerHTML =
         `<div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
@@ -774,7 +995,9 @@ async function yorumlarıYukle() {
 
     }
 
-  } catch (e) {
+  }
+
+  catch (e) {
 
     container.innerHTML =
       `<div class="p-4 border rounded-lg bg-red-50 text-sm text-red-600">
@@ -785,17 +1008,32 @@ async function yorumlarıYukle() {
 
 }
 
+
+/* YORUM ONAYLA */
+
 async function yorumOnayla(
   eskiYol,
   dosyaAdi,
   base64Icerik
 ) {
 
+  const repoOwner =
+    "alagayrimenkulsakarya";
+
+  const repoName =
+    "alagayrimenkul";
+
+  const branch =
+    "main";
+
+
   const yeniYol =
     `content/onayli_yorumlar/${dosyaAdi}`;
 
+
   const urlYeni =
     `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${yeniYol}`;
+
 
   try {
 
@@ -805,8 +1043,13 @@ async function yorumOnayla(
         method: 'PUT',
 
         headers: {
-          'Authorization': `Bearer ${githubToken}`,
-          'Content-Type': 'application/json'
+
+          'Authorization':
+            `Bearer ${githubToken}`,
+
+          'Content-Type':
+            'application/json'
+
         },
 
         body: JSON.stringify({
@@ -814,25 +1057,35 @@ async function yorumOnayla(
           message:
             `Yorum onaylandı: ${dosyaAdi}`,
 
-          content: base64Icerik,
+          content:
+            base64Icerik,
 
-          branch: branch
+          branch:
+            branch
 
         })
 
       });
 
+
     if (resYeni.ok) {
 
-      await yorumSilTek(eskiYol, false);
+      await yorumSilTek(
+        eskiYol,
+        false
+      );
+
 
       alert(
         'Yorum başarıyla onaylandı ve sitede yayına alındı!'
       );
 
+
       yorumlarıYukle();
 
-    } else {
+    }
+
+    else {
 
       alert(
         'Yorum onaylanırken hata oluştu.'
@@ -840,35 +1093,57 @@ async function yorumOnayla(
 
     }
 
-  } catch (e) {
+  }
 
-    alert('Hata: ' + e.message);
+  catch (e) {
+
+    alert(
+      'Hata: ' + e.message
+    );
 
   }
 
 }
+
+
+/* YORUM SİL */
 
 async function yorumSilTek(
   dosyaYolu,
   uyariVer = true
 ) {
 
+  const repoOwner =
+    "alagayrimenkulsakarya";
+
+  const repoName =
+    "alagayrimenkul";
+
+  const branch =
+    "main";
+
+
   const urlGet =
     `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dosyaYolu}`;
+
 
   const resGet =
     await fetch(urlGet, {
 
       headers: {
-        'Authorization': `Bearer ${githubToken}`
+        'Authorization':
+          `Bearer ${githubToken}`
       }
 
     });
 
+
   if (!resGet.ok) return;
+
 
   const fileData =
     await resGet.json();
+
 
   const resDel =
     await fetch(urlGet, {
@@ -876,8 +1151,13 @@ async function yorumSilTek(
       method: 'DELETE',
 
       headers: {
-        'Authorization': `Bearer ${githubToken}`,
-        'Content-Type': 'application/json'
+
+        'Authorization':
+          `Bearer ${githubToken}`,
+
+        'Content-Type':
+          'application/json'
+
       },
 
       body: JSON.stringify({
@@ -885,13 +1165,16 @@ async function yorumSilTek(
         message:
           `Yorum silindi: ${dosyaYolu}`,
 
-        sha: fileData.sha,
+        sha:
+          fileData.sha,
 
-        branch: branch
+        branch:
+          branch
 
       })
 
     });
+
 
   if (resDel.ok && uyariVer) {
 
@@ -904,15 +1187,18 @@ async function yorumSilTek(
 }
 
 
-/* =========================================================
-   KATEGORİ FORMU
-========================================================= */
+/* KATEGORİ SEÇ */
 
-async function kategoriSec(tur) {
+function kategoriSec(tur) {
 
   secilenDosyalarListesi = [];
 
   duzenlenenDosyaYolu = null;
+
+  secilenKonum = null;
+
+  konumIsareti = null;
+
 
   const basliklar = {
 
@@ -930,10 +1216,12 @@ async function kategoriSec(tur) {
 
   };
 
-  document.getElementById('panelBaslik').innerText =
+
+  document.getElementById(
+    'panelBaslik'
+  ).innerText =
     basliklar[tur];
 
-  let otomatikNo = await siradakiIlanNumarasiniBul();
 
   let html = `
 
@@ -955,6 +1243,7 @@ async function kategoriSec(tur) {
 
         </div>
 
+
         <div>
 
           <label class="block text-xs font-semibold text-gray-600 mb-1">
@@ -964,17 +1253,13 @@ async function kategoriSec(tur) {
           <input
             type="text"
             id="${tur}_ilanno"
-            value="${otomatikNo}"
-            readonly
-            class="w-full border rounded-lg p-2.5 text-sm bg-emerald-50 text-emerald-700 font-bold">
-
-          <p class="text-[10px] text-emerald-600 mt-1">
-            Sistem tarafından otomatik verilir.
-          </p>
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="11000">
 
         </div>
 
       </div>
+
 
       <div class="grid grid-cols-4 gap-3">
 
@@ -988,12 +1273,18 @@ async function kategoriSec(tur) {
             id="${tur}_durum"
             class="w-full border rounded-lg p-2.5 text-sm">
 
-            <option value="Satılık">Satılık</option>
-            <option value="Kiralık">Kiralık</option>
+            <option value="Satılık">
+              Satılık
+            </option>
+
+            <option value="Kiralık">
+              Kiralık
+            </option>
 
           </select>
 
         </div>
+
 
         <div>
 
@@ -1009,6 +1300,7 @@ async function kategoriSec(tur) {
 
         </div>
 
+
         <div>
 
           <label class="block text-xs font-semibold text-gray-600 mb-1">
@@ -1022,6 +1314,7 @@ async function kategoriSec(tur) {
             class="w-full border rounded-lg p-2.5 text-sm">
 
         </div>
+
 
         <div>
 
@@ -1038,88 +1331,6 @@ async function kategoriSec(tur) {
         </div>
 
       </div>
-
-  `;
-
-
-  /* =====================================================
-     HARİTA / KONUM BÖLÜMÜ
-  ===================================================== */
-
-  html += `
-
-    <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 space-y-4">
-
-      <div>
-
-        <h4 class="text-sm font-bold text-gray-800">
-          <i class="fa-solid fa-location-dot text-blue-600 mr-1"></i>
-          İlan Konumu ve Harita
-        </h4>
-
-        <p class="text-xs text-gray-500 mt-1">
-          Mülkün konumunu buraya girebilirsin. Bu bilgiler ilanın harita ve yol tarifi bölümünde kullanılacaktır.
-        </p>
-
-      </div>
-
-      <div>
-
-        <label class="block text-xs font-semibold text-gray-600 mb-1">
-          Konum / Adres
-        </label>
-
-        <input
-          type="text"
-          id="${tur}_konum"
-          class="w-full border rounded-lg p-2.5 text-sm bg-white"
-          placeholder="Örn: Tepekum Mahallesi, Adapazarı, Sakarya">
-
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-
-        <div>
-
-          <label class="block text-xs font-semibold text-gray-600 mb-1">
-            Enlem (Latitude)
-          </label>
-
-          <input
-            type="text"
-            id="${tur}_enlem"
-            class="w-full border rounded-lg p-2.5 text-sm bg-white"
-            placeholder="40.7731">
-
-        </div>
-
-        <div>
-
-          <label class="block text-xs font-semibold text-gray-600 mb-1">
-            Boylam (Longitude)
-          </label>
-
-          <input
-            type="text"
-            id="${tur}_boylam"
-            class="w-full border rounded-lg p-2.5 text-sm bg-white"
-            placeholder="30.3948">
-
-        </div>
-
-      </div>
-
-      <div class="bg-white rounded-lg border p-3">
-
-        <p class="text-xs text-gray-600">
-          <i class="fa-solid fa-circle-info text-blue-600 mr-1"></i>
-          Enlem ve boylamı biliyorsan girebilirsin. Bilmiyorsan yalnızca adresi girmen de yeterlidir.
-        </p>
-
-      </div>
-
-    </div>
-
   `;
 
 
@@ -1130,45 +1341,115 @@ async function kategoriSec(tur) {
       <div class="grid grid-cols-3 gap-4">
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label>
-          <input type="text" id="daire_brut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="140">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Brüt m²
+          </label>
+
+          <input
+            type="text"
+            id="daire_brut"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="140">
+
         </div>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label>
-          <input type="text" id="daire_net" class="w-full border rounded-lg p-2.5 text-sm" placeholder="125">
-        </div>
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label>
-          <input type="text" id="daire_oda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="3+1">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Net m²
+          </label>
+
+          <input
+            type="text"
+            id="daire_net"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="125">
+
+        </div>
+
+
+        <div>
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Oda Sayısı
+          </label>
+
+          <input
+            type="text"
+            id="daire_oda"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="3+1">
+
         </div>
 
       </div>
+
 
       <div class="grid grid-cols-4 gap-3">
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Bina Yaşı</label>
-          <input type="text" id="daire_yas" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Bina Yaşı
+          </label>
+
+          <input
+            type="text"
+            id="daire_yas"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="4">
+
         </div>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Bulunduğu Kat</label>
-          <input type="text" id="daire_kat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2">
-        </div>
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Kat Sayısı</label>
-          <input type="text" id="daire_katsayisi" class="w-full border rounded-lg p-2.5 text-sm" placeholder="5">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Bulunduğu Kat
+          </label>
+
+          <input
+            type="text"
+            id="daire_kat"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="2">
+
         </div>
 
+
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label>
-          <input type="text" id="daire_isitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Kombi (Doğalgaz)">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Kat Sayısı
+          </label>
+
+          <input
+            type="text"
+            id="daire_katsayisi"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="5">
+
+        </div>
+
+
+        <div>
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Isıtma
+          </label>
+
+          <input
+            type="text"
+            id="daire_isitma"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="Kombi (Doğalgaz)">
+
         </div>
 
       </div>
+
 
       <div class="p-4 bg-gray-50 rounded-xl border space-y-4">
 
@@ -1176,97 +1457,261 @@ async function kategoriSec(tur) {
           Daire Ek Detayları
         </h4>
 
+
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
 
           <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">1. Banyo Sayısı</label>
-            <input type="text" id="daire_banyo" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="2">
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              1. Banyo Sayısı
+            </label>
+
+            <input
+              type="text"
+              id="daire_banyo"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white"
+              placeholder="2">
           </div>
 
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">2. Mutfak</label>
-            <select id="daire_mutfak" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-              <option value="Kapalı Mutfak">Kapalı Mutfak</option>
-              <option value="Amerikan Mutfak">Amerikan Mutfak</option>
-            </select>
-          </div>
 
           <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">3. Balkon</label>
-            <select id="daire_balkon" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-              <option value="Var">Var</option>
-              <option value="Yok">Yok</option>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              2. Mutfak
+            </label>
+
+            <select
+              id="daire_mutfak"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white">
+
+              <option value="Kapalı Mutfak">
+                Kapalı Mutfak
+              </option>
+
+              <option value="Amerikan Mutfak">
+                Amerikan Mutfak
+              </option>
+
             </select>
+
           </div>
 
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">4. Asansör</label>
-            <select id="daire_asansor" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-              <option value="Var">Var</option>
-              <option value="Yok">Yok</option>
-            </select>
-          </div>
 
           <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">5. Otopark</label>
-            <select id="daire_otopark" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-              <option value="Açık Otopark">Açık Otopark</option>
-              <option value="Kapalı Otopark">Kapalı Otopark</option>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              3. Balkon
+            </label>
+
+            <select
+              id="daire_balkon"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white">
+
+              <option value="Var">
+                Var
+              </option>
+
+              <option value="Yok">
+                Yok
+              </option>
+
             </select>
+
           </div>
 
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">6. Eşyalı</label>
-            <select id="daire_esyali" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-              <option value="Evet">Evet</option>
-              <option value="Hayır">Hayır</option>
-            </select>
-          </div>
 
           <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">7. Kullanım Durumu</label>
-            <select id="daire_kullanimdurumu" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-              <option value="Boş">Boş</option>
-              <option value="Kiracılı">Kiracılı</option>
-              <option value="Mülk Sahibi">Mülk Sahibi</option>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              4. Asansör
+            </label>
+
+            <select
+              id="daire_asansor"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white">
+
+              <option value="Var">
+                Var
+              </option>
+
+              <option value="Yok">
+                Yok
+              </option>
+
             </select>
+
           </div>
 
+
           <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">8. Site İçerisinde</label>
-            <select id="daire_siteicinde" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-              <option value="Evet">Evet</option>
-              <option value="Hayır">Hayır</option>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              5. Otopark
+            </label>
+
+            <select
+              id="daire_otopark"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white">
+
+              <option value="Açık Otopark">
+                Açık Otopark
+              </option>
+
+              <option value="Kapalı Otopark">
+                Kapalı Otopark
+              </option>
+
             </select>
+
           </div>
+
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              6. Eşyalı
+            </label>
+
+            <select
+              id="daire_esyali"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white">
+
+              <option value="Evet">
+                Evet
+              </option>
+
+              <option value="Hayır">
+                Hayır
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              7. Kullanım Durumu
+            </label>
+
+            <select
+              id="daire_kullanimdurumu"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white">
+
+              <option value="Boş">
+                Boş
+              </option>
+
+              <option value="Kiracılı">
+                Kiracılı
+              </option>
+
+              <option value="Mülk Sahibi">
+                Mülk Sahibi
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              8. Site İçerisinde
+            </label>
+
+            <select
+              id="daire_siteicinde"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white">
+
+              <option value="Evet">
+                Evet
+              </option>
+
+              <option value="Hayır">
+                Hayır
+              </option>
+
+            </select>
+
+          </div>
+
 
           <div class="col-span-2">
-            <label class="block text-xs font-semibold text-gray-600 mb-1">9. Site Adı</label>
-            <input type="text" id="daire_siteadi" class="w-full border rounded-lg p-2.5 text-sm bg-white" placeholder="Örn: Park Konakları">
+
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              9. Site Adı
+            </label>
+
+            <input
+              type="text"
+              id="daire_siteadi"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white"
+              placeholder="Örn: Park Konakları">
+
           </div>
 
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">10. Krediye Uygun</label>
-            <select id="daire_krediyegun" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-              <option value="Evet">Evet</option>
-              <option value="Hayır">Hayır</option>
-            </select>
-          </div>
 
           <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">11. Tapu Durumu</label>
-            <select id="daire_tapudurumu" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-              <option value="Kat Mülkiyeti">Kat Mülkiyeti</option>
-              <option value="Kat İrtifakı">Kat İrtifakı</option>
+
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              10. Krediye Uygun
+            </label>
+
+            <select
+              id="daire_krediyegun"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white">
+
+              <option value="Evet">
+                Evet
+              </option>
+
+              <option value="Hayır">
+                Hayır
+              </option>
+
             </select>
+
           </div>
 
+
           <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">12. Takas</label>
-            <select id="daire_takas" class="w-full border rounded-lg p-2.5 text-sm bg-white">
-              <option value="Evet">Evet</option>
-              <option value="Hayır">Hayır</option>
+
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              11. Tapu Durumu
+            </label>
+
+            <select
+              id="daire_tapudurumu"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white">
+
+              <option value="Kat Mülkiyeti">
+                Kat Mülkiyeti
+              </option>
+
+              <option value="Kat İrtifakı">
+                Kat İrtifakı
+              </option>
+
             </select>
+
+          </div>
+
+
+          <div>
+
+            <label class="block text-xs font-semibold text-gray-600 mb-1">
+              12. Takas
+            </label>
+
+            <select
+              id="daire_takas"
+              class="w-full border rounded-lg p-2.5 text-sm bg-white">
+
+              <option value="Evet">
+                Evet
+              </option>
+
+              <option value="Hayır">
+                Hayır
+              </option>
+
+            </select>
+
           </div>
 
         </div>
@@ -1276,6 +1721,7 @@ async function kategoriSec(tur) {
     `;
 
   }
+
 
   else if (tur === 'mustakilev') {
 
@@ -1284,37 +1730,96 @@ async function kategoriSec(tur) {
       <div class="grid grid-cols-3 gap-4">
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Brüt m²</label>
-          <input type="text" id="mustakil_brut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="200">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Brüt m²
+          </label>
+
+          <input
+            type="text"
+            id="mustakil_brut"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="200">
+
         </div>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Net m²</label>
-          <input type="text" id="mustakil_net" class="w-full border rounded-lg p-2.5 text-sm" placeholder="180">
-        </div>
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Oda Sayısı</label>
-          <input type="text" id="mustakil_oda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="4+1">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Net m²
+          </label>
+
+          <input
+            type="text"
+            id="mustakil_net"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="180">
+
+        </div>
+
+
+        <div>
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Oda Sayısı
+          </label>
+
+          <input
+            type="text"
+            id="mustakil_oda"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="4+1">
+
         </div>
 
       </div>
 
+
       <div class="grid grid-cols-3 gap-4">
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Arsa Alanı (m²)</label>
-          <input type="text" id="mustakil_arsaalan" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Arsa Alanı (m²)
+          </label>
+
+          <input
+            type="text"
+            id="mustakil_arsaalan"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="500">
+
         </div>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Kat Sayısı</label>
-          <input type="text" id="mustakil_katsayisi" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2">
-        </div>
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Isıtma</label>
-          <input type="text" id="mustakil_isitma" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Yerden Isıtma">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Kat Sayısı
+          </label>
+
+          <input
+            type="text"
+            id="mustakil_katsayisi"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="2">
+
+        </div>
+
+
+        <div>
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Isıtma
+          </label>
+
+          <input
+            type="text"
+            id="mustakil_isitma"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="Yerden Isıtma">
+
         </div>
 
       </div>
@@ -1322,6 +1827,7 @@ async function kategoriSec(tur) {
     `;
 
   }
+
 
   else if (tur === 'arsa') {
 
@@ -1330,27 +1836,66 @@ async function kategoriSec(tur) {
       <div class="grid grid-cols-2 gap-4">
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Toplam m²</label>
-          <input type="text" id="arsa_brut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="1000">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Toplam m²
+          </label>
+
+          <input
+            type="text"
+            id="arsa_brut"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="1000">
+
         </div>
 
+
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">m² Fiyatı (TL)</label>
-          <input type="text" id="arsa_m2fiyat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2.500">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            m² Fiyatı (TL)
+          </label>
+
+          <input
+            type="text"
+            id="arsa_m2fiyat"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="2.500">
+
         </div>
 
       </div>
 
+
       <div class="grid grid-cols-2 gap-4">
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">İmar Durumu</label>
-          <input type="text" id="arsa_imardurumu" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Konut İmarlı">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            İmar Durumu
+          </label>
+
+          <input
+            type="text"
+            id="arsa_imardurumu"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="Konut İmarlı">
+
         </div>
 
+
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Ada / Parsel</label>
-          <input type="text" id="arsa_adaparsel" class="w-full border rounded-lg p-2.5 text-sm" placeholder="124 / 5">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Ada / Parsel
+          </label>
+
+          <input
+            type="text"
+            id="arsa_adaparsel"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="124 / 5">
+
         </div>
 
       </div>
@@ -1359,6 +1904,7 @@ async function kategoriSec(tur) {
 
   }
 
+
   else if (tur === 'isyeri') {
 
     html += `
@@ -1366,32 +1912,81 @@ async function kategoriSec(tur) {
       <div class="grid grid-cols-3 gap-4">
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">İş Yeri Türü</label>
-          <input type="text" id="isyeri_isyturu" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Dükkan / Mağaza">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            İş Yeri Türü
+          </label>
+
+          <input
+            type="text"
+            id="isyeri_isyturu"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="Dükkan / Mağaza">
+
         </div>
 
-        <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">m²</label>
-          <input type="text" id="isyeri_brut" class="w-full border rounded-lg p-2.5 text-sm" placeholder="90">
-        </div>
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Bölüm / Oda Sayısı</label>
-          <input type="text" id="isyeri_oda" class="w-full border rounded-lg p-2.5 text-sm" placeholder="2 Bölüm">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            m²
+          </label>
+
+          <input
+            type="text"
+            id="isyeri_brut"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="90">
+
+        </div>
+
+
+        <div>
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Bölüm / Oda Sayısı
+          </label>
+
+          <input
+            type="text"
+            id="isyeri_oda"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="2 Bölüm">
+
         </div>
 
       </div>
 
+
       <div class="grid grid-cols-2 gap-4">
 
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Aidat (TL)</label>
-          <input type="text" id="isyeri_aidat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="500">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Aidat (TL)
+          </label>
+
+          <input
+            type="text"
+            id="isyeri_aidat"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="500">
+
         </div>
 
+
         <div>
-          <label class="block text-xs font-semibold text-gray-600 mb-1">Bulunduğu Kat</label>
-          <input type="text" id="isyeri_kat" class="w-full border rounded-lg p-2.5 text-sm" placeholder="Giriş Kat">
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Bulunduğu Kat
+          </label>
+
+          <input
+            type="text"
+            id="isyeri_kat"
+            class="w-full border rounded-lg p-2.5 text-sm"
+            placeholder="Giriş Kat">
+
         </div>
 
       </div>
@@ -1403,157 +1998,419 @@ async function kategoriSec(tur) {
 
   html += `
 
-    <div class="space-y-3 p-4 bg-slate-50 border rounded-xl">
+      <!-- FOTOĞRAFLAR -->
 
-      <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">
-        İlan Fotoğrafları (Çoklu Seçim & Önizleme)
-      </label>
+      <div class="space-y-3 p-4 bg-slate-50 border rounded-xl">
 
-      <input
-        type="file"
-        id="fResimlerDosya"
-        multiple
-        accept="image/*"
-        onchange="resimEkleyin(this)"
-        class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
+        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">
 
-      <div id="resimOnizlemeKutusu"
-        class="grid grid-cols-3 sm:grid-cols-6 gap-3 pt-2">
+          İlan Fotoğrafları (Çoklu Seçim & Önizleme)
 
-        <div class="text-xs text-gray-400 col-span-full italic">
-          Henüz fotoğraf seçilmedi. İlk seçilen fotoğraf kapak resmi olur.
+        </label>
+
+
+        <input
+          type="file"
+          id="fResimlerDosya"
+          multiple
+          accept="image/*"
+          onchange="resimEkleyin(this)"
+          class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
+
+
+        <div
+          id="resimOnizlemeKutusu"
+          class="grid grid-cols-3 sm:grid-cols-6 gap-3 pt-2">
+
+          <div class="text-xs text-gray-400 col-span-full italic">
+
+            Henüz fotoğraf seçilmedi.
+            İlk seçilen fotoğraf kapak resmi olur.
+
+          </div>
+
         </div>
 
       </div>
 
-    </div>
+
+      <!-- VİDEO -->
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <div>
+
+          <label class="block text-xs font-semibold text-gray-600 mb-1">
+            Tanıtım Videosu Seç
+          </label>
+
+          <input
+            type="file"
+            id="fVideoDosya"
+            accept="video/*"
+            class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700">
+
+        </div>
+
+      </div>
 
 
-    <div class="grid grid-cols-2 gap-4">
+      <!-- DANIŞMAN -->
 
-      <div>
+      <div class="p-4 bg-gray-50 rounded-lg border space-y-3">
+
+        <h4 class="text-xs font-bold text-gray-700 uppercase">
+          Danışman Bilgileri
+        </h4>
+
+
+        <div class="grid grid-cols-3 gap-3">
+
+          <input
+            type="text"
+            id="dAdi"
+            value="Yusuf İşçi"
+            class="border rounded-lg p-2 text-sm bg-white"
+            placeholder="Danışman Adı">
+
+
+          <input
+            type="text"
+            id="dTel"
+            value="0 (532) 407 53 38"
+            class="border rounded-lg p-2 text-sm bg-white"
+            placeholder="Telefon">
+
+
+          <input
+            type="file"
+            id="dResimDosya"
+            accept="image/*"
+            class="w-full border rounded p-1 text-xs bg-white">
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- SADECE HARİTADAN KONUM SEÇME BÖLÜMÜ -->
+      <!-- ================================================= -->
+
+      <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 space-y-3">
+
+        <div>
+
+          <h4 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+
+            <i class="fa-solid fa-location-dot text-blue-600"></i>
+
+            İlan Konumu
+
+          </h4>
+
+
+          <p class="text-xs text-gray-500 mt-1">
+
+            Harita üzerinde mülkün bulunduğu noktaya tıklayarak konumu seçin.
+
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          onclick="haritayiAc()"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition">
+
+          <i class="fa-solid fa-map-location-dot mr-1"></i>
+
+          Haritadan Konum Seç
+
+        </button>
+
+
+        <div
+          id="haritaAlani"
+          class="hidden space-y-2">
+
+          <div
+            id="ilanHaritasi">
+          </div>
+
+
+          <div class="flex justify-between items-center gap-2">
+
+            <p
+              id="konumDurumu"
+              class="text-xs text-gray-500">
+
+              Haritada mülkün bulunduğu noktaya tıklayın.
+
+            </p>
+
+
+            <button
+              type="button"
+              onclick="haritayiKapat()"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded-lg text-xs font-medium">
+
+              Haritayı Kapat
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- Koordinatlar kullanıcıya gösterilmez.
+             Seçilen nokta sadece ilanla birlikte kaydedilir. -->
+
+        <input
+          type="hidden"
+          id="gizliKonum"
+          value="">
+
+      </div>
+
+
+      <!-- İLAN AÇIKLAMASI -->
+
+      <div class="space-y-2">
 
         <label class="block text-xs font-semibold text-gray-600 mb-1">
-          Tanıtım Videosu Seç
+          İlan Açıklaması (Biçimlendirmeli)
         </label>
 
-        <input
-          type="file"
-          id="fVideoDosya"
-          accept="video/*"
-          class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700">
+
+        <div class="flex gap-1 bg-gray-100 p-1.5 rounded-t-lg border border-b-0">
+
+          <button
+            type="button"
+            onclick="metinBicimlendir('bold')"
+            class="px-2.5 py-1 bg-white border rounded text-xs font-bold hover:bg-gray-50">
+
+            <i class="fa-solid fa-bold"></i>
+
+          </button>
+
+
+          <button
+            type="button"
+            onclick="metinBicimlendir('italic')"
+            class="px-2.5 py-1 bg-white border rounded text-xs italic hover:bg-gray-50">
+
+            <i class="fa-solid fa-italic"></i>
+
+          </button>
+
+
+          <button
+            type="button"
+            onclick="metinBicimlendir('underline')"
+            class="px-2.5 py-1 bg-white border rounded text-xs underline hover:bg-gray-50">
+
+            <i class="fa-solid fa-underline"></i>
+
+          </button>
+
+
+          <button
+            type="button"
+            onclick="metinBicimlendir('insertUnorderedList')"
+            class="px-2.5 py-1 bg-white border rounded text-xs hover:bg-gray-50">
+
+            <i class="fa-solid fa-list-ul"></i>
+
+          </button>
+
+
+          <input
+            type="color"
+            onchange="metinBicimlendir('foreColor', this.value)"
+            class="w-8 h-7 p-0.5 border rounded cursor-pointer bg-white"
+            title="Yazı Rengi">
+
+        </div>
+
+
+        <div
+          id="fAciklama"
+          contenteditable="true"
+          class="w-full border rounded-b-lg p-3 text-sm bg-white min-h-[120px] outline-none focus:ring-1 focus:ring-blue-500"
+          placeholder="İlan detayları...">
+        </div>
 
       </div>
+
+
+      <button
+        id="kaydetBtn"
+        onclick="ilaniGitHubaKaydet('${tur}')"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-sm">
+
+        İlanı Kaydet ve Sitede Yayınla
+
+      </button>
 
     </div>
-
-
-    <div class="p-4 bg-gray-50 rounded-lg border space-y-3">
-
-      <h4 class="text-xs font-bold text-gray-700 uppercase">
-        Danışman Bilgileri
-      </h4>
-
-      <div class="grid grid-cols-3 gap-3">
-
-        <input
-          type="text"
-          id="dAdi"
-          value="Yusuf İşçi"
-          class="border rounded-lg p-2 text-sm bg-white"
-          placeholder="Danışman Adı">
-
-        <input
-          type="text"
-          id="dTel"
-          value="0 (532) 407 53 38"
-          class="border rounded-lg p-2 text-sm bg-white"
-          placeholder="Telefon">
-
-        <input
-          type="file"
-          id="dResimDosya"
-          accept="image/*"
-          class="w-full border rounded p-1 text-xs bg-white">
-
-      </div>
-
-    </div>
-
-
-    <div class="space-y-2">
-
-      <label class="block text-xs font-semibold text-gray-600 mb-1">
-        İlan Açıklaması (Biçimlendirmeli)
-      </label>
-
-      <div class="flex gap-1 bg-gray-100 p-1.5 rounded-t-lg border border-b-0">
-
-        <button
-          type="button"
-          onclick="metinBicimlendir('bold')"
-          class="px-2.5 py-1 bg-white border rounded text-xs font-bold hover:bg-gray-50">
-          <i class="fa-solid fa-bold"></i>
-        </button>
-
-        <button
-          type="button"
-          onclick="metinBicimlendir('italic')"
-          class="px-2.5 py-1 bg-white border rounded text-xs italic hover:bg-gray-50">
-          <i class="fa-solid fa-italic"></i>
-        </button>
-
-        <button
-          type="button"
-          onclick="metinBicimlendir('underline')"
-          class="px-2.5 py-1 bg-white border rounded text-xs underline hover:bg-gray-50">
-          <i class="fa-solid fa-underline"></i>
-        </button>
-
-        <button
-          type="button"
-          onclick="metinBicimlendir('insertUnorderedList')"
-          class="px-2.5 py-1 bg-white border rounded text-xs hover:bg-gray-50">
-          <i class="fa-solid fa-list-ul"></i>
-        </button>
-
-        <input
-          type="color"
-          onchange="metinBicimlendir('foreColor', this.value)"
-          class="w-8 h-7 p-0.5 border rounded cursor-pointer bg-white"
-          title="Yazı Rengi">
-
-      </div>
-
-      <div
-        id="fAciklama"
-        contenteditable="true"
-        class="w-full border rounded-b-lg p-3 text-sm bg-white min-h-[120px] outline-none focus:ring-1 focus:ring-blue-500"
-        placeholder="İlan detayları...">
-      </div>
-
-    </div>
-
-
-    <button
-      id="kaydetBtn"
-      onclick="ilaniGitHubaKaydet('${tur}')"
-      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-sm">
-
-      İlanı Kaydet ve Sitede Yayınla
-
-    </button>
-
-  </div>
 
   `;
 
-  document.getElementById('panelForm').innerHTML = html;
+
+  document.getElementById('panelForm').innerHTML =
+    html;
 
 }
 
 
-function metinBicimlendir(komut, deger = null) {
+/* ========================================================= */
+/* HARİTA FONKSİYONLARI */
+/* ========================================================= */
+
+
+/* HARİTAYI AÇ */
+
+function haritayiAc() {
+
+  document.getElementById('haritaAlani')
+    .classList.remove('hidden');
+
+
+  setTimeout(function() {
+
+    if (!ilanHaritasi) {
+
+      /*
+       Varsayılan konum:
+       Sakarya / Serdivan
+      */
+
+      ilanHaritasi =
+        L.map('ilanHaritasi')
+          .setView(
+            [40.7731, 30.3948],
+            13
+          );
+
+
+      L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+          maxZoom: 19,
+          attribution:
+            '&copy; OpenStreetMap'
+        }
+      ).addTo(ilanHaritasi);
+
+
+      ilanHaritasi.on(
+        'click',
+        function(e) {
+
+          konumSec(
+            e.latlng.lat,
+            e.latlng.lng
+          );
+
+        }
+      );
+
+    }
+
+
+    else {
+
+      ilanHaritasi.invalidateSize();
+
+    }
+
+  }, 200);
+
+}
+
+
+/* HARİTAYI KAPAT */
+
+function haritayiKapat() {
+
+  document.getElementById('haritaAlani')
+    .classList.add('hidden');
+
+}
+
+
+/* KONUM SEÇ */
+
+function konumSec(lat, lng) {
+
+  secilenKonum = {
+    lat: lat,
+    lng: lng
+  };
+
+
+  document.getElementById('gizliKonum').value =
+    `${lat},${lng}`;
+
+
+  if (!ilanHaritasi) {
+
+    haritayiAc();
+
+    setTimeout(function() {
+
+      konumSec(lat, lng);
+
+    }, 400);
+
+    return;
+
+  }
+
+
+  if (konumIsareti) {
+
+    ilanHaritasi.removeLayer(
+      konumIsareti
+    );
+
+  }
+
+
+  konumIsareti =
+    L.marker([lat, lng])
+      .addTo(ilanHaritasi);
+
+
+  konumIsareti
+    .bindPopup(
+      '<strong>İlan Konumu</strong><br>Seçilen nokta'
+    )
+    .openPopup();
+
+
+  ilanHaritasi.setView(
+    [lat, lng],
+    17
+  );
+
+
+  document.getElementById('konumDurumu').innerHTML =
+    '<span class="text-emerald-600 font-semibold">✓ Konum seçildi.</span> Mülkün bulunduğu nokta işaretlendi.';
+
+
+}
+
+
+/* METİN BİÇİMLENDİR */
+
+function metinBicimlendir(
+  komut,
+  deger = null
+) {
 
   document.execCommand(
     komut,
@@ -1563,6 +2420,8 @@ function metinBicimlendir(komut, deger = null) {
 
 }
 
+
+/* RESİM EKLE */
 
 function resimEkleyin(input) {
 
@@ -1582,10 +2441,13 @@ function resimEkleyin(input) {
 
   }
 
+
   onizlemeleriGuncelle();
 
 }
 
+
+/* FOTOĞRAF ÇIKAR */
 
 function fotografCikar(index) {
 
@@ -1599,6 +2461,8 @@ function fotografCikar(index) {
 }
 
 
+/* ÖNİZLEMELER */
+
 function onizlemeleriGuncelle() {
 
   const kutu =
@@ -1606,7 +2470,9 @@ function onizlemeleriGuncelle() {
       'resimOnizlemeKutusu'
     );
 
+
   kutu.innerHTML = '';
+
 
   if (
     secilenDosyalarListesi.length === 0
@@ -1621,20 +2487,26 @@ function onizlemeleriGuncelle() {
 
   }
 
+
   secilenDosyalarListesi.forEach(
     (dosya, index) => {
 
       const reader =
         new FileReader();
 
+
       reader.onload =
         function(e) {
 
           const div =
-            document.createElement('div');
+            document.createElement(
+              'div'
+            );
+
 
           div.className =
             "relative group h-24 rounded-xl overflow-hidden border bg-white shadow-sm flex items-center justify-center";
+
 
           div.innerHTML = `
 
@@ -1642,32 +2514,46 @@ function onizlemeleriGuncelle() {
               src="${e.target.result}"
               class="w-full h-full object-cover">
 
+
             ${
               index === 0
-                ? '<span class="absolute top-1 left-1 bg-amber-500 text-slate-950 text-[9px] font-bold px-1.5 py-0.5 rounded shadow">Kapak</span>'
-                : ''
+              ?
+              '<span class="absolute top-1 left-1 bg-amber-500 text-slate-950 text-[9px] font-bold px-1.5 py-0.5 rounded shadow">Kapak</span>'
+              :
+              ''
             }
+
 
             <button
               type="button"
               onclick="fotografCikar(${index})"
               class="absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white w-5 h-5 rounded-full text-xs flex items-center justify-center opacity-90 hover:opacity-100 transition shadow">
+
               ×
+
             </button>
 
           `;
 
-          kutu.appendChild(div);
+
+          kutu.appendChild(
+            div
+          );
 
         };
 
-      reader.readAsDataURL(dosya);
+
+      reader.readAsDataURL(
+        dosya
+      );
 
     }
   );
 
 }
 
+
+/* DOSYA BASE64 */
 
 function dosyaToBase64(file) {
 
@@ -1677,13 +2563,18 @@ function dosyaToBase64(file) {
       const reader =
         new FileReader();
 
-      reader.readAsDataURL(file);
+
+      reader.readAsDataURL(
+        file
+      );
+
 
       reader.onload =
         () =>
           resolve(
             reader.result.split(',')[1]
           );
+
 
       reader.onerror =
         error =>
@@ -1695,29 +2586,38 @@ function dosyaToBase64(file) {
 }
 
 
-/* =========================================================
-   SİTE İLANLARINI OTOMATİK GÜNCELLE
-========================================================= */
+/* SİTE İLANLARINI GÜNCELLE */
 
 async function siteIlanlariniOtomatikGuncelle() {
 
+  const repoOwner =
+    "alagayrimenkulsakarya";
+
+  const repoName =
+    "alagayrimenkul";
+
+
+  const kategoriler = [
+    'daire',
+    'mustakilev',
+    'arsa',
+    'isyeri',
+    'ilanlar'
+  ];
+
+
   let tumIlanlarListesi = [];
 
-  const kategoriler =
-    [
-      'daire',
-      'mustakilev',
-      'arsa',
-      'isyeri',
-      'ilanlar'
-    ];
 
-  for (const kat of kategoriler) {
+  for (
+    const kat of kategoriler
+  ) {
 
     try {
 
       const url =
         `https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${kat}`;
+
 
       const res =
         await fetch(url, {
@@ -1729,41 +2629,54 @@ async function siteIlanlariniOtomatikGuncelle() {
 
         });
 
+
       if (res.ok) {
 
         const files =
           await res.json();
 
-        for (const file of files) {
+
+        for (
+          const file of files
+        ) {
 
           if (
-            !file.name.endsWith('.md')
-          ) continue;
+            file.name.endsWith('.md')
+          ) {
 
-          const detRes =
-            await fetch(
-              file.download_url
-            );
+            const detRes =
+              await fetch(
+                file.download_url
+              );
 
-          if (detRes.ok) {
 
-            const mdText =
-              await detRes.text();
+            if (detRes.ok) {
 
-            const parsed =
-              parseMarkdownBasit(mdText);
+              const mdText =
+                await detRes.text();
 
-            parsed.kategori =
-              kat === 'ilanlar'
-                ? 'daire'
-                : kat;
 
-            parsed.dosyaAdi =
-              file.name;
+              const parsed =
+                parseMarkdownBasit(
+                  mdText
+                );
 
-            tumIlanlarListesi.push(
-              parsed
-            );
+
+              parsed.kategori =
+                kat === 'ilanlar'
+                  ? 'daire'
+                  : kat;
+
+
+              parsed.dosyaAdi =
+                file.name;
+
+
+              tumIlanlarListesi.push(
+                parsed
+              );
+
+            }
 
           }
 
@@ -1771,12 +2684,16 @@ async function siteIlanlariniOtomatikGuncelle() {
 
       }
 
-    } catch(e) {}
+    }
+
+    catch(e) {}
 
   }
 
+
   const jsDosyaYolu =
     'site/tum-ilanlar.js';
+
 
   const jsIcerik =
     `const siteIlanVerileri = ${JSON.stringify(
@@ -1784,6 +2701,7 @@ async function siteIlanlariniOtomatikGuncelle() {
       null,
       2
     )};`;
+
 
   const encodedJs =
     btoa(
@@ -1794,7 +2712,9 @@ async function siteIlanlariniOtomatikGuncelle() {
       )
     );
 
+
   let sha = null;
+
 
   try {
 
@@ -1809,16 +2729,21 @@ async function siteIlanlariniOtomatikGuncelle() {
         }
       );
 
+
     if (getRes.ok) {
 
       const d =
         await getRes.json();
 
-      sha = d.sha;
+      sha =
+        d.sha;
 
     }
 
-  } catch(e) {}
+  }
+
+  catch(e) {}
+
 
   await githubDosyaGuncelleVeyaYukle(
     jsDosyaYolu,
@@ -1830,6 +2755,8 @@ async function siteIlanlariniOtomatikGuncelle() {
 }
 
 
+/* MARKDOWN PARSE */
+
 function parseMarkdownBasit(md) {
 
   const frontmatterMatch =
@@ -1837,94 +2764,115 @@ function parseMarkdownBasit(md) {
       /---\s*([\s\S]*?)\s*---/
     );
 
+
   const data = {
     images: []
   };
 
+
   if (!frontmatterMatch)
     return data;
+
 
   const fm =
     frontmatterMatch[1];
 
+
   const lines =
     fm.split('\n');
 
+
   let inImages = false;
 
-  lines.forEach(line => {
 
-    const trimmed =
-      line.trim();
+  lines.forEach(
+    line => {
 
-    if (!trimmed)
-      return;
+      const trimmed =
+        line.trim();
 
-    if (
-      trimmed.startsWith('images:')
-    ) {
 
-      inImages = true;
+      if (!trimmed)
+        return;
 
-      return;
 
-    }
+      if (
+        trimmed.startsWith('images:')
+      ) {
 
-    if (
-      inImages &&
-      trimmed.startsWith('-')
-    ) {
+        inImages = true;
 
-      let val =
-        trimmed
-          .replace(
-            /^-\s*['"](.*)['"]$/,
-            '$1'
-          )
-          .replace(
-            /^-\s*/,
-            ''
+        return;
+
+      }
+
+
+      if (
+        inImages &&
+        trimmed.startsWith('-')
+      ) {
+
+        let val =
+          trimmed
+            .replace(
+              /^-\s*['"](.*)['"]$/,
+              '$1'
+            )
+            .replace(
+              /^-\s*/,
+              ''
+            );
+
+
+        if (val)
+          data.images.push(
+            val
           );
 
-      if (val)
-        data.images.push(val);
 
-      return;
+        return;
+
+      }
+
+
+      const parts =
+        trimmed.split(':');
+
+
+      if (parts.length >= 2) {
+
+        const key =
+          parts[0].trim();
+
+
+        let val =
+          parts
+            .slice(1)
+            .join(':')
+            .trim()
+            .replace(
+              /^['"](.*)['"]$/,
+              '$1'
+            );
+
+
+        data[key] =
+          val;
+
+      }
 
     }
+  );
 
-    const parts =
-      trimmed.split(':');
-
-    if (parts.length >= 2) {
-
-      const key =
-        parts[0].trim();
-
-      let val =
-        parts
-          .slice(1)
-          .join(':')
-          .trim()
-          .replace(
-            /^['"](.*)['"]$/,
-            '$1'
-          );
-
-      data[key] = val;
-
-    }
-
-  });
 
   return data;
 
 }
 
 
-/* =========================================================
-   İLANI GITHUB'A KAYDET
-========================================================= */
+/* ================================================= */
+/* İLANI GITHUB'A KAYDET */
+/* ================================================= */
 
 async function ilaniGitHubaKaydet(tur) {
 
@@ -1933,60 +2881,55 @@ async function ilaniGitHubaKaydet(tur) {
       `${tur}_baslik`
     )?.value || '';
 
-  let no =
+
+  const no =
     document.getElementById(
       `${tur}_ilanno`
-    )?.value || '';
+    )?.value || 'ALA-100';
+
 
   const durum =
     document.getElementById(
       `${tur}_durum`
     )?.value || 'Satılık';
 
+
   const fiyat =
     document.getElementById(
       `${tur}_fiyat`
     )?.value || '';
+
 
   const mahalle =
     document.getElementById(
       `${tur}_mahalle`
     )?.value || '';
 
-  const ilce =
-    document.getElementById(
-      `${tur}_ilce`
-    )?.value || '';
-
-  const konum =
-    document.getElementById(
-      `${tur}_konum`
-    )?.value || '';
-
-  const enlem =
-    document.getElementById(
-      `${tur}_enlem`
-    )?.value || '';
-
-  const boylam =
-    document.getElementById(
-      `${tur}_boylam`
-    )?.value || '';
 
   const dAdi =
     document.getElementById(
       'dAdi'
     ).value;
 
+
   const dTel =
     document.getElementById(
       'dTel'
     ).value;
 
+
   const aciklama =
     document.getElementById(
       'fAciklama'
     ).innerHTML;
+
+
+  /* KONUM */
+
+  const gizliKonum =
+    document.getElementById(
+      'gizliKonum'
+    )?.value || '';
 
 
   if (!baslik || !fiyat) {
@@ -2000,20 +2943,16 @@ async function ilaniGitHubaKaydet(tur) {
   }
 
 
-  /* Yeni ilan ise numarayı tekrar kontrol et */
+  if (!gizliKonum) {
 
-  if (!duzenlenenDosyaYolu) {
-
-    no =
-      await siradakiIlanNumarasiniBul();
-
-    const noInput =
-      document.getElementById(
-        `${tur}_ilanno`
+    const devamEt =
+      confirm(
+        'İlan için haritadan bir konum seçmediniz.\n\nKonum seçmeden devam etmek istiyor musunuz?'
       );
 
-    if (noInput)
-      noInput.value = no;
+
+    if (!devamEt)
+      return;
 
   }
 
@@ -2021,7 +2960,11 @@ async function ilaniGitHubaKaydet(tur) {
   const slug =
     baslik
       .toLowerCase()
-      .replace(/[^a-z0-9]/g, '-');
+      .replace(
+        /[^a-z0-9]/g,
+        '-'
+      );
+
 
   let yuklenenResimler = [];
 
@@ -2029,6 +2972,8 @@ async function ilaniGitHubaKaydet(tur) {
 
   let danismanResimYolu = '';
 
+
+  /* FOTOĞRAFLAR */
 
   if (
     secilenDosyalarListesi.length > 0
@@ -2043,13 +2988,16 @@ async function ilaniGitHubaKaydet(tur) {
       const dosya =
         secilenDosyalarListesi[i];
 
+
       const base64Data =
         await dosyaToBase64(
           dosya
         );
 
+
       const yol =
         `images/${slug}-${i}-${Date.now()}-${dosya.name}`;
+
 
       await githubDosyaYukle(
         yol,
@@ -2057,13 +3005,16 @@ async function ilaniGitHubaKaydet(tur) {
         `İlan görseli yüklendi: ${dosya.name}`
       );
 
+
       yuklenenResimler.push(
         `/${yol}`
       );
 
     }
 
-  } else {
+  }
+
+  else {
 
     yuklenenResimler.push(
       '/images/default.jpg'
@@ -2072,10 +3023,13 @@ async function ilaniGitHubaKaydet(tur) {
   }
 
 
+  /* VİDEO */
+
   const videoInput =
     document.getElementById(
       'fVideoDosya'
     );
+
 
   if (
     videoInput &&
@@ -2085,13 +3039,16 @@ async function ilaniGitHubaKaydet(tur) {
     const vDosya =
       videoInput.files[0];
 
+
     const vBase64Data =
       await dosyaToBase64(
         vDosya
       );
 
+
     const vYol =
       `videos/${slug}-${Date.now()}-${vDosya.name}`;
+
 
     await githubDosyaYukle(
       vYol,
@@ -2099,16 +3056,20 @@ async function ilaniGitHubaKaydet(tur) {
       `Video yüklendi: ${vDosya.name}`
     );
 
+
     videoYolu =
       `/${vYol}`;
 
   }
 
 
+  /* DANIŞMAN FOTOĞRAFI */
+
   const dResimInput =
     document.getElementById(
       'dResimDosya'
     );
+
 
   if (
     dResimInput &&
@@ -2118,13 +3079,16 @@ async function ilaniGitHubaKaydet(tur) {
     const dDosya =
       dResimInput.files[0];
 
+
     const dBase64Data =
       await dosyaToBase64(
         dDosya
       );
 
+
     const dYol =
       `images/danisman-${Date.now()}-${dDosya.name}`;
+
 
     await githubDosyaYukle(
       dYol,
@@ -2132,11 +3096,14 @@ async function ilaniGitHubaKaydet(tur) {
       `Danışman görseli yüklendi: ${dDosya.name}`
     );
 
+
     danismanResimYolu =
       `/${dYol}`;
 
   }
 
+
+  /* ALANLAR */
 
   let alanlarYaml = '';
 
@@ -2171,9 +3138,8 @@ async function ilaniGitHubaKaydet(tur) {
 
   }
 
-  else if (
-    tur === 'mustakilev'
-  ) {
+
+  else if (tur === 'mustakilev') {
 
     aktifIdler = [
 
@@ -2188,6 +3154,7 @@ async function ilaniGitHubaKaydet(tur) {
 
   }
 
+
   else if (tur === 'arsa') {
 
     aktifIdler = [
@@ -2200,6 +3167,7 @@ async function ilaniGitHubaKaydet(tur) {
     ];
 
   }
+
 
   else if (tur === 'isyeri') {
 
@@ -2216,31 +3184,31 @@ async function ilaniGitHubaKaydet(tur) {
   }
 
 
-  aktifIdler.forEach(id => {
+  aktifIdler.forEach(
+    id => {
 
-    const el =
-      document.getElementById(id);
+      const el =
+        document.getElementById(
+          id
+        );
 
-    if (
-      el &&
-      el.value
-    ) {
 
-      const safAnahtar =
-        id.split('_')[1];
+      if (
+        el &&
+        el.value
+      ) {
 
-      alanlarYaml +=
-        `${safAnahtar}: "${el.value}"\n`;
+        const safAnahtar =
+          id.split('_')[1];
+
+
+        alanlarYaml +=
+          `${safAnahtar}: "${el.value}"\n`;
+
+      }
 
     }
-
-  });
-
-
-  const konumYaml = `konum: "${konum}"
-enlem: "${enlem}"
-boylam: "${boylam}"
-`;
+  );
 
 
   const dosyaAdi =
@@ -2251,30 +3219,37 @@ boylam: "${boylam}"
   const resimlerYaml =
     yuklenenResimler
       .map(
-        r => `  - "${r}"`
+        r =>
+          `  - "${r}"`
       )
       .join('\n');
 
+
+  /* ================================================= */
+  /* İLAN DOSYASI */
+  /* ================================================= */
 
   const icerikYaml = `---
 title: "${baslik}"
 ilanno: "${no}"
 durum: "${durum}"
 fiyat: "${fiyat}"
-ilce: "${ilce}"
 mahalle: "${mahalle}"
 image: "${yuklenenResimler[0]}"
 images:
 ${resimlerYaml}
 video_url: "${videoYolu}"
-${konumYaml}danisman:
+danisman:
   adi: "${dAdi}"
   telefon: "${dTel}"
   fotograf: "${danismanResimYolu}"
+konum: "${gizliKonum}"
 ${alanlarYaml}
 ---
 ${aciklama}`;
 
+
+  /* MEVCUT DOSYA SHA */
 
   let sha = null;
 
@@ -2295,10 +3270,12 @@ ${aciklama}`;
         }
       );
 
+
     if (fetchRes.ok) {
 
       const fileData =
         await fetchRes.json();
+
 
       sha =
         fileData.sha;
@@ -2331,15 +3308,21 @@ ${aciklama}`;
 
     await siteIlanlariniOtomatikGuncelle();
 
+
     alert(
-      `Tebrikler! İlanınız başarıyla kaydedildi ve sitede yayınlandı.\n\nİlan No: ${no}`
+      'Tebrikler! İlanınız başarıyla kaydedildi ve sitede yayınlandı.'
     );
 
-    duzenlenenDosyaYolu = null;
+
+    duzenlenenDosyaYolu =
+      null;
+
 
     kategoriSec(tur);
 
-  } else {
+  }
+
+  else {
 
     alert(
       'İlan kaydedilirken bir hata oluştu.'
@@ -2350,9 +3333,7 @@ ${aciklama}`;
 }
 
 
-/* =========================================================
-   GITHUB DOSYA İŞLEMLERİ
-========================================================= */
+/* GITHUB DOSYA GÜNCELLE / YÜKLE */
 
 async function githubDosyaGuncelleVeyaYukle(
   dosyaYolu,
@@ -2361,21 +3342,37 @@ async function githubDosyaGuncelleVeyaYukle(
   sha = null
 ) {
 
+  const repoOwner =
+    "alagayrimenkulsakarya";
+
+  const repoName =
+    "alagayrimenkul";
+
+  const branch =
+    "main";
+
+
   const url =
     `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dosyaYolu}`;
 
+
   const bodyData = {
 
-    message: mesaj,
+    message:
+      mesaj,
 
-    content: base64Icerik,
+    content:
+      base64Icerik,
 
-    branch: branch
+    branch:
+      branch
 
   };
 
+
   if (sha)
-    bodyData.sha = sha;
+    bodyData.sha =
+      sha;
 
 
   try {
@@ -2405,9 +3402,12 @@ async function githubDosyaGuncelleVeyaYukle(
         }
       );
 
+
     return response.ok;
 
-  } catch (e) {
+  }
+
+  catch (e) {
 
     return false;
 
@@ -2415,6 +3415,8 @@ async function githubDosyaGuncelleVeyaYukle(
 
 }
 
+
+/* GITHUB DOSYA YÜKLE */
 
 async function githubDosyaYukle(
   dosyaYolu,
