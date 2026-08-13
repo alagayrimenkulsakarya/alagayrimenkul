@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>ALA Gayrimenkul Yönetim Paneli</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -25,263 +26,264 @@
       width: 100%;
       height: 380px;
       border-radius: 14px;
-      z-index: 1;
-    }
-
-    .leaflet-container {
-      font-family: inherit;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
     }
   </style>
 </head>
 
 <body class="bg-gray-50 min-h-screen flex flex-col justify-between">
 
-  <div class="max-w-5xl mx-auto w-full p-6">
+<div class="max-w-5xl mx-auto w-full p-6">
 
-    <header class="bg-white rounded-xl shadow-sm p-6 mb-6 flex justify-between items-center border border-gray-100">
-      <div>
-        <h1 class="text-xl font-bold text-gray-800">
-          ALA Gayrimenkul Yönetim Paneli
-        </h1>
+  <!-- ÜST BİLGİ -->
+  <header class="bg-white rounded-xl shadow-sm p-6 mb-6 flex justify-between items-center border border-gray-100">
 
-        <p class="text-sm text-gray-500">
-          alagayrimenkulsakarya/alagayrimenkul
-        </p>
-      </div>
+    <div>
+      <h1 class="text-xl font-bold text-gray-800">
+        ALA Gayrimenkul Yönetim Paneli
+      </h1>
 
-      <div
-        id="authStatus"
-        class="text-sm font-medium text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200">
-        GitHub Bağlantısı Bekleniyor
-      </div>
-    </header>
-
-
-    <!-- Giriş Ekranı -->
+      <p class="text-sm text-gray-500">
+        alagayrimenkulsakarya/alagayrimenkul
+      </p>
+    </div>
 
     <div
-      id="loginScreen"
-      class="bg-white rounded-xl shadow-sm p-8 text-center border border-gray-100">
+      id="authStatus"
+      class="text-sm font-medium text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200">
+      GitHub Bağlantısı Bekleniyor
+    </div>
 
-      <div class="max-w-md mx-auto">
+  </header>
 
-        <h2 class="text-lg font-semibold text-gray-800 mb-2">
-          Yönetim Paneline Hoş Geldiniz
-        </h2>
 
-        <p class="text-gray-500 text-sm mb-6">
-          GitHub Personal Access Token ile sisteme bağlanın.
-        </p>
+  <!-- GİRİŞ -->
+  <div
+    id="loginScreen"
+    class="bg-white rounded-xl shadow-sm p-8 text-center border border-gray-100">
 
-        <input
-          type="password"
-          id="githubTokenInput"
-          placeholder="GitHub Token giriniz"
-          class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-4 outline-none focus:ring-2 focus:ring-blue-500">
+    <div class="max-w-md mx-auto">
 
-        <button
-          onclick="githubGirisYap()"
-          class="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-sm">
+      <h2 class="text-lg font-semibold text-gray-800 mb-2">
+        Yönetim Paneline Hoş Geldiniz
+      </h2>
 
-          Sisteme Bağlan ve Hatırla
+      <p class="text-gray-500 text-sm mb-6">
+        GitHub Personal Access Token ile sisteme bağlanın.
+      </p>
 
-        </button>
+      <input
+        type="password"
+        id="githubTokenInput"
+        placeholder="GitHub Token giriniz"
+        class="w-full border border-gray-200 rounded-lg p-3 text-sm mb-4 outline-none focus:ring-2 focus:ring-blue-500">
 
-      </div>
+      <button
+        onclick="githubGirisYap()"
+        class="w-full bg-gray-900 hover:bg-gray-800 text-white font-medium py-3 px-4 rounded-xl transition duration-200 shadow-sm">
+
+        Sisteme Bağlan ve Hatırla
+
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- ANA PANEL -->
+  <div id="dashboardScreen" class="hidden space-y-6">
+
+    <!-- SEKME BUTONLARI -->
+    <div class="flex gap-2 border-b pb-4 overflow-x-auto">
+
+      <button
+        onclick="sekmeDegis('portfoy')"
+        id="btnPortfoy"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap">
+
+        Yeni İlan Ekle
+
+      </button>
+
+      <button
+        onclick="sekmeDegis('ilanListesi')"
+        id="btnIlanListesi"
+        class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">
+
+        Mevcut İlanlar & Düzenle / Sil
+
+      </button>
+
+      <button
+        onclick="sekmeDegis('yorumlar')"
+        id="btnYorumlar"
+        class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">
+
+        Ziyaretçi Yorumları
+
+      </button>
+
     </div>
 
 
-    <!-- ANA PANEL -->
+    <!-- YENİ İLAN -->
+    <div id="tabPortfoy" class="space-y-6">
 
-    <div id="dashboardScreen" class="hidden space-y-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
 
-      <div class="flex gap-2 border-b pb-4 overflow-x-auto">
+        <div
+          onclick="kategoriSec('daire')"
+          class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
 
-        <button
-          onclick="sekmeDegis('portfoy')"
-          id="btnPortfoy"
-          class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap">
-
-          Yeni İlan Ekle
-
-        </button>
-
-        <button
-          onclick="sekmeDegis('ilanListesi')"
-          id="btnIlanListesi"
-          class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">
-
-          Mevcut İlanlar & Düzenle / Sil
-
-        </button>
-
-        <button
-          onclick="sekmeDegis('yorumlar')"
-          id="btnYorumlar"
-          class="bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap">
-
-          Ziyaretçi Yorumları
-
-        </button>
-
-      </div>
-
-
-      <!-- YENİ İLAN -->
-
-      <div id="tabPortfoy" class="space-y-6">
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-
-          <div
-            onclick="kategoriSec('daire')"
-            class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-
-            <h3 class="font-semibold text-gray-800 text-sm">
-              Daire
-            </h3>
-
-          </div>
-
-          <div
-            onclick="kategoriSec('mustakilev')"
-            class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-
-            <h3 class="font-semibold text-gray-800 text-sm">
-              Müstakil Ev / Villa
-            </h3>
-
-          </div>
-
-          <div
-            onclick="kategoriSec('arsa')"
-            class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-
-            <h3 class="font-semibold text-gray-800 text-sm">
-              İmarlı Arsa / Tarla
-            </h3>
-
-          </div>
-
-          <div
-            onclick="kategoriSec('isyeri')"
-            class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
-
-            <h3 class="font-semibold text-gray-800 text-sm">
-              İş Yeri (Dükkan / Büro)
-            </h3>
-
-          </div>
-
-        </div>
-
-
-        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-
-          <h3
-            id="panelBaslik"
-            class="text-lg font-bold text-gray-800 mb-4">
-
-            Lütfen yukarıdan bir kategori seçin
-
+          <h3 class="font-semibold text-gray-800 text-sm">
+            Daire
           </h3>
 
-          <div
-            id="panelForm"
-            class="space-y-4">
+        </div>
 
-            <p class="text-gray-500 text-sm">
-              Seçtiğiniz kategoriye özel tüm detaylar burada açılacaktır.
-            </p>
 
-          </div>
+        <div
+          onclick="kategoriSec('mustakilev')"
+          class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+
+          <h3 class="font-semibold text-gray-800 text-sm">
+            Müstakil Ev / Villa
+          </h3>
+
+        </div>
+
+
+        <div
+          onclick="kategoriSec('arsa')"
+          class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+
+          <h3 class="font-semibold text-gray-800 text-sm">
+            İmarlı Arsa / Tarla
+          </h3>
+
+        </div>
+
+
+        <div
+          onclick="kategoriSec('isyeri')"
+          class="bg-white p-4 rounded-xl shadow-sm border hover:border-blue-500 cursor-pointer text-center transition">
+
+          <h3 class="font-semibold text-gray-800 text-sm">
+            İş Yeri (Dükkan / Büro)
+          </h3>
 
         </div>
 
       </div>
 
 
-      <!-- MEVCUT İLANLAR -->
+      <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
 
-      <div
-        id="tabIlanListesi"
-        class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <h3
+          id="panelBaslik"
+          class="text-lg font-bold text-gray-800 mb-4">
 
-        <div class="flex justify-between items-center mb-4">
+          Lütfen yukarıdan bir kategori seçin
 
-          <div>
-
-            <h3 class="text-lg font-bold text-gray-800">
-              Sitedeki Mevcut İlanlar
-            </h3>
-
-            <p class="text-sm text-gray-500">
-              İlanları düzenleyebilir veya yayından kaldırıp silebilirsiniz.
-            </p>
-
-          </div>
-
-          <button
-            onclick="tumIlanlariYukle()"
-            class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded-lg font-medium transition">
-
-            Listeyi Yenile
-
-          </button>
-
-        </div>
+        </h3>
 
         <div
-          id="aktifIlanlarListesi"
-          class="space-y-3">
+          id="panelForm"
+          class="space-y-4">
 
-          <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
-            İlanlar yükleniyor...
-          </div>
+          <p class="text-gray-500 text-sm">
+            Seçtiğiniz kategoriye özel tüm detaylar burada açılacaktır.
+          </p>
 
         </div>
 
       </div>
 
+    </div>
 
-      <!-- YORUMLAR -->
 
-      <div
-        id="tabYorumlar"
-        class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+    <!-- MEVCUT İLANLAR -->
+    <div
+      id="tabIlanListesi"
+      class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
 
-        <div class="flex justify-between items-center mb-4">
+      <div class="flex justify-between items-center mb-4">
 
-          <div>
+        <div>
 
-            <h3 class="text-lg font-bold text-gray-800">
-              Ziyaretçi Yorumları Yönetimi
-            </h3>
+          <h3 class="text-lg font-bold text-gray-800">
+            Sitedeki Mevcut İlanlar
+          </h3>
 
-            <p class="text-sm text-gray-500">
-              Gelen yorumları onaylayarak sitede yayınlayabilir veya silebilirsiniz.
-            </p>
-
-          </div>
-
-          <button
-            onclick="yorumlarıYukle()"
-            class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded-lg font-medium transition">
-
-            Yorumları Yenile
-
-          </button>
+          <p class="text-sm text-gray-500">
+            İlanları düzenleyebilir veya yayından kaldırıp silebilirsiniz.
+          </p>
 
         </div>
 
-        <div
-          id="yorumListesi"
-          class="space-y-3">
 
-          <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
-            Yorumlar yükleniyor...
-          </div>
+        <button
+          onclick="tumIlanlariYukle()"
+          class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded-lg font-medium transition">
 
+          Listeyi Yenile
+
+        </button>
+
+      </div>
+
+
+      <div
+        id="aktifIlanlarListesi"
+        class="space-y-3">
+
+        <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
+          İlanlar yükleniyor...
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- YORUMLAR -->
+    <div
+      id="tabYorumlar"
+      class="hidden bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+
+      <div class="flex justify-between items-center mb-4">
+
+        <div>
+
+          <h3 class="text-lg font-bold text-gray-800">
+            Ziyaretçi Yorumları Yönetimi
+          </h3>
+
+          <p class="text-sm text-gray-500">
+            Gelen yorumları onaylayarak sitede yayınlayabilir veya silebilirsiniz.
+          </p>
+
+        </div>
+
+
+        <button
+          onclick="yorumlarıYukle()"
+          class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs px-3 py-2 rounded-lg font-medium transition">
+
+          Yorumları Yenile
+
+        </button>
+
+      </div>
+
+
+      <div
+        id="yorumListesi"
+        class="space-y-3">
+
+        <div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
+          Yorumlar yükleniyor...
         </div>
 
       </div>
@@ -290,10 +292,12 @@
 
   </div>
 
+</div>
 
-  <footer class="text-center py-6 text-xs text-gray-400">
-    ALA Gayrimenkul Özel Yönetim Sistemi
-  </footer>
+
+<footer class="text-center py-6 text-xs text-gray-400">
+  ALA Gayrimenkul Özel Yönetim Sistemi
+</footer>
 
 
 <script>
@@ -305,24 +309,22 @@ let secilenDosyalarListesi = [];
 
 let duzenlenenDosyaYolu = null;
 
+let harita = null;
 
-/* HARİTA DEĞİŞKENLERİ */
-
-let ilanHaritasi = null;
-
-let secilenKonum = null;
-
-let konumIsareti = null;
+let haritaMarker = null;
 
 
-/* SAYFA AÇILIŞI */
+/* =========================================================
+   SAYFA AÇILIŞI
+========================================================= */
 
 window.onload = function() {
 
   if (githubToken) {
 
-    document.getElementById('githubTokenInput').value =
-      githubToken;
+    document.getElementById(
+      'githubTokenInput'
+    ).value = githubToken;
 
     panelAc();
 
@@ -331,19 +333,24 @@ window.onload = function() {
 };
 
 
-/* GITHUB GİRİŞ */
+/* =========================================================
+   GITHUB GİRİŞ
+========================================================= */
 
 function githubGirisYap() {
 
   const token =
-    document.getElementById('githubTokenInput').value.trim();
+    document.getElementById(
+      'githubTokenInput'
+    ).value.trim();
 
   if (!token) {
 
-    alert('Lütfen geçerli bir GitHub Token giriniz.');
+    alert(
+      'Lütfen geçerli bir GitHub Token giriniz.'
+    );
 
     return;
-
   }
 
   githubToken = token;
@@ -358,55 +365,73 @@ function githubGirisYap() {
 }
 
 
-/* PANELİ AÇ */
-
 function panelAc() {
 
-  document.getElementById('loginScreen')
+  document
+    .getElementById('loginScreen')
     .classList.add('hidden');
 
-  document.getElementById('dashboardScreen')
+  document
+    .getElementById('dashboardScreen')
     .classList.remove('hidden');
 
-  document.getElementById('authStatus').innerText =
+  document
+    .getElementById('authStatus')
+    .innerText =
     "Bağlantı Kuruldu (Admin)";
 
-  document.getElementById('authStatus').className =
+  document
+    .getElementById('authStatus')
+    .className =
     "text-sm font-medium text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200";
 
 }
 
 
-/* SEKME DEĞİŞTİR */
+/* =========================================================
+   SEKME
+========================================================= */
 
 function sekmeDegis(sekme) {
 
-  document.getElementById('tabPortfoy')
+  document
+    .getElementById('tabPortfoy')
     .classList.add('hidden');
 
-  document.getElementById('tabIlanListesi')
+  document
+    .getElementById('tabIlanListesi')
     .classList.add('hidden');
 
-  document.getElementById('tabYorumlar')
+  document
+    .getElementById('tabYorumlar')
     .classList.add('hidden');
 
 
-  document.getElementById('btnPortfoy').className =
+  document
+    .getElementById('btnPortfoy')
+    .className =
     "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
 
-  document.getElementById('btnIlanListesi').className =
+  document
+    .getElementById('btnIlanListesi')
+    .className =
     "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
 
-  document.getElementById('btnYorumlar').className =
+  document
+    .getElementById('btnYorumlar')
+    .className =
     "bg-white text-gray-700 border px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition whitespace-nowrap";
 
 
   if (sekme === 'portfoy') {
 
-    document.getElementById('tabPortfoy')
+    document
+      .getElementById('tabPortfoy')
       .classList.remove('hidden');
 
-    document.getElementById('btnPortfoy').className =
+    document
+      .getElementById('btnPortfoy')
+      .className =
       "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
 
   }
@@ -414,10 +439,13 @@ function sekmeDegis(sekme) {
 
   else if (sekme === 'ilanListesi') {
 
-    document.getElementById('tabIlanListesi')
+    document
+      .getElementById('tabIlanListesi')
       .classList.remove('hidden');
 
-    document.getElementById('btnIlanListesi').className =
+    document
+      .getElementById('btnIlanListesi')
+      .className =
       "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
 
     tumIlanlariYukle();
@@ -427,10 +455,13 @@ function sekmeDegis(sekme) {
 
   else if (sekme === 'yorumlar') {
 
-    document.getElementById('tabYorumlar')
+    document
+      .getElementById('tabYorumlar')
       .classList.remove('hidden');
 
-    document.getElementById('btnYorumlar').className =
+    document
+      .getElementById('btnYorumlar')
+      .className =
       "bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition whitespace-nowrap";
 
     yorumlarıYukle();
@@ -440,12 +471,138 @@ function sekmeDegis(sekme) {
 }
 
 
-/* TÜM İLANLARI YÜKLE */
+/* =========================================================
+   OTOMATİK İLAN NUMARASI
+   11000 -> 11001 -> 11002...
+========================================================= */
+
+async function otomatikIlanNoGetir() {
+
+  const repoOwner =
+    "alagayrimenkulsakarya";
+
+  const repoName =
+    "alagayrimenkul";
+
+  const kategoriler = [
+    'daire',
+    'mustakilev',
+    'arsa',
+    'isyeri',
+    'ilanlar'
+  ];
+
+  let enBuyukNo = 10999;
+
+
+  try {
+
+    for (const kat of kategoriler) {
+
+      const url =
+        `https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${kat}`;
+
+      const response =
+        await fetch(url, {
+          headers: {
+            'Authorization':
+              `Bearer ${githubToken}`
+          }
+        });
+
+
+      if (!response.ok) {
+        continue;
+      }
+
+
+      const files =
+        await response.json();
+
+
+      for (const file of files) {
+
+        if (!file.name.endsWith('.md')) {
+          continue;
+        }
+
+
+        try {
+
+          const fileResponse =
+            await fetch(
+              file.download_url
+            );
+
+
+          if (!fileResponse.ok) {
+            continue;
+          }
+
+
+          const mdText =
+            await fileResponse.text();
+
+
+          const eslesme =
+            mdText.match(
+              /ilanno:\s*["']?(\d+)["']?/i
+            );
+
+
+          if (eslesme) {
+
+            const numara =
+              parseInt(
+                eslesme[1],
+                10
+              );
+
+
+            if (
+              !isNaN(numara) &&
+              numara > enBuyukNo
+            ) {
+
+              enBuyukNo =
+                numara;
+
+            }
+
+          }
+
+        } catch (e) {}
+
+      }
+
+    }
+
+  } catch (e) {
+
+    console.log(
+      "İlan numarası alınırken hata:",
+      e
+    );
+
+  }
+
+
+  return enBuyukNo + 1;
+
+}
+
+
+/* =========================================================
+   TÜM İLANLARI YÜKLE
+========================================================= */
 
 async function tumIlanlariYukle() {
 
   const container =
-    document.getElementById('aktifIlanlarListesi');
+    document.getElementById(
+      'aktifIlanlarListesi'
+    );
+
 
   container.innerHTML =
     `<div class="p-4 border rounded-lg bg-gray-50 text-sm text-gray-600">
@@ -497,7 +654,6 @@ async function tumIlanlariYukle() {
         for (let file of files) {
 
           toplamIlanHtml += `
-
             <div class="p-4 border rounded-lg bg-white shadow-sm flex justify-between items-center">
 
               <div>
@@ -516,6 +672,7 @@ async function tumIlanlariYukle() {
 
               </div>
 
+
               <div class="flex gap-2">
 
                 <button
@@ -525,6 +682,7 @@ async function tumIlanlariYukle() {
                   Düzenle
 
                 </button>
+
 
                 <button
                   onclick="ilanSil('${file.path}')"
@@ -537,7 +695,6 @@ async function tumIlanlariYukle() {
               </div>
 
             </div>
-
           `;
 
         }
@@ -569,7 +726,8 @@ async function tumIlanlariYukle() {
 
     container.innerHTML =
       `<div class="p-4 border rounded-lg bg-red-50 text-sm text-red-600">
-        İlanlar yüklenirken hata oluştu: ${e.message}
+        İlanlar yüklenirken hata oluştu:
+        ${e.message}
       </div>`;
 
   }
@@ -577,7 +735,9 @@ async function tumIlanlariYukle() {
 }
 
 
-/* İLAN DÜZENLE */
+/* =========================================================
+   İLAN DÜZENLE
+========================================================= */
 
 async function ilaniDuzenleIcinYukle(
   kat,
@@ -598,16 +758,21 @@ async function ilaniDuzenleIcinYukle(
 
     kategoriSec(kat);
 
+
     duzenlenenDosyaYolu =
       dosyaYolu;
 
 
-    document.getElementById('kaydetBtn').innerText =
+    document
+      .getElementById('kaydetBtn')
+      .innerText =
       "İlanı Güncelle";
 
 
     const fmMatch =
-      mdText.match(/---\s*([\s\S]*?)\s*---/);
+      mdText.match(
+        /---\s*([\s\S]*?)\s*---/
+      );
 
 
     if (fmMatch) {
@@ -633,15 +798,22 @@ async function ilaniDuzenleIcinYukle(
               .slice(1)
               .join(':')
               .trim()
-              .replace(/^['"](.*)['"]$/, '$1');
+              .replace(
+                /^['"](.*)['"]$/,
+                '$1'
+              );
 
 
           if (key === 'title') {
 
             const el =
-              document.getElementById(`${kat}_baslik`);
+              document.getElementById(
+                `${kat}_baslik`
+              );
 
-            if (el) el.value = val;
+            if (el) {
+              el.value = val;
+            }
 
           }
 
@@ -649,9 +821,13 @@ async function ilaniDuzenleIcinYukle(
           if (key === 'ilanno') {
 
             const el =
-              document.getElementById(`${kat}_ilanno`);
+              document.getElementById(
+                `${kat}_ilanno`
+              );
 
-            if (el) el.value = val;
+            if (el) {
+              el.value = val;
+            }
 
           }
 
@@ -659,9 +835,13 @@ async function ilaniDuzenleIcinYukle(
           if (key === 'durum') {
 
             const el =
-              document.getElementById(`${kat}_durum`);
+              document.getElementById(
+                `${kat}_durum`
+              );
 
-            if (el) el.value = val;
+            if (el) {
+              el.value = val;
+            }
 
           }
 
@@ -669,9 +849,13 @@ async function ilaniDuzenleIcinYukle(
           if (key === 'fiyat') {
 
             const el =
-              document.getElementById(`${kat}_fiyat`);
+              document.getElementById(
+                `${kat}_fiyat`
+              );
 
-            if (el) el.value = val;
+            if (el) {
+              el.value = val;
+            }
 
           }
 
@@ -679,22 +863,28 @@ async function ilaniDuzenleIcinYukle(
           if (key === 'mahalle') {
 
             const el =
-              document.getElementById(`${kat}_mahalle`);
+              document.getElementById(
+                `${kat}_mahalle`
+              );
 
-            if (el) el.value = val;
+            if (el) {
+              el.value = val;
+            }
 
           }
 
 
           const elUniq =
-            document.getElementById(`${kat}_${key}`) ||
-            document.getElementById(`${key}`);
+            document.getElementById(
+              `${kat}_${key}`
+            ) ||
+            document.getElementById(
+              `${key}`
+            );
 
 
           if (elUniq) {
-
             elUniq.value = val;
-
           }
 
         }
@@ -704,52 +894,69 @@ async function ilaniDuzenleIcinYukle(
 
       const aciklamaKismi =
         mdText
-          .replace(/---\s*([\s\S]*?)\s*---/, '')
+          .replace(
+            /---\s*([\s\S]*?)\s*---/,
+            ''
+          )
           .trim();
 
 
       const aciklamaDiv =
-        document.getElementById('fAciklama');
+        document.getElementById(
+          'fAciklama'
+        );
 
 
       if (aciklamaDiv) {
-
         aciklamaDiv.innerHTML =
           aciklamaKismi;
-
       }
 
 
-      /* KAYITLI KONUMU BUL */
+      /* KONUM */
+      const latMatch =
+        fmMatch[1].match(
+          /konum_lat:\s*["']?([^"'\n]+)["']?/i
+        );
 
-      const konumMatch =
-        mdText.match(/konum:\s*"([^"]+)"/);
-
-
-      if (konumMatch && konumMatch[1]) {
-
-        const parcalar =
-          konumMatch[1].split(',');
-
-
-        if (parcalar.length === 2) {
-
-          const lat =
-            parseFloat(parcalar[0]);
-
-          const lng =
-            parseFloat(parcalar[1]);
+      const lngMatch =
+        fmMatch[1].match(
+          /konum_lng:\s*["']?([^"'\n]+)["']?/i
+        );
 
 
-          if (!isNaN(lat) && !isNaN(lng)) {
+      if (
+        latMatch &&
+        lngMatch
+      ) {
 
-            setTimeout(() => {
+        const lat =
+          parseFloat(
+            latMatch[1]
+          );
 
-              konumSec(lat, lng);
+        const lng =
+          parseFloat(
+            lngMatch[1]
+          );
 
-            }, 500);
 
-          }
+        if (
+          !isNaN(lat) &&
+          !isNaN(lng)
+        ) {
+
+          setTimeout(
+            function() {
+
+              haritadanKonumSec(
+                lat,
+                lng
+              );
+
+            },
+            500
+          );
 
         }
 
@@ -759,7 +966,7 @@ async function ilaniDuzenleIcinYukle(
 
   }
 
-  catch(e) {
+  catch (e) {
 
     alert(
       'İlan bilgileri yüklenirken hata oluştu: ' +
@@ -771,13 +978,19 @@ async function ilaniDuzenleIcinYukle(
 }
 
 
-/* İLAN SİL */
+/* =========================================================
+   İLAN SİL
+========================================================= */
 
 async function ilanSil(dosyaYolu) {
 
-  if (!confirm(
-    `Dikkat: "${dosyaYolu}" adlı ilanı kalıcı olarak silmek istediğinize emin misiniz?`
-  )) return;
+  if (
+    !confirm(
+      `"${dosyaYolu}" adlı ilanı kalıcı olarak silmek istediğinize emin misiniz?`
+    )
+  ) {
+    return;
+  }
 
 
   const repoOwner =
@@ -795,20 +1008,24 @@ async function ilanSil(dosyaYolu) {
 
 
   const resGet =
-    await fetch(urlGet, {
-      headers: {
-        'Authorization':
-          `Bearer ${githubToken}`
+    await fetch(
+      urlGet,
+      {
+        headers: {
+          'Authorization':
+            `Bearer ${githubToken}`
+        }
       }
-    });
+    );
 
 
   if (!resGet.ok) {
 
-    alert('İlan bilgisi alınamadı.');
+    alert(
+      'İlan bilgisi alınamadı.'
+    );
 
     return;
-
   }
 
 
@@ -817,34 +1034,34 @@ async function ilanSil(dosyaYolu) {
 
 
   const resDel =
-    await fetch(urlGet, {
+    await fetch(
+      urlGet,
+      {
+        method: 'DELETE',
 
-      method: 'DELETE',
+        headers: {
+          'Authorization':
+            `Bearer ${githubToken}`,
 
-      headers: {
+          'Content-Type':
+            'application/json'
+        },
 
-        'Authorization':
-          `Bearer ${githubToken}`,
+        body: JSON.stringify({
 
-        'Content-Type':
-          'application/json',
+          message:
+            `İlan kaldırıldı / silindi: ${dosyaYolu}`,
 
-      },
+          sha:
+            fileData.sha,
 
-      body: JSON.stringify({
+          branch:
+            branch
 
-        message:
-          `İlan kaldırıldı / silindi: ${dosyaYolu}`,
+        })
 
-        sha:
-          fileData.sha,
-
-        branch:
-          branch
-
-      })
-
-    });
+      }
+    );
 
 
   if (resDel.ok) {
@@ -870,12 +1087,16 @@ async function ilanSil(dosyaYolu) {
 }
 
 
-/* YORUMLARI YÜKLE */
+/* =========================================================
+   YORUMLAR
+========================================================= */
 
 async function yorumlarıYukle() {
 
   const container =
-    document.getElementById('yorumListesi');
+    document.getElementById(
+      'yorumListesi'
+    );
 
 
   container.innerHTML =
@@ -898,14 +1119,15 @@ async function yorumlarıYukle() {
 
 
     const response =
-      await fetch(url, {
-
-        headers: {
-          'Authorization':
-            `Bearer ${githubToken}`
+      await fetch(
+        url,
+        {
+          headers: {
+            'Authorization':
+              `Bearer ${githubToken}`
+          }
         }
-
-      });
+      );
 
 
     if (response.ok) {
@@ -932,7 +1154,10 @@ async function yorumlarıYukle() {
       for (let file of files) {
 
         const fileRes =
-          await fetch(file.download_url);
+          await fetch(
+            file.download_url
+          );
+
 
         const markdownText =
           await fileRes.text();
@@ -954,6 +1179,7 @@ async function yorumlarıYukle() {
 
             </div>
 
+
             <div class="flex gap-2 shrink-0">
 
               <button
@@ -963,6 +1189,7 @@ async function yorumlarıYukle() {
                 Onayla & Yayınla
 
               </button>
+
 
               <button
                 onclick="yorumSilTek('${file.path}')"
@@ -1001,15 +1228,14 @@ async function yorumlarıYukle() {
 
     container.innerHTML =
       `<div class="p-4 border rounded-lg bg-red-50 text-sm text-red-600">
-        Yorumlar yüklenirken hata oluştu: ${e.message}
+        Yorumlar yüklenirken hata oluştu:
+        ${e.message}
       </div>`;
 
   }
 
 }
 
-
-/* YORUM ONAYLA */
 
 async function yorumOnayla(
   eskiYol,
@@ -1038,34 +1264,34 @@ async function yorumOnayla(
   try {
 
     const resYeni =
-      await fetch(urlYeni, {
+      await fetch(
+        urlYeni,
+        {
+          method: 'PUT',
 
-        method: 'PUT',
+          headers: {
+            'Authorization':
+              `Bearer ${githubToken}`,
 
-        headers: {
+            'Content-Type':
+              'application/json'
+          },
 
-          'Authorization':
-            `Bearer ${githubToken}`,
+          body: JSON.stringify({
 
-          'Content-Type':
-            'application/json'
+            message:
+              `Yorum onaylandı: ${dosyaAdi}`,
 
-        },
+            content:
+              base64Icerik,
 
-        body: JSON.stringify({
+            branch:
+              branch
 
-          message:
-            `Yorum onaylandı: ${dosyaAdi}`,
+          })
 
-          content:
-            base64Icerik,
-
-          branch:
-            branch
-
-        })
-
-      });
+        }
+      );
 
 
     if (resYeni.ok) {
@@ -1075,11 +1301,9 @@ async function yorumOnayla(
         false
       );
 
-
       alert(
         'Yorum başarıyla onaylandı ve sitede yayına alındı!'
       );
-
 
       yorumlarıYukle();
 
@@ -1098,15 +1322,14 @@ async function yorumOnayla(
   catch (e) {
 
     alert(
-      'Hata: ' + e.message
+      'Hata: ' +
+      e.message
     );
 
   }
 
 }
 
-
-/* YORUM SİL */
 
 async function yorumSilTek(
   dosyaYolu,
@@ -1128,17 +1351,20 @@ async function yorumSilTek(
 
 
   const resGet =
-    await fetch(urlGet, {
-
-      headers: {
-        'Authorization':
-          `Bearer ${githubToken}`
+    await fetch(
+      urlGet,
+      {
+        headers: {
+          'Authorization':
+            `Bearer ${githubToken}`
+        }
       }
+    );
 
-    });
 
-
-  if (!resGet.ok) return;
+  if (!resGet.ok) {
+    return;
+  }
 
 
   const fileData =
@@ -1146,39 +1372,44 @@ async function yorumSilTek(
 
 
   const resDel =
-    await fetch(urlGet, {
+    await fetch(
+      urlGet,
+      {
+        method: 'DELETE',
 
-      method: 'DELETE',
+        headers: {
+          'Authorization':
+            `Bearer ${githubToken}`,
 
-      headers: {
+          'Content-Type':
+            'application/json'
+        },
 
-        'Authorization':
-          `Bearer ${githubToken}`,
+        body: JSON.stringify({
 
-        'Content-Type':
-          'application/json'
+          message:
+            `Yorum silindi: ${dosyaYolu}`,
 
-      },
+          sha:
+            fileData.sha,
 
-      body: JSON.stringify({
+          branch:
+            branch
 
-        message:
-          `Yorum silindi: ${dosyaYolu}`,
+        })
 
-        sha:
-          fileData.sha,
-
-        branch:
-          branch
-
-      })
-
-    });
+      }
+    );
 
 
-  if (resDel.ok && uyariVer) {
+  if (
+    resDel.ok &&
+    uyariVer
+  ) {
 
-    alert('Yorum silindi.');
+    alert(
+      'Yorum silindi.'
+    );
 
     yorumlarıYukle();
 
@@ -1187,7 +1418,9 @@ async function yorumSilTek(
 }
 
 
-/* KATEGORİ SEÇ */
+/* =========================================================
+   KATEGORİ SEÇ
+========================================================= */
 
 function kategoriSec(tur) {
 
@@ -1195,37 +1428,34 @@ function kategoriSec(tur) {
 
   duzenlenenDosyaYolu = null;
 
-  secilenKonum = null;
-
-  konumIsareti = null;
-
 
   const basliklar = {
 
-    'daire':
+    daire:
       'Yeni Daire İlanı Ekle',
 
-    'mustakilev':
+    mustakilev:
       'Yeni Müstakil Ev / Villa Ekle',
 
-    'arsa':
+    arsa:
       'Yeni İmarlı Arsa / Tarla Ekle',
 
-    'isyeri':
+    isyeri:
       'Yeni İş Yeri (Dükkan / Büro) Ekle'
 
   };
 
 
-  document.getElementById(
-    'panelBaslik'
-  ).innerText =
+  document
+    .getElementById('panelBaslik')
+    .innerText =
     basliklar[tur];
 
 
   let html = `
 
     <div class="space-y-4">
+
 
       <div class="grid grid-cols-2 gap-4">
 
@@ -1253,8 +1483,13 @@ function kategoriSec(tur) {
           <input
             type="text"
             id="${tur}_ilanno"
-            class="w-full border rounded-lg p-2.5 text-sm"
-            placeholder="11000">
+            class="w-full border rounded-lg p-2.5 text-sm bg-gray-100 font-semibold text-blue-700"
+            value="11000"
+            readonly>
+
+          <p class="text-[10px] text-gray-400 mt-1">
+            Sistem tarafından otomatik verilir.
+          </p>
 
         </div>
 
@@ -1331,8 +1566,13 @@ function kategoriSec(tur) {
         </div>
 
       </div>
+
   `;
 
+
+  /* =====================================================
+     DAİRE
+  ===================================================== */
 
   if (tur === 'daire') {
 
@@ -1341,7 +1581,6 @@ function kategoriSec(tur) {
       <div class="grid grid-cols-3 gap-4">
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Brüt m²
           </label>
@@ -1351,12 +1590,10 @@ function kategoriSec(tur) {
             id="daire_brut"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="140">
-
         </div>
 
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Net m²
           </label>
@@ -1366,12 +1603,10 @@ function kategoriSec(tur) {
             id="daire_net"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="125">
-
         </div>
 
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Oda Sayısı
           </label>
@@ -1381,7 +1616,6 @@ function kategoriSec(tur) {
             id="daire_oda"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="3+1">
-
         </div>
 
       </div>
@@ -1390,7 +1624,6 @@ function kategoriSec(tur) {
       <div class="grid grid-cols-4 gap-3">
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Bina Yaşı
           </label>
@@ -1400,12 +1633,10 @@ function kategoriSec(tur) {
             id="daire_yas"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="4">
-
         </div>
 
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Bulunduğu Kat
           </label>
@@ -1415,12 +1646,10 @@ function kategoriSec(tur) {
             id="daire_kat"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="2">
-
         </div>
 
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Kat Sayısı
           </label>
@@ -1430,12 +1659,10 @@ function kategoriSec(tur) {
             id="daire_katsayisi"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="5">
-
         </div>
 
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Isıtma
           </label>
@@ -1445,7 +1672,6 @@ function kategoriSec(tur) {
             id="daire_isitma"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="Kombi (Doğalgaz)">
-
         </div>
 
       </div>
@@ -1491,7 +1717,6 @@ function kategoriSec(tur) {
               </option>
 
             </select>
-
           </div>
 
 
@@ -1513,7 +1738,6 @@ function kategoriSec(tur) {
               </option>
 
             </select>
-
           </div>
 
 
@@ -1535,7 +1759,6 @@ function kategoriSec(tur) {
               </option>
 
             </select>
-
           </div>
 
 
@@ -1557,7 +1780,6 @@ function kategoriSec(tur) {
               </option>
 
             </select>
-
           </div>
 
 
@@ -1579,7 +1801,6 @@ function kategoriSec(tur) {
               </option>
 
             </select>
-
           </div>
 
 
@@ -1605,7 +1826,6 @@ function kategoriSec(tur) {
               </option>
 
             </select>
-
           </div>
 
 
@@ -1627,7 +1847,6 @@ function kategoriSec(tur) {
               </option>
 
             </select>
-
           </div>
 
 
@@ -1723,6 +1942,10 @@ function kategoriSec(tur) {
   }
 
 
+  /* =====================================================
+     MÜSTAKİL
+  ===================================================== */
+
   else if (tur === 'mustakilev') {
 
     html += `
@@ -1730,7 +1953,6 @@ function kategoriSec(tur) {
       <div class="grid grid-cols-3 gap-4">
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Brüt m²
           </label>
@@ -1740,12 +1962,10 @@ function kategoriSec(tur) {
             id="mustakil_brut"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="200">
-
         </div>
 
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Net m²
           </label>
@@ -1755,12 +1975,10 @@ function kategoriSec(tur) {
             id="mustakil_net"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="180">
-
         </div>
 
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Oda Sayısı
           </label>
@@ -1770,7 +1988,6 @@ function kategoriSec(tur) {
             id="mustakil_oda"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="4+1">
-
         </div>
 
       </div>
@@ -1779,7 +1996,6 @@ function kategoriSec(tur) {
       <div class="grid grid-cols-3 gap-4">
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Arsa Alanı (m²)
           </label>
@@ -1789,12 +2005,10 @@ function kategoriSec(tur) {
             id="mustakil_arsaalan"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="500">
-
         </div>
 
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Kat Sayısı
           </label>
@@ -1804,12 +2018,10 @@ function kategoriSec(tur) {
             id="mustakil_katsayisi"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="2">
-
         </div>
 
 
         <div>
-
           <label class="block text-xs font-semibold text-gray-600 mb-1">
             Isıtma
           </label>
@@ -1819,7 +2031,6 @@ function kategoriSec(tur) {
             id="mustakil_isitma"
             class="w-full border rounded-lg p-2.5 text-sm"
             placeholder="Yerden Isıtma">
-
         </div>
 
       </div>
@@ -1828,6 +2039,10 @@ function kategoriSec(tur) {
 
   }
 
+
+  /* =====================================================
+     ARSA
+  ===================================================== */
 
   else if (tur === 'arsa') {
 
@@ -1904,6 +2119,10 @@ function kategoriSec(tur) {
 
   }
 
+
+  /* =====================================================
+     İŞYERİ
+  ===================================================== */
 
   else if (tur === 'isyeri') {
 
@@ -1996,416 +2215,474 @@ function kategoriSec(tur) {
   }
 
 
+  /* =====================================================
+     FOTOĞRAFLAR
+  ===================================================== */
+
   html += `
 
-      <!-- FOTOĞRAFLAR -->
+    <div class="space-y-3 p-4 bg-slate-50 border rounded-xl">
 
-      <div class="space-y-3 p-4 bg-slate-50 border rounded-xl">
+      <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">
+        İlan Fotoğrafları (Çoklu Seçim & Önizleme)
+      </label>
 
-        <label class="block text-xs font-bold text-gray-700 uppercase tracking-wider">
 
-          İlan Fotoğrafları (Çoklu Seçim & Önizleme)
+      <input
+        type="file"
+        id="fResimlerDosya"
+        multiple
+        accept="image/*"
+        onchange="resimEkleyin(this)"
+        class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
 
+
+      <div
+        id="resimOnizlemeKutusu"
+        class="grid grid-cols-3 sm:grid-cols-6 gap-3 pt-2">
+
+        <div class="text-xs text-gray-400 col-span-full italic">
+          Henüz fotoğraf seçilmedi. İlk seçilen fotoğraf kapak resmi olur.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- VİDEO -->
+
+    <div class="grid grid-cols-2 gap-4">
+
+      <div>
+
+        <label class="block text-xs font-semibold text-gray-600 mb-1">
+          Tanıtım Videosu Seç
         </label>
+
+        <input
+          type="file"
+          id="fVideoDosya"
+          accept="video/*"
+          class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700">
+
+      </div>
+
+    </div>
+
+
+    <!-- DANIŞMAN -->
+
+    <div class="p-4 bg-gray-50 rounded-lg border space-y-3">
+
+      <h4 class="text-xs font-bold text-gray-700 uppercase">
+        Danışman Bilgileri
+      </h4>
+
+
+      <div class="grid grid-cols-3 gap-3">
+
+        <input
+          type="text"
+          id="dAdi"
+          value="Yusuf İşçi"
+          class="border rounded-lg p-2 text-sm bg-white"
+          placeholder="Danışman Adı">
+
+
+        <input
+          type="text"
+          id="dTel"
+          value="0 (532) 407 53 38"
+          class="border rounded-lg p-2 text-sm bg-white"
+          placeholder="Telefon">
 
 
         <input
           type="file"
-          id="fResimlerDosya"
-          multiple
+          id="dResimDosya"
           accept="image/*"
-          onchange="resimEkleyin(this)"
-          class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 cursor-pointer">
-
-
-        <div
-          id="resimOnizlemeKutusu"
-          class="grid grid-cols-3 sm:grid-cols-6 gap-3 pt-2">
-
-          <div class="text-xs text-gray-400 col-span-full italic">
-
-            Henüz fotoğraf seçilmedi.
-            İlk seçilen fotoğraf kapak resmi olur.
-
-          </div>
-
-        </div>
+          class="w-full border rounded p-1 text-xs bg-white">
 
       </div>
 
-
-      <!-- VİDEO -->
-
-      <div class="grid grid-cols-2 gap-4">
-
-        <div>
-
-          <label class="block text-xs font-semibold text-gray-600 mb-1">
-            Tanıtım Videosu Seç
-          </label>
-
-          <input
-            type="file"
-            id="fVideoDosya"
-            accept="video/*"
-            class="w-full border rounded-lg p-2 text-sm bg-white file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700">
-
-        </div>
-
-      </div>
+    </div>
 
 
-      <!-- DANIŞMAN -->
+    <!-- ==================================================
+         İLAN KONUMU / HARİTA
+    ================================================== -->
 
-      <div class="p-4 bg-gray-50 rounded-lg border space-y-3">
+    <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 space-y-3">
 
-        <h4 class="text-xs font-bold text-gray-700 uppercase">
-          Danışman Bilgileri
+      <div>
+
+        <h4 class="text-sm font-bold text-gray-800">
+
+          <i class="fa-solid fa-location-dot text-blue-600 mr-1"></i>
+
+          İlan Konumu ve Harita
+
         </h4>
 
 
-        <div class="grid grid-cols-3 gap-3">
+        <p class="text-xs text-gray-500 mt-1">
 
-          <input
-            type="text"
-            id="dAdi"
-            value="Yusuf İşçi"
-            class="border rounded-lg p-2 text-sm bg-white"
-            placeholder="Danışman Adı">
+          Harita üzerinden mülkün konumunu seçin.
+          Konum ilana otomatik olarak kaydedilecektir.
 
-
-          <input
-            type="text"
-            id="dTel"
-            value="0 (532) 407 53 38"
-            class="border rounded-lg p-2 text-sm bg-white"
-            placeholder="Telefon">
-
-
-          <input
-            type="file"
-            id="dResimDosya"
-            accept="image/*"
-            class="w-full border rounded p-1 text-xs bg-white">
-
-        </div>
+        </p>
 
       </div>
 
 
-      <!-- ================================================= -->
-      <!-- SADECE HARİTADAN KONUM SEÇME BÖLÜMÜ -->
-      <!-- ================================================= -->
+      <div
+        id="ilanHaritasi">
 
-      <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 space-y-3">
-
-        <div>
-
-          <h4 class="text-sm font-bold text-gray-800 flex items-center gap-2">
-
-            <i class="fa-solid fa-location-dot text-blue-600"></i>
-
-            İlan Konumu
-
-          </h4>
+      </div>
 
 
-          <p class="text-xs text-gray-500 mt-1">
+      <div
+        id="haritaBilgi"
+        class="text-xs text-gray-500 bg-white border rounded-lg p-3">
 
-            Harita üzerinde mülkün bulunduğu noktaya tıklayarak konumu seçin.
+        Harita üzerinde mülkün bulunduğu noktaya tıklayın.
 
-          </p>
+      </div>
 
-        </div>
 
+      <!-- GÖRÜNMEYEN KONUM BİLGİLERİ -->
+
+      <input
+        type="hidden"
+        id="konum_lat">
+
+      <input
+        type="hidden"
+        id="konum_lng">
+
+    </div>
+
+
+    <!-- ==================================================
+         İLAN AÇIKLAMASI
+    ================================================== -->
+
+    <div class="space-y-2">
+
+      <label class="block text-xs font-semibold text-gray-600 mb-1">
+        İlan Açıklaması (Biçimlendirmeli)
+      </label>
+
+
+      <div
+        class="flex gap-1 bg-gray-100 p-1.5 rounded-t-lg border border-b-0">
 
         <button
           type="button"
-          onclick="haritayiAc()"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition">
+          onclick="metinBicimlendir('bold')"
+          class="px-2.5 py-1 bg-white border rounded text-xs font-bold hover:bg-gray-50">
 
-          <i class="fa-solid fa-map-location-dot mr-1"></i>
-
-          Haritadan Konum Seç
+          <i class="fa-solid fa-bold"></i>
 
         </button>
 
 
-        <div
-          id="haritaAlani"
-          class="hidden space-y-2">
+        <button
+          type="button"
+          onclick="metinBicimlendir('italic')"
+          class="px-2.5 py-1 bg-white border rounded text-xs italic hover:bg-gray-50">
 
-          <div
-            id="ilanHaritasi">
-          </div>
+          <i class="fa-solid fa-italic"></i>
 
-
-          <div class="flex justify-between items-center gap-2">
-
-            <p
-              id="konumDurumu"
-              class="text-xs text-gray-500">
-
-              Haritada mülkün bulunduğu noktaya tıklayın.
-
-            </p>
+        </button>
 
 
-            <button
-              type="button"
-              onclick="haritayiKapat()"
-              class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded-lg text-xs font-medium">
+        <button
+          type="button"
+          onclick="metinBicimlendir('underline')"
+          class="px-2.5 py-1 bg-white border rounded text-xs underline hover:bg-gray-50">
 
-              Haritayı Kapat
+          <i class="fa-solid fa-underline"></i>
 
-            </button>
-
-          </div>
-
-        </div>
+        </button>
 
 
-        <!-- Koordinatlar kullanıcıya gösterilmez.
-             Seçilen nokta sadece ilanla birlikte kaydedilir. -->
+        <button
+          type="button"
+          onclick="metinBicimlendir('insertUnorderedList')"
+          class="px-2.5 py-1 bg-white border rounded text-xs hover:bg-gray-50">
+
+          <i class="fa-solid fa-list-ul"></i>
+
+        </button>
+
 
         <input
-          type="hidden"
-          id="gizliKonum"
-          value="">
+          type="color"
+          onchange="metinBicimlendir('foreColor', this.value)"
+          class="w-8 h-7 p-0.5 border rounded cursor-pointer bg-white"
+          title="Yazı Rengi">
 
       </div>
 
 
-      <!-- İLAN AÇIKLAMASI -->
-
-      <div class="space-y-2">
-
-        <label class="block text-xs font-semibold text-gray-600 mb-1">
-          İlan Açıklaması (Biçimlendirmeli)
-        </label>
-
-
-        <div class="flex gap-1 bg-gray-100 p-1.5 rounded-t-lg border border-b-0">
-
-          <button
-            type="button"
-            onclick="metinBicimlendir('bold')"
-            class="px-2.5 py-1 bg-white border rounded text-xs font-bold hover:bg-gray-50">
-
-            <i class="fa-solid fa-bold"></i>
-
-          </button>
-
-
-          <button
-            type="button"
-            onclick="metinBicimlendir('italic')"
-            class="px-2.5 py-1 bg-white border rounded text-xs italic hover:bg-gray-50">
-
-            <i class="fa-solid fa-italic"></i>
-
-          </button>
-
-
-          <button
-            type="button"
-            onclick="metinBicimlendir('underline')"
-            class="px-2.5 py-1 bg-white border rounded text-xs underline hover:bg-gray-50">
-
-            <i class="fa-solid fa-underline"></i>
-
-          </button>
-
-
-          <button
-            type="button"
-            onclick="metinBicimlendir('insertUnorderedList')"
-            class="px-2.5 py-1 bg-white border rounded text-xs hover:bg-gray-50">
-
-            <i class="fa-solid fa-list-ul"></i>
-
-          </button>
-
-
-          <input
-            type="color"
-            onchange="metinBicimlendir('foreColor', this.value)"
-            class="w-8 h-7 p-0.5 border rounded cursor-pointer bg-white"
-            title="Yazı Rengi">
-
-        </div>
-
-
-        <div
-          id="fAciklama"
-          contenteditable="true"
-          class="w-full border rounded-b-lg p-3 text-sm bg-white min-h-[120px] outline-none focus:ring-1 focus:ring-blue-500"
-          placeholder="İlan detayları...">
-        </div>
-
+      <div
+        id="fAciklama"
+        contenteditable="true"
+        class="w-full border rounded-b-lg p-3 text-sm bg-white min-h-[120px] outline-none focus:ring-1 focus:ring-blue-500"
+        placeholder="İlan detayları...">
       </div>
 
+    </div>
 
-      <button
-        id="kaydetBtn"
-        onclick="ilaniGitHubaKaydet('${tur}')"
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-sm">
 
-        İlanı Kaydet ve Sitede Yayınla
+    <!-- KAYDET -->
 
-      </button>
+    <button
+      id="kaydetBtn"
+      onclick="ilaniGitHubaKaydet('${tur}')"
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition text-sm shadow-sm">
+
+      İlanı Kaydet ve Sitede Yayınla
+
+    </button>
+
 
     </div>
 
   `;
 
 
-  document.getElementById('panelForm').innerHTML =
+  document
+    .getElementById('panelForm')
+    .innerHTML =
     html;
 
-}
+
+  /* HARİTAYI BAŞLAT */
+
+  setTimeout(
+    function() {
+
+      haritayiBaslat();
+
+    },
+    100
+  );
 
 
-/* ========================================================= */
-/* HARİTA FONKSİYONLARI */
-/* ========================================================= */
+  /* OTOMATİK İLAN NO */
 
+  otomatikIlanNoGetir()
+    .then(
+      function(yeniNo) {
 
-/* HARİTAYI AÇ */
-
-function haritayiAc() {
-
-  document.getElementById('haritaAlani')
-    .classList.remove('hidden');
-
-
-  setTimeout(function() {
-
-    if (!ilanHaritasi) {
-
-      /*
-       Varsayılan konum:
-       Sakarya / Serdivan
-      */
-
-      ilanHaritasi =
-        L.map('ilanHaritasi')
-          .setView(
-            [40.7731, 30.3948],
-            13
+        const ilanNoInput =
+          document.getElementById(
+            `${tur}_ilanno`
           );
 
 
-      L.tileLayer(
-        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        {
-          maxZoom: 19,
-          attribution:
-            '&copy; OpenStreetMap'
-        }
-      ).addTo(ilanHaritasi);
+        /*
+          Düzenleme sırasında mevcut ilan numarası
+          daha sonra ilaniDuzenleIcinYukle tarafından
+          tekrar yazılacaktır.
+        */
 
+        if (
+          ilanNoInput &&
+          !duzenlenenDosyaYolu
+        ) {
 
-      ilanHaritasi.on(
-        'click',
-        function(e) {
-
-          konumSec(
-            e.latlng.lat,
-            e.latlng.lng
-          );
+          ilanNoInput.value =
+            yeniNo;
 
         }
-      );
 
-    }
-
-
-    else {
-
-      ilanHaritasi.invalidateSize();
-
-    }
-
-  }, 200);
+      }
+    );
 
 }
 
 
-/* HARİTAYI KAPAT */
+/* =========================================================
+   HARİTA BAŞLAT
+========================================================= */
 
-function haritayiKapat() {
+function haritayiBaslat() {
 
-  document.getElementById('haritaAlani')
-    .classList.add('hidden');
-
-}
-
-
-/* KONUM SEÇ */
-
-function konumSec(lat, lng) {
-
-  secilenKonum = {
-    lat: lat,
-    lng: lng
-  };
+  const haritaElement =
+    document.getElementById(
+      'ilanHaritasi'
+    );
 
 
-  document.getElementById('gizliKonum').value =
-    `${lat},${lng}`;
-
-
-  if (!ilanHaritasi) {
-
-    haritayiAc();
-
-    setTimeout(function() {
-
-      konumSec(lat, lng);
-
-    }, 400);
-
+  if (!haritaElement) {
     return;
+  }
+
+
+  if (harita) {
+
+    try {
+      harita.remove();
+    } catch (e) {}
+
+    harita = null;
+
+    haritaMarker = null;
 
   }
 
 
-  if (konumIsareti) {
+  /*
+     Başlangıç:
+     Sakarya / Serdivan
+  */
 
-    ilanHaritasi.removeLayer(
-      konumIsareti
+  harita =
+    L.map(
+      'ilanHaritasi'
+    ).setView(
+      [
+        40.7731,
+        30.3948
+      ],
+      13
+    );
+
+
+  L.tileLayer(
+    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {
+      maxZoom: 19,
+
+      attribution:
+        '&copy; OpenStreetMap'
+    }
+  ).addTo(harita);
+
+
+  harita.on(
+    'click',
+    function(e) {
+
+      haritadanKonumSec(
+        e.latlng.lat,
+        e.latlng.lng
+      );
+
+    }
+  );
+
+
+  setTimeout(
+    function() {
+
+      harita.invalidateSize();
+
+    },
+    300
+  );
+
+}
+
+
+/* =========================================================
+   HARİTADAN KONUM SEÇ
+========================================================= */
+
+function haritadanKonumSec(
+  lat,
+  lng
+) {
+
+  const latInput =
+    document.getElementById(
+      'konum_lat'
+    );
+
+  const lngInput =
+    document.getElementById(
+      'konum_lng'
+    );
+
+
+  if (latInput) {
+    latInput.value =
+      lat.toFixed(6);
+  }
+
+
+  if (lngInput) {
+    lngInput.value =
+      lng.toFixed(6);
+  }
+
+
+  if (!harita) {
+    return;
+  }
+
+
+  if (haritaMarker) {
+
+    harita.removeLayer(
+      haritaMarker
     );
 
   }
 
 
-  konumIsareti =
-    L.marker([lat, lng])
-      .addTo(ilanHaritasi);
+  haritaMarker =
+    L.marker(
+      [
+        lat,
+        lng
+      ]
+    ).addTo(
+      harita
+    );
 
 
-  konumIsareti
-    .bindPopup(
-      '<strong>İlan Konumu</strong><br>Seçilen nokta'
-    )
-    .openPopup();
+  haritaMarker.bindPopup(
+    '<b>İlan Konumu</b><br>Bu nokta kaydedilecek.'
+  ).openPopup();
 
 
-  ilanHaritasi.setView(
-    [lat, lng],
+  harita.setView(
+    [
+      lat,
+      lng
+    ],
     17
   );
 
 
-  document.getElementById('konumDurumu').innerHTML =
-    '<span class="text-emerald-600 font-semibold">✓ Konum seçildi.</span> Mülkün bulunduğu nokta işaretlendi.';
+  const bilgi =
+    document.getElementById(
+      'haritaBilgi'
+    );
 
+
+  if (bilgi) {
+
+    bilgi.innerHTML =
+      `<span class="text-emerald-600 font-semibold">
+        ✓ Konum seçildi.
+      </span>
+      <br>
+      Bu nokta ilanla birlikte kaydedilecek.`;
+
+  }
 
 }
 
 
-/* METİN BİÇİMLENDİR */
+/* =========================================================
+   METİN
+========================================================= */
 
 function metinBicimlendir(
   komut,
@@ -2421,7 +2698,9 @@ function metinBicimlendir(
 }
 
 
-/* RESİM EKLE */
+/* =========================================================
+   FOTOĞRAF
+========================================================= */
 
 function resimEkleyin(input) {
 
@@ -2441,13 +2720,10 @@ function resimEkleyin(input) {
 
   }
 
-
   onizlemeleriGuncelle();
 
 }
 
-
-/* FOTOĞRAF ÇIKAR */
 
 function fotografCikar(index) {
 
@@ -2461,14 +2737,17 @@ function fotografCikar(index) {
 }
 
 
-/* ÖNİZLEMELER */
-
 function onizlemeleriGuncelle() {
 
   const kutu =
     document.getElementById(
       'resimOnizlemeKutusu'
     );
+
+
+  if (!kutu) {
+    return;
+  }
 
 
   kutu.innerHTML = '';
@@ -2517,10 +2796,8 @@ function onizlemeleriGuncelle() {
 
             ${
               index === 0
-              ?
-              '<span class="absolute top-1 left-1 bg-amber-500 text-slate-950 text-[9px] font-bold px-1.5 py-0.5 rounded shadow">Kapak</span>'
-              :
-              ''
+                ? '<span class="absolute top-1 left-1 bg-amber-500 text-slate-950 text-[9px] font-bold px-1.5 py-0.5 rounded shadow">Kapak</span>'
+                : ''
             }
 
 
@@ -2553,7 +2830,9 @@ function onizlemeleriGuncelle() {
 }
 
 
-/* DOSYA BASE64 */
+/* =========================================================
+   DOSYA BASE64
+========================================================= */
 
 function dosyaToBase64(file) {
 
@@ -2586,7 +2865,9 @@ function dosyaToBase64(file) {
 }
 
 
-/* SİTE İLANLARINI GÜNCELLE */
+/* =========================================================
+   SİTE İLANLARINI GÜNCELLE
+========================================================= */
 
 async function siteIlanlariniOtomatikGuncelle() {
 
@@ -2620,14 +2901,15 @@ async function siteIlanlariniOtomatikGuncelle() {
 
 
       const res =
-        await fetch(url, {
-
-          headers: {
-            'Authorization':
-              `Bearer ${githubToken}`
+        await fetch(
+          url,
+          {
+            headers: {
+              'Authorization':
+                `Bearer ${githubToken}`
+            }
           }
-
-        });
+        );
 
 
       if (res.ok) {
@@ -2641,42 +2923,43 @@ async function siteIlanlariniOtomatikGuncelle() {
         ) {
 
           if (
-            file.name.endsWith('.md')
+            !file.name.endsWith('.md')
           ) {
+            continue;
+          }
 
-            const detRes =
-              await fetch(
-                file.download_url
+
+          const detRes =
+            await fetch(
+              file.download_url
+            );
+
+
+          if (detRes.ok) {
+
+            const mdText =
+              await detRes.text();
+
+
+            const parsed =
+              parseMarkdownBasit(
+                mdText
               );
 
 
-            if (detRes.ok) {
-
-              const mdText =
-                await detRes.text();
-
-
-              const parsed =
-                parseMarkdownBasit(
-                  mdText
-                );
+            parsed.kategori =
+              kat === 'ilanlar'
+                ? 'daire'
+                : kat;
 
 
-              parsed.kategori =
-                kat === 'ilanlar'
-                  ? 'daire'
-                  : kat;
+            parsed.dosyaAdi =
+              file.name;
 
 
-              parsed.dosyaAdi =
-                file.name;
-
-
-              tumIlanlarListesi.push(
-                parsed
-              );
-
-            }
+            tumIlanlarListesi.push(
+              parsed
+            );
 
           }
 
@@ -2686,7 +2969,7 @@ async function siteIlanlariniOtomatikGuncelle() {
 
     }
 
-    catch(e) {}
+    catch (e) {}
 
   }
 
@@ -2742,7 +3025,7 @@ async function siteIlanlariniOtomatikGuncelle() {
 
   }
 
-  catch(e) {}
+  catch (e) {}
 
 
   await githubDosyaGuncelleVeyaYukle(
@@ -2755,7 +3038,9 @@ async function siteIlanlariniOtomatikGuncelle() {
 }
 
 
-/* MARKDOWN PARSE */
+/* =========================================================
+   MARKDOWN PARSE
+========================================================= */
 
 function parseMarkdownBasit(md) {
 
@@ -2770,8 +3055,9 @@ function parseMarkdownBasit(md) {
   };
 
 
-  if (!frontmatterMatch)
+  if (!frontmatterMatch) {
     return data;
+  }
 
 
   const fm =
@@ -2782,7 +3068,8 @@ function parseMarkdownBasit(md) {
     fm.split('\n');
 
 
-  let inImages = false;
+  let inImages =
+    false;
 
 
   lines.forEach(
@@ -2792,12 +3079,15 @@ function parseMarkdownBasit(md) {
         line.trim();
 
 
-      if (!trimmed)
+      if (!trimmed) {
         return;
+      }
 
 
       if (
-        trimmed.startsWith('images:')
+        trimmed.startsWith(
+          'images:'
+        )
       ) {
 
         inImages = true;
@@ -2824,10 +3114,11 @@ function parseMarkdownBasit(md) {
             );
 
 
-        if (val)
+        if (val) {
           data.images.push(
             val
           );
+        }
 
 
         return;
@@ -2839,7 +3130,9 @@ function parseMarkdownBasit(md) {
         trimmed.split(':');
 
 
-      if (parts.length >= 2) {
+      if (
+        parts.length >= 2
+      ) {
 
         const key =
           parts[0].trim();
@@ -2859,6 +3152,9 @@ function parseMarkdownBasit(md) {
         data[key] =
           val;
 
+        inImages =
+          false;
+
       }
 
     }
@@ -2870,11 +3166,13 @@ function parseMarkdownBasit(md) {
 }
 
 
-/* ================================================= */
-/* İLANI GITHUB'A KAYDET */
-/* ================================================= */
+/* =========================================================
+   İLAN KAYDET
+========================================================= */
 
-async function ilaniGitHubaKaydet(tur) {
+async function ilaniGitHubaKaydet(
+  tur
+) {
 
   const baslik =
     document.getElementById(
@@ -2885,13 +3183,14 @@ async function ilaniGitHubaKaydet(tur) {
   const no =
     document.getElementById(
       `${tur}_ilanno`
-    )?.value || 'ALA-100';
+    )?.value || '';
 
 
   const durum =
     document.getElementById(
       `${tur}_durum`
-    )?.value || 'Satılık';
+    )?.value ||
+    'Satılık';
 
 
   const fiyat =
@@ -2926,13 +3225,22 @@ async function ilaniGitHubaKaydet(tur) {
 
   /* KONUM */
 
-  const gizliKonum =
+  const konumLat =
     document.getElementById(
-      'gizliKonum'
+      'konum_lat'
     )?.value || '';
 
 
-  if (!baslik || !fiyat) {
+  const konumLng =
+    document.getElementById(
+      'konum_lng'
+    )?.value || '';
+
+
+  if (
+    !baslik ||
+    !fiyat
+  ) {
 
     alert(
       'Lütfen İlan Başlığı ve Fiyat alanlarını doldurunuz.'
@@ -2943,16 +3251,16 @@ async function ilaniGitHubaKaydet(tur) {
   }
 
 
-  if (!gizliKonum) {
+  if (
+    !konumLat ||
+    !konumLng
+  ) {
 
-    const devamEt =
-      confirm(
-        'İlan için haritadan bir konum seçmediniz.\n\nKonum seçmeden devam etmek istiyor musunuz?'
-      );
+    alert(
+      'Lütfen harita üzerinden ilan konumunu seçiniz.'
+    );
 
-
-    if (!devamEt)
-      return;
+    return;
 
   }
 
@@ -3139,7 +3447,9 @@ async function ilaniGitHubaKaydet(tur) {
   }
 
 
-  else if (tur === 'mustakilev') {
+  else if (
+    tur === 'mustakilev'
+  ) {
 
     aktifIdler = [
 
@@ -3155,7 +3465,9 @@ async function ilaniGitHubaKaydet(tur) {
   }
 
 
-  else if (tur === 'arsa') {
+  else if (
+    tur === 'arsa'
+  ) {
 
     aktifIdler = [
 
@@ -3169,7 +3481,9 @@ async function ilaniGitHubaKaydet(tur) {
   }
 
 
-  else if (tur === 'isyeri') {
+  else if (
+    tur === 'isyeri'
+  ) {
 
     aktifIdler = [
 
@@ -3211,6 +3525,8 @@ async function ilaniGitHubaKaydet(tur) {
   );
 
 
+  /* DOSYA */
+
   const dosyaAdi =
     duzenlenenDosyaYolu ||
     `content/${tur}/${slug}.md`;
@@ -3225,9 +3541,9 @@ async function ilaniGitHubaKaydet(tur) {
       .join('\n');
 
 
-  /* ================================================= */
-  /* İLAN DOSYASI */
-  /* ================================================= */
+  /* =====================================================
+     MARKDOWN
+  ===================================================== */
 
   const icerikYaml = `---
 title: "${baslik}"
@@ -3235,29 +3551,39 @@ ilanno: "${no}"
 durum: "${durum}"
 fiyat: "${fiyat}"
 mahalle: "${mahalle}"
+
+konum_lat: "${konumLat}"
+konum_lng: "${konumLng}"
+
 image: "${yuklenenResimler[0]}"
+
 images:
 ${resimlerYaml}
+
 video_url: "${videoYolu}"
+
 danisman:
   adi: "${dAdi}"
   telefon: "${dTel}"
   fotograf: "${danismanResimYolu}"
-konum: "${gizliKonum}"
+
 ${alanlarYaml}
 ---
 ${aciklama}`;
 
 
-  /* MEVCUT DOSYA SHA */
+  /* SHA */
 
   let sha = null;
 
 
-  if (duzenlenenDosyaYolu) {
+  if (
+    duzenlenenDosyaYolu
+  ) {
 
     const getRes =
       `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${duzenlenenDosyaYolu}`;
+
 
     const fetchRes =
       await fetch(
@@ -3318,7 +3644,9 @@ ${aciklama}`;
       null;
 
 
-    kategoriSec(tur);
+    kategoriSec(
+      tur
+    );
 
   }
 
@@ -3333,7 +3661,9 @@ ${aciklama}`;
 }
 
 
-/* GITHUB DOSYA GÜNCELLE / YÜKLE */
+/* =========================================================
+   GITHUB DOSYA GÜNCELLE / YÜKLE
+========================================================= */
 
 async function githubDosyaGuncelleVeyaYukle(
   dosyaYolu,
@@ -3370,9 +3700,12 @@ async function githubDosyaGuncelleVeyaYukle(
   };
 
 
-  if (sha)
+  if (sha) {
+
     bodyData.sha =
       sha;
+
+  }
 
 
   try {
@@ -3381,7 +3714,6 @@ async function githubDosyaGuncelleVeyaYukle(
       await fetch(
         url,
         {
-
           method: 'PUT',
 
           headers: {
@@ -3416,7 +3748,9 @@ async function githubDosyaGuncelleVeyaYukle(
 }
 
 
-/* GITHUB DOSYA YÜKLE */
+/* =========================================================
+   GITHUB DOSYA YÜKLE
+========================================================= */
 
 async function githubDosyaYukle(
   dosyaYolu,
