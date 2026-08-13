@@ -451,10 +451,6 @@
 
             /*
              * KONUM BİLGİLERİ
-             *
-             * Admin panelinde haritadan seçilen konum
-             * farklı isimlerle kaydedilmiş olsa bile
-             * mümkün olduğunca otomatik yakalanır.
              */
 
             const konumAdres =
@@ -704,104 +700,7 @@
                         </div>
 
 
-                        <!-- DANIŞMAN BİLGİLERİ -->
-
-                        <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-6 shadow-xl">
-
-                            <div>
-
-                                <div class="flex items-center space-x-4">
-
-                                    <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/30 overflow-hidden flex items-center justify-center text-amber-400 font-bold shrink-0">
-
-                                        ${
-                                            danismanFoto
-                                            ?
-                                            `<img src="${danismanFoto}" class="w-full h-full object-cover">`
-                                            :
-                                            '<i class="fa-solid fa-user text-xl"></i>'
-                                        }
-
-                                    </div>
-
-
-                                    <div class="overflow-hidden">
-
-                                        <h3 class="font-extrabold text-white text-base truncate">
-
-                                            ${ilan.danisman?.adi || 'Yusuf İşçi'}
-
-                                        </h3>
-
-
-                                        <p class="text-[11px] text-amber-400 font-bold tracking-wide uppercase truncate">
-
-                                            ALA GAYRİMENKUL DANIŞMANI
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-
-                                <div class="mt-6 space-y-2 text-xs">
-
-                                    <div class="flex justify-between py-2 border-b border-slate-800">
-
-                                        <span class="text-slate-400">
-                                            Cep Telefonu
-                                        </span>
-
-                                        <span class="font-bold text-white">
-
-                                            ${ilan.danisman?.telefon || '0 (532) 407 53 38'}
-
-                                        </span>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="space-y-2.5 pt-1">
-
-                                <a
-                                    href="tel:${ilan.danisman?.telefon || '+905324075338'}"
-                                    class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-center text-xs transition shadow-lg flex items-center justify-center space-x-2"
-                                >
-
-                                    <i class="fa-solid fa-phone-alt"></i>
-
-                                    <span>
-                                        Danışmanı Ara
-                                    </span>
-
-                                </a>
-
-
-                                <a
-                                    href="https://wa.me/${(ilan.danisman?.telefon || '905324075338').replace(/[^0-9]/g, '')}"
-                                    target="_blank"
-                                    class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-center text-xs transition shadow-lg flex items-center justify-center space-x-2"
-                                >
-
-                                    <i class="fa-brands fa-whatsapp text-base"></i>
-
-                                    <span>
-                                        WhatsApp İletişim
-                                    </span>
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- İLAN AÇIKLAMASI + KONUM BUTONLARI -->
+                        <!-- İLAN AÇIKLAMASI + KONUM -->
 
                         <div class="bg-[#131b2e] border border-slate-800 rounded-3xl shadow-xl overflow-hidden">
 
@@ -961,6 +860,103 @@
                     <div class="lg:col-span-5 space-y-6">
 
 
+                        <!-- DANIŞMAN BİLGİLERİ -->
+
+                        <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-6 shadow-xl">
+
+                            <div>
+
+                                <div class="flex items-center space-x-4">
+
+                                    <div class="w-16 h-16 rounded-2xl bg-amber-500/20 border border-amber-500/30 overflow-hidden flex items-center justify-center text-amber-400 font-bold shrink-0">
+
+                                        ${
+                                            danismanFoto
+                                            ?
+                                            `<img src="${danismanFoto}" class="w-full h-full object-cover">`
+                                            :
+                                            '<i class="fa-solid fa-user text-xl"></i>'
+                                        }
+
+                                    </div>
+
+
+                                    <div class="overflow-hidden">
+
+                                        <h3 class="font-extrabold text-white text-base truncate">
+
+                                            ${ilan.danisman?.adi || 'Yusuf İşçi'}
+
+                                        </h3>
+
+
+                                        <p class="text-[11px] text-amber-400 font-bold tracking-wide uppercase truncate">
+
+                                            ALA GAYRİMENKUL DANIŞMANI
+
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="mt-6 space-y-2 text-xs">
+
+                                    <div class="flex justify-between py-2 border-b border-slate-800">
+
+                                        <span class="text-slate-400">
+                                            Cep Telefonu
+                                        </span>
+
+                                        <span class="font-bold text-white">
+
+                                            ${ilan.danisman?.telefon || '0 (532) 407 53 38'}
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="space-y-2.5 pt-1">
+
+                                <a
+                                    href="tel:${ilan.danisman?.telefon || '+905324075338'}"
+                                    class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl text-center text-xs transition shadow-lg flex items-center justify-center space-x-2"
+                                >
+
+                                    <i class="fa-solid fa-phone-alt"></i>
+
+                                    <span>
+                                        Danışmanı Ara
+                                    </span>
+
+                                </a>
+
+
+                                <a
+                                    href="https://wa.me/${(ilan.danisman?.telefon || '905324075338').replace(/[^0-9]/g, '')}"
+                                    target="_blank"
+                                    class="block w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-center text-xs transition shadow-lg flex items-center justify-center space-x-2"
+                                >
+
+                                    <i class="fa-brands fa-whatsapp text-base"></i>
+
+                                    <span>
+                                        WhatsApp İletişim
+                                    </span>
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+
                         <!-- İLAN ÖZELLİKLERİ -->
 
                         <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
@@ -1044,13 +1040,6 @@
                             </div>
 
                         `);
-
-
-                        /*
-                         * Sekme ilk başta gizli olduğu için
-                         * harita görünür hale geldiğinde
-                         * boyutunu tekrar hesaplatıyoruz.
-                         */
 
                     } catch (e) {
 
@@ -1165,12 +1154,6 @@
                     'text-slate-400'
                 );
 
-
-                /*
-                 * Leaflet haritası gizli bir alanda
-                 * oluşturulduysa görünür olduğunda
-                 * yeniden boyutlandırılır.
-                 */
 
                 if (aktifHarita) {
 
