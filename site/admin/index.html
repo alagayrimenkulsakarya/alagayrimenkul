@@ -3633,7 +3633,7 @@ ${aciklama}`;
   if (sonuc) {
 
     await siteIlanlariniOtomatikGuncelle();
-
+    await ilanlarJsonOtomatikGuncelle();
 
     alert(
       'Tebrikler! İlanınız başarıyla kaydedildi ve sitede yayınlandı.'
@@ -3766,7 +3766,106 @@ async function githubDosyaYukle(
   );
 
 }
+async function ilanlarJsonOtomatikGuncelle() {
 
+  const repoOwner = "alagayrimenkulsakarya";
+  const repoName = "alagayrimenkul";
+  const branch = "main";
+
+  const kategoriler = [
+    "daire",
+    "mustakilev",
+    "arsa",
+    "isyeri",
+    "ilanlar"
+  ];
+
+  let ilanlar = [];
+
+  for (const kat of kategoriler) {
+
+    try {
+
+      const url =
+        `https://api.github.com/repos/${repoOwner}/${repoName}/contents/content/${kat}`;
+
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${githubToken}`
+        }
+      });
+
+      if (!res.ok) continue;
+
+      const files = await res.json();
+
+      for (const file of files) {
+
+        if (!file.name.endsWith(".md")) continue;
+
+        const detayRes = await fetch(file.download_url);
+
+        if (!detayRes.ok) continue;
+
+        const md = await detayRes.text();
+
+        const ilan = parseMarkdownBasit(md);
+
+        ilan.kategori =
+          kat === "ilanlar" ? "daire" : kat;
+
+        ilan.dosyaAdi = file.name;
+
+        ilanlar.push(ilan);
+      }
+
+    } catch (e) {
+      console.log("Kategori okunamadı:", kat, e);
+    }
+  }
+
+  const jsonIcerik = JSON.stringify(ilanlar, null, 2);
+
+  const encodedContent =
+    btoa(
+      unescape(
+        encodeURIComponent(jsonIcerik)
+      )
+    );
+
+  let sha = null;
+
+  const jsonYolu = "ilanlar.json";
+
+  try {
+
+    const kontrol =
+      await fetch(
+        `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${jsonYolu}`,
+        {
+          headers: {
+            Authorization: `Bearer ${githubToken}`
+          }
+        }
+      );
+
+    if (kontrol.ok) {
+
+      const data = await kontrol.json();
+
+      sha = data.sha;
+
+    }
+
+  } catch (e) {}
+
+  return await githubDosyaGuncelleVeyaYukle(
+    jsonYolu,
+    encodedContent,
+    "ilanlar.json güncellendi",
+    sha
+  );
+}
 </script>
 
 </body>
