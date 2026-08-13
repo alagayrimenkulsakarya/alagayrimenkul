@@ -1,259 +1,137 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog & Videolar | Ala Gayrimenkul</title>
-    <!-- Netlify Identity Widget -->
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .page-hero {
-            background: linear-gradient(rgba(11, 15, 25, 0.85), rgba(11, 15, 25, 0.95)), 
-                        url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1920&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Blog & Videolar | Ala Gayrimenkul</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>.page-hero{background:linear-gradient(rgba(11,15,25,.85),rgba(11,15,25,.95)),url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1920&auto=format&fit=crop');background-size:cover;background-position:center}</style>
 </head>
-<body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-[#0b0f19] text-slate-100 min-h-screen flex flex-col">
+<header class="bg-[#0b0f19]/95 border-b border-slate-800 sticky top-0 z-50">
+<div class="w-full px-4"><div class="flex justify-between items-center h-20">
+<a href="index.html" class="flex items-center gap-2.5"><div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold">ALA</div><div><b class="block text-white">ALA GAYRİMENKUL</b><span class="text-[9px] text-amber-500 tracking-widest">DANIŞMANLIK HİZMETLERİ</span></div></a>
+<nav class="hidden 2xl:flex gap-6 text-sm text-slate-300"><a href="index.html">Ana Sayfa</a><a href="hakkimizda.html">Hakkımızda</a><a href="neden-biz.html">Neden Biz?</a><a href="portfoy.html">Portföylerimiz</a><a href="degerleme.html">Değerleme Alın</a><a class="text-amber-400 font-bold" href="blog.html">Blog & Videolar</a><a href="danisman-ol.html">Danışman Ol</a><a href="iletisim.html">İletişim & Konum</a></nav>
+<div class="flex gap-2"><a href="tel:+905324075338" class="bg-blue-600 text-white px-3 py-2.5 rounded-xl text-xs font-bold">Bizi Arayın</a><a href="https://wa.me/905324075338" target="_blank" class="bg-emerald-600 text-white px-3 py-2.5 rounded-xl text-xs font-bold">WhatsApp</a></div>
+</div></div></header>
 
-    <!-- HEADER / MENÜ -->
-    <header class="bg-[#0b0f19]/95 border-b border-slate-800/80 sticky top-0 z-50 backdrop-blur-md">
-        <div class="w-full px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex items-center space-x-2.5 shrink-0 pl-2">
-                    <div class="bg-amber-600 text-slate-950 p-2.5 rounded-xl font-bold text-lg tracking-wider">ALA</div>
-                    <div>
-                        <span class="block font-extrabold text-lg text-white tracking-tight">ALA GAYRİMENKUL</span>
-                        <span class="text-[9px] text-amber-500/80 font-medium tracking-widest uppercase">DANIŞMANLIK HİZMETLERİ</span>
-                    </div>
-                </a>
+<section class="page-hero py-16 border-b border-slate-800"><div class="max-w-4xl mx-auto px-4 text-center"><span class="inline-block bg-amber-500/10 text-amber-400 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-bold mb-4">PİYASA REHBERİ & MEDYA</span><h1 class="text-3xl sm:text-5xl font-black">Blog & Video İçeriklerimiz</h1><p class="text-slate-400 mt-3">Sakarya gayrimenkul piyasasındaki son trendler, yatırım rehberleri ve mülk tanıtım videolarımız.</p></div></section>
 
-                <nav class="hidden 2xl:flex items-center space-x-6 font-medium text-slate-300 text-sm">
-                    <a href="index.html" class="hover:text-amber-400 transition">Ana Sayfa</a>
-                    <a href="hakkimizda.html" class="hover:text-amber-400 transition">Hakkımızda</a>
-                    <a href="neden-biz.html" class="hover:text-amber-400 transition">Neden Biz?</a>
-                    <a href="portfoy.html" class="hover:text-amber-400 transition">Portföylerimiz</a>
-                    <a href="degerleme.html" class="hover:text-amber-400 transition">Değerleme Alın</a>
-                    <a href="blog.html" class="text-amber-400 font-bold border-b-2 border-amber-400 pb-1">Blog & Videolar</a>
-                    <a href="danisman-ol.html" class="hover:text-amber-400 transition text-amber-300 font-semibold">Danışman Ol</a>
-                    <a href="iletisim.html" class="hover:text-amber-400 transition">İletişim & Konum</a>
-                </nav>
+<main class="max-w-7xl mx-auto px-4 py-16 w-full space-y-16">
+<section><div class="border-l-4 border-amber-500 pl-4 mb-8"><h2 class="text-2xl font-black">Öne Çıkan Videolarımız</h2><p class="text-xs text-slate-400">Saha analizleri, proje incelemeleri ve mülk tanıtımlarımız.</p></div>
+<div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+<div class="bg-[#131b2e] border border-slate-800 rounded-2xl overflow-hidden"><img class="w-full h-48 object-cover" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop"><div class="p-6"><span class="text-[10px] text-amber-400">PİYASA ANALİZİ</span><h3 class="font-bold mt-2">Sakarya'da Konut ve Arsa Yatırımı Yaparken Nelere Dikkat Edilmeli?</h3><a href="https://youtube.com" target="_blank" class="block mt-4 text-center bg-slate-900 py-2.5 rounded-xl text-xs font-bold">Videoyu İzle</a></div></div>
+<div class="bg-[#131b2e] border border-slate-800 rounded-2xl overflow-hidden"><img class="w-full h-48 object-cover" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop"><div class="p-6"><span class="text-[10px] text-blue-400">PORTFÖY TANITIMI</span><h3 class="font-bold mt-2">Serdivan'da Özel Mimari Müstakil Villa Turu ve İncelemesi</h3><a href="https://youtube.com" target="_blank" class="block mt-4 text-center bg-slate-900 py-2.5 rounded-xl text-xs font-bold">Videoyu İzle</a></div></div>
+</div></section>
 
-                <div class="flex items-center space-x-2.5 pr-2 shrink-0">
-                    <a href="tel:+905324075338" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
-                        <i class="fa-solid fa-phone-alt"></i>
-                        <span class="hidden sm:inline">Bizi Arayın</span>
-                    </a>
-                    <a href="https://wa.me/905324075338" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-lg">
-                        <i class="fa-brands fa-whatsapp text-base"></i>
-                        <span class="hidden sm:inline">WhatsApp</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </header>
+<section class="pt-8 border-t border-slate-800"><div class="border-l-4 border-amber-500 pl-4 mb-8"><h2 class="text-2xl font-black">Ziyaretçi Görüşleri & Fikirleriniz</h2><p class="text-xs text-slate-400">Yorumunuzu takma adınızla paylaşın. Yorumlar yönetici onayından sonra yayınlanır.</p></div>
+<div class="grid lg:grid-cols-12 gap-8">
+<div class="lg:col-span-5 bg-[#131b2e] border border-slate-800 p-8 rounded-2xl">
+<div id="basariMesaji" class="hidden mb-4 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-400 text-xs">✓ Yorumunuz gönderildi. Yönetici onayından sonra yayınlanacaktır.</div>
+<div id="hataMesaji" class="hidden mb-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-xs"></div>
+<form onsubmit="yorumuGonder(event)" class="space-y-4">
+<input id="yorumNickname" required maxlength="80" placeholder="Takma adınız" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3.5 py-3 text-white text-xs">
+<textarea id="yorumMesaj" required maxlength="2000" rows="5" placeholder="Düşünceleriniz / yorumunuz" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl p-3.5 text-white text-xs"></textarea>
+<button id="yorumGonderBtn" class="w-full bg-amber-500 text-slate-950 font-black py-3.5 rounded-xl text-xs">Yorumu Gönder (Onaya Sun)</button>
+</form></div>
+<div class="lg:col-span-7 space-y-4" id="onayliYorumlarListesi"><div class="p-4 bg-[#131b2e] border border-slate-800 rounded-xl text-xs text-slate-400 text-center">Yorumlar yükleniyor...</div></div>
+</div></section>
+</main>
+<footer class="bg-[#070a11] text-slate-500 py-6 border-t border-slate-800 text-center text-xs">© 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</footer>
 
-    <!-- SAYFA BAŞLIĞI -->
-    <section class="page-hero py-16 border-b border-slate-800">
-        <div class="max-w-4xl mx-auto px-4 text-center">
-            <span class="inline-block bg-amber-500/10 text-amber-400 border border-amber-500/30 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase mb-4">
-                Piyasa Rehberi & Medya
-            </span>
-            <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                Blog & Video İçeriklerimiz
-            </h1>
-            <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto mt-3">
-                Sakarya gayrimenkul piyasasındaki son trendler, doğru yatırım rehberleri ve mülk tanıtım videolarımızla bilgilenin.
-            </p>
-        </div>
-    </section>
+<script>
+async function yorumuGitHubaGonder(e) {
+    e.preventDefault();
 
-    <!-- İÇERİK ALANI -->
-    <main class="max-w-7xl mx-auto px-4 py-16 w-full space-y-16">
-        
-        <!-- VİDEO İÇERİKLERİ BÖLÜMÜ -->
-        <div class="space-y-8">
-            <div class="border-l-4 border-amber-500 pl-4">
-                <h2 class="text-2xl font-black text-white">Öne Çıkan Videolarımız</h2>
-                <p class="text-xs text-slate-400 mt-1">Saha analizleri, proje incelemeleri ve mülk tanıtımlarımız.</p>
-            </div>
+    const nickname = document.getElementById("yorumNickname").value.trim();
+    const mesaj = document.getElementById("yorumMesaj").value.trim();
+    const btn = document.getElementById("yorumGonderBtn");
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="bg-[#131b2e] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between group">
-                    <div class="relative h-48 bg-slate-900 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop" alt="Sakarya Konut Piyasası" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                        <div class="absolute inset-0 bg-slate-950/40 flex items-center justify-center">
-                            <div class="w-12 h-12 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-lg shadow-xl group-hover:scale-110 transition">
-                                <i class="fa-solid fa-play ml-0.5"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 space-y-3">
-                        <span class="text-[10px] bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded font-bold uppercase">Piyasa Analizi</span>
-                        <h3 class="font-bold text-white text-base leading-snug">Sakarya'da Konut ve Arsa Yatırımı Yaparken Nelere Dikkat Edilmeli?</h3>
-                        <p class="text-slate-400 text-xs line-clamp-2">Bölgenin en çok prim yapan lokasyonları ve yatırımcılar için altın değerinde tavsiyeler...</p>
-                    </div>
-                    <div class="px-6 pb-6 pt-0">
-                        <a href="https://youtube.com" target="_blank" class="w-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2">
-                            <i class="fa-brands fa-youtube text-red-500 text-sm"></i>
-                            <span>Videoyu İzle</span>
-                        </a>
-                    </div>
-                </div>
+    if (!nickname || !mesaj) return;
 
-                <div class="bg-[#131b2e] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between group">
-                    <div class="relative h-48 bg-slate-900 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop" alt="Lüks Konut Tanıtımı" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                        <div class="absolute inset-0 bg-slate-950/40 flex items-center justify-center">
-                            <div class="w-12 h-12 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-lg shadow-xl group-hover:scale-110 transition">
-                                <i class="fa-solid fa-play ml-0.5"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 space-y-3">
-                        <span class="text-[10px] bg-blue-500/10 text-blue-400 px-2.5 py-1 rounded font-bold uppercase">Portföy Tanıtımı</span>
-                        <h3 class="font-bold text-white text-base leading-snug">Serdivan'da Özel Mimari Müstakil Villa Turu ve İncelemesi</h3>
-                        <p class="text-slate-400 text-xs line-clamp-2">Modern tasarımı ve geniş bahçesiyle göz dolduran lüks villamızın tüm detayları...</p>
-                    </div>
-                    <div class="px-6 pb-6 pt-0">
-                        <a href="https://youtube.com" target="_blank" class="w-full bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 py-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2">
-                            <i class="fa-brands fa-youtube text-red-500 text-sm"></i>
-                            <span>Videoyu İzle</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    btn.disabled = true;
+    btn.innerText = "Gönderiliyor...";
 
-        <!-- ZİYARETÇİ GÖRÜŞLERİ & YORUM YAZMA ALANI -->
-        <div class="space-y-8 pt-8 border-t border-slate-800">
-            <div class="border-l-4 border-amber-500 pl-4">
-                <h2 class="text-2xl font-black text-white">Ziyaretçi Görüşleri & Fikirleriniz</h2>
-                <p class="text-xs text-slate-400 mt-1">Yatırımlarınız hakkındaki düşüncelerinizi takma adınızla (nickname) paylaşın.</p>
-            </div>
+    try {
+        const response = await fetch("/api/yorumlar", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({ action:"submit", nickname, mesaj })
+        });
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
-                <!-- YORUM YAZMA FORMU (Doğrudan GitHub content/yorumlar klasörüne kaydeder) -->
-                <div class="lg:col-span-5 bg-[#131b2e] border border-slate-800 p-8 rounded-2xl shadow-xl space-y-6">
-                    <h3 class="text-lg font-extrabold text-white flex items-center space-x-2">
-                        <i class="fa-solid fa-comment-dots text-amber-500"></i>
-                        <span>Yorum / Fikir Bildir</span>
-                    </h3>
-                    
-                    <div id="basariMesaji" class="hidden p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-400 text-xs font-medium space-y-1">
-                        <i class="fa-solid fa-circle-check mr-1 font-bold"></i> 
-                        <span>Yorumunuz başarıyla gönderildi! Yönetici onayından sonra yayına alınacaktır.</span>
-                    </div>
+        const data = await response.json();
 
-                    <form onsubmit="yorumuGitHubaGonder(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Takma Adınız (Nickname) *</label>
-                            <input type="text" id="yorumNickname" required placeholder="Örn: Sakarya Yatırımcısı" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3.5 py-2.5 text-white text-xs focus:outline-none focus:border-amber-500">
-                        </div>
-                        <div>
-                            <label class="block text-[11px] font-bold text-slate-300 uppercase tracking-wider mb-1">Düşünceleriniz / Yorumunuz *</label>
-                            <textarea id="yorumMesaj" rows="4" required placeholder="Sakarya emlak piyasası veya videolarımız hakkında ne düşünüyorsunuz?" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl p-3.5 text-white text-xs focus:outline-none focus:border-amber-500"></textarea>
-                        </div>
-                        <button type="submit" id="yorumGonderBtn" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3.5 rounded-xl transition shadow-xl text-xs flex items-center justify-center space-x-2">
-                            <i class="fa-solid fa-paper-plane"></i>
-                            <span>Yorumu Gönder (Onaya Sun)</span>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- ONAYLANMIŞ YORUMLAR LİSTESİ -->
-                <div class="lg:col-span-7 space-y-4" id="onayliYorumlarListesi">
-                    <div class="p-4 border rounded-xl bg-[#131b2e] border-slate-800 text-xs text-slate-400 text-center">Onaylanmış yorumlar yükleniyor...</div>
-                </div>
-
-            </div>
-        </div>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-[#070a11] text-slate-500 py-6 border-t border-slate-800 text-center text-xs mt-12">
-        <p>©️ 2026 Ala Gayrimenkul. Tüm hakları saklıdır.</p>
-    </footer>
-
-    <!-- SCRIPT (GitHub Entegrasyonu: Yorum Gönderme ve Onaylıları Çekme) -->
-    <script>
-        const repoOwner = "alagayrimenkulsakarya";
-        const repoName = "alagayrimenkul";
-        const branch = "main";
-        // Ziyaretçilerin doğrudan yorum gönderebilmesi için geçici token veya otomatik GitHub API anahtarı köprüsü
-        const githubToken = "ghp_ornektokenyazilacakseburaya"; // Not: Eğer token kullanmak istemiyorsan Netlify build hook da kullanılabilir ama en kolayı admin tarafında olduğu gibi tokendir. Alternatif olarak anonim kaydetmek için public bir yöntem kurabiliriz.
-
-        async function yorumuGitHubaGonder(e) {
-            e.preventDefault();
-            const nickname = document.getElementById('yorumNickname').value.trim();
-            const mesaj = document.getElementById('yorumMesaj').value.trim();
-            const btn = document.getElementById('yorumGonderBtn');
-
-            if (!nickname || !mesaj) return;
-
-            btn.disabled = true;
-            btn.innerText = "Gönderiliyor...";
-
-            const dosyaAdi = `yorum-${Date.now()}-${nickname.toLowerCase().replace(/[^a-z0-9]/g, '-')}.md`;
-            const dosyaYolu = `content/yorumlar/${dosyaAdi}`;
-            
-            const icerik = `---
-nickname: "${nickname}"
-tarih: "${new Date().toLocaleDateString('tr-TR')}"
----
-${mesaj}`;
-
-            const base64Icerik = btoa(unescape(encodeURIComponent(icerik)));
-
-            // Geliştirme Notu: Ziyaretçi token giremeyeceği için Netlify'ın public form veya GitHub API entegrasyonu gerekir.
-            // Fakat senin sistemde admin paneli token ile çalıştığı için, yorumları doğrudan adminin görebilmesi adına 
-            // en pratik yöntem Netlify serverless function veya doğrudan GitHub Issues/PR alternatifidir.
-            // Ancak en sadık yöntem: Ziyaretçinin yorumu localde localStorage'a düşer veya doğrudan admin paneline bildirilir.
-            
-            // Senin için en kusursuz ve token gerektirmeyen yöntem: Ziyaretçi yorumu gönderdiğinde bu yorum doğrudan 
-            // localStorage'a kaydedilir ve admin panelinde "Bekleyen Ziyaretçi Yorumları" olarak anında listelenir! 
-            // Böylece GitHub token güvenliği tehlikeye girmez ve token istemeden çalışır.
-            
-            let bekleyenler = JSON.parse(localStorage.getItem('ala_ziyaretci_yorumlar') || '[]');
-            bekleyenler.push({ nickname, mesaj, tarih: new Date().toLocaleDateString('tr-TR'), id: Date.now() });
-            localStorage.setItem('ala_ziyaretci_yorumlar', JSON.stringify(bekleyenler));
-
-            document.getElementById('basariMesaji').classList.remove('hidden');
-            e.target.reset();
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>Yorumu Gönder (Onaya Sun)</span>';
-
-            setTimeout(() => {
-                document.getElementById('basariMesaji').classList.add('hidden');
-            }, 5000);
+        if (!response.ok) {
+            throw new Error(data.error || "Yorum gönderilemedi.");
         }
 
-        // Onaylanmış yorumları listeleme
-        function onayliYorumlariYukle() {
-            const container = document.getElementById('onayliYorumlarListesi');
-            // Örnek onaylı yorumlar
+        document.getElementById("basariMesaji").classList.remove("hidden");
+        e.target.reset();
+
+        setTimeout(() => {
+            document.getElementById("basariMesaji").classList.add("hidden");
+        }, 5000);
+
+    } catch (error) {
+        alert("Yorum gönderilirken hata oluştu: " + error.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>Yorumu Gönder (Onaya Sun)</span>';
+    }
+}
+
+async function onayliYorumlariYukle() {
+    const container = document.getElementById("onayliYorumlarListesi");
+
+    try {
+        const response = await fetch("/api/yorumlar?status=approved");
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.error || "Yorumlar alınamadı.");
+
+        const yorumlar = data.comments || [];
+
+        if (!yorumlar.length) {
             container.innerHTML = `
-                <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-2xl shadow-xl space-y-2">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-2">
-                            <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center text-xs">SY</div>
-                            <span class="font-bold text-white text-sm">Sakarya Yatırımcısı</span>
-                        </div>
-                        <span class="text-[10px] text-slate-500">26 Temmuz 2026</span>
-                    </div>
-                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed pt-1">
-                        Serdivan bölgesiyle ilgili analiz videolarınız çok başarılı olmuş. Özellikle arsa yatırımı yapacaklar için rehber niteliğinde bilgiler buldum. Teşekkürler Ala Gayrimenkul!
-                    </p>
-                </div>
-            `;
+                <div class="p-6 bg-[#131b2e] border border-slate-800 rounded-2xl text-center text-xs text-slate-400">
+                    Henüz yayınlanmış ziyaretçi yorumu bulunmuyor.
+                </div>`;
+            return;
         }
 
-        window.onload = onayliYorumlariYukle;
-    </script>
+        container.innerHTML = yorumlar.map(y => `
+            <div class="bg-[#131b2e] border border-slate-800 p-6 rounded-2xl shadow-xl space-y-2">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center text-xs">
+                            ${escapeHtml((y.nickname || "?").substring(0,2).toUpperCase())}
+                        </div>
+                        <span class="font-bold text-white text-sm">${escapeHtml(y.nickname || "")}</span>
+                    </div>
+                    <span class="text-[10px] text-slate-500">${escapeHtml(y.tarih || "")}</span>
+                </div>
+                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed pt-1">${escapeHtml(y.mesaj || "")}</p>
+            </div>
+        `).join("");
+
+    } catch (error) {
+        container.innerHTML = `
+            <div class="p-6 bg-red-500/10 border border-red-500/30 rounded-2xl text-center text-xs text-red-300">
+                Yorumlar yüklenemedi: ${escapeHtml(error.message)}
+            </div>`;
+    }
+}
+
+function escapeHtml(value) {
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+window.addEventListener("load", onayliYorumlariYukle);
+</script>
 </body>
 </html>
